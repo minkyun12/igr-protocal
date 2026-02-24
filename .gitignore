@@ -3,3 +3,4 @@ node_modules/
 artifacts/tmp_frames/
 submission/demo-video.silent-draft.mp4
 submission/demo-audio.aiff
+whitepaper/page_*.png
