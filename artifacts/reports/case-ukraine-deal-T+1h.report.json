@@ -1,0 +1,154 @@
+{
+  "run_id": "ukraine-mineral-deal-2026-02-23T22:28:33.520Z",
+  "event_spec": {
+    "event_id": "ukraine-mineral-deal",
+    "market_id": "pm-ukraine-mineral-deal-2025",
+    "question": "Ukraine agrees to Trump mineral deal before April?",
+    "rule_text": "This market will resolve to 'Yes' if the United States and Ukraine agree to any deal between February 2 and March 31, 2025, 11:59 PM ET, that explicitly involves Ukrainian rare earth elements. Otherwise this market will resolve to 'No'. This includes, but is not limited to, agreements related to the exchange of Ukrainian rare earths for U.S. aid (military or civilian), partnerships involving rare earth metals, future rights to rare earth resources, mining rights, or any other form of cooperation related to rare earth elements. An announcement of a deal will qualify regardless of if/when the deal is enacted. The resolution source for this market will be official information from the governments of the US and Ukraine.",
+    "resolution_source": [
+      "us-government-official",
+      "ukraine-government-official"
+    ],
+    "market_end_time": "2025-03-31T23:59:59-04:00",
+    "evaluation_time": "2025-03-25T13:00:00Z",
+    "numeric_rule": null,
+    "event_type": "binary_subjective",
+    "market_metadata": {
+      "platform": "Polymarket",
+      "url": "https://polymarket.com/event/ukraine-agrees-to-give-trump-rare-earth-metals-before-april",
+      "volume_usd": 7079947,
+      "created_at": "2025-02-03T15:15:00-05:00",
+      "resolver": "0x6A9D222616C90FcA5754cd1333cFD9b7fb6a4F74",
+      "actual_resolution": "YES",
+      "controversy": "UMA whale with 5M tokens (25% voting power) forced YES despite no official government confirmation from either the US or Ukraine. Polymarket acknowledged this as 'unprecedented' but could not issue refunds."
+    }
+  },
+  "evidence_stats": {
+    "sourceCount": 5,
+    "sourceTypeCount": 3,
+    "sampleCount": 5,
+    "medianValue": 0.2,
+    "deviationBps": 45000,
+    "evidenceFreshnessMinutes": {
+      "min": 15,
+      "max": 150
+    }
+  },
+  "ai_deliberation": {
+    "proposer": {
+      "decision": "NO",
+      "confidence": 0.5458,
+      "rationale": "Weighted avg=0.217, disagreement=0.334, sources=5. Top: us-state-dept=0.25(q=0.95), ukraine-foreign-ministry=0.1(q=0.95), reuters=0.2(q=0.9), associated-press=0.15(q=0.9), polymarket-token-price=1(q=0.2)",
+      "used_evidence_ids": [
+        "ukr-8",
+        "ukr-9",
+        "ukr-10",
+        "ukr-11",
+        "ukr-12"
+      ]
+    },
+    "challenger": {
+      "counterpoints": [
+        "Flag: DEVIATION_TOO_HIGH"
+      ],
+      "conflict_flags": [
+        "DEVIATION_TOO_HIGH"
+      ],
+      "conflict_score": 0.58,
+      "adjusted_confidence": 0.1978
+    }
+  },
+  "policy_evaluation": {
+    "event_id": "ukraine-mineral-deal",
+    "rules": [
+      {
+        "name": "allow_too_early",
+        "passed": false,
+        "value": false,
+        "threshold": true
+      },
+      {
+        "name": "min_sources",
+        "passed": true,
+        "value": 5,
+        "threshold": 3
+      },
+      {
+        "name": "max_cross_source_deviation_bps",
+        "passed": false,
+        "value": 45000,
+        "threshold": 30
+      },
+      {
+        "name": "min_ai_confidence",
+        "passed": false,
+        "value": 0.1978,
+        "threshold": 0.75
+      },
+      {
+        "name": "max_conflict_score",
+        "passed": false,
+        "value": 0.58,
+        "threshold": 0.25
+      },
+      {
+        "name": "min_source_types",
+        "passed": true,
+        "value": 3,
+        "threshold": 1
+      },
+      {
+        "name": "max_evidence_age_minutes",
+        "passed": false,
+        "value": 150,
+        "threshold": 90
+      },
+      {
+        "name": "require_rule_text_match",
+        "passed": true,
+        "value": true,
+        "threshold": true
+      }
+    ],
+    "final_state": "HOLD_FOR_REVIEW",
+    "reason_codes": [
+      "TOO_EARLY",
+      "DEVIATION_TOO_HIGH",
+      "LOW_CONFIDENCE",
+      "CONFLICT_SCORE_HIGH",
+      "EVIDENCE_TOO_OLD"
+    ],
+    "decision": "NO",
+    "adjusted_confidence": 0.1978
+  },
+  "cre": {
+    "mode": "sim",
+    "status": "ok",
+    "workflow_id": "sim-1771885713519",
+    "detail": "Simulated CRE orchestration executed locally",
+    "payload_echo": {
+      "event_id": "ukraine-mineral-deal",
+      "decision": "NO",
+      "final_state": "HOLD_FOR_REVIEW",
+      "reasons": [
+        "TOO_EARLY",
+        "DEVIATION_TOO_HIGH",
+        "LOW_CONFIDENCE",
+        "CONFLICT_SCORE_HIGH",
+        "EVIDENCE_TOO_OLD"
+      ]
+    }
+  },
+  "audit": {
+    "policy_hash": "7cd64eceac67c868a31a7670911198e53758cef792422fad4dfd0f3713b6d5c0",
+    "event_hash": "68fda52daef645732d0f26b5454d68409d30aceb3bdb81e3b931876f2fcfa4f9",
+    "evidence_hash": "dddb1ba5b4e634fc312ace0243586bc6962b0f8f7f12f6f7bf7120eafba1a3ef",
+    "decision_hash": "bda6dece4a75a055ac4e7d91752eed3aa5e9228f39f14e59642f8693d679f2c2"
+  },
+  "started_at": "2026-02-23T22:28:33.519Z",
+  "finished_at": "2026-02-23T22:28:33.519Z",
+  "latency_ms": 0,
+  "human_summary": "State=HOLD_FOR_REVIEW, decision=NO, adjusted_confidence=0.1978, CRE=ok/sim, reasons=TOO_EARLY,DEVIATION_TOO_HIGH,LOW_CONFIDENCE,CONFLICT_SCORE_HIGH,EVIDENCE_TOO_OLD",
+  "case_id": "case-ukraine-deal",
+  "checkpoint": "T+1h"
+}

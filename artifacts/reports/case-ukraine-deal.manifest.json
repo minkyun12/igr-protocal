@@ -1,0 +1,30 @@
+{
+  "case_id": "case-ukraine-deal",
+  "policy_path": "/Users/macmini/workspace/chainlink-convergence-2026/configs/policy.v1.json",
+  "generated_at": "2026-02-23T22:28:33.560Z",
+  "checkpoint_count": 3,
+  "state_counts": {
+    "HOLD_FOR_REVIEW": 3
+  },
+  "report_bundle_hash": "6e569a9399ee57441a0b4906febc405c5bc3c4914df8d032c28c4e6c42a5a511",
+  "reports": [
+    {
+      "checkpoint": "T+1h",
+      "final_state": "HOLD_FOR_REVIEW",
+      "decision_hash": "bda6dece4a75a055ac4e7d91752eed3aa5e9228f39f14e59642f8693d679f2c2",
+      "report_path": "/Users/macmini/workspace/chainlink-convergence-2026/artifacts/reports/case-ukraine-deal-T+1h.report.json"
+    },
+    {
+      "checkpoint": "T-1h",
+      "final_state": "HOLD_FOR_REVIEW",
+      "decision_hash": "c293a28ec5b7dee63bfd780e6ddd54aa9031a4822151defec17b1c39c605a87a",
+      "report_path": "/Users/macmini/workspace/chainlink-convergence-2026/artifacts/reports/case-ukraine-deal-T-1h.report.json"
+    },
+    {
+      "checkpoint": "T-24h",
+      "final_state": "HOLD_FOR_REVIEW",
+      "decision_hash": "803100e60022c7512a2020e7c5a8c9eef5e5f2dc687562935938e28bd794730f",
+      "report_path": "/Users/macmini/workspace/chainlink-convergence-2026/artifacts/reports/case-ukraine-deal-T-24h.report.json"
+    }
+  ]
+}

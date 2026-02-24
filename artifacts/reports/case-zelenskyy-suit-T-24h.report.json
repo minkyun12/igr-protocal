@@ -1,0 +1,151 @@
+{
+  "run_id": "zelenskyy-suit-before-july-2026-02-23T22:28:33.685Z",
+  "event_spec": {
+    "event_id": "zelenskyy-suit-before-july",
+    "market_id": "pm-zelenskyy-suit-2025",
+    "question": "Will Zelenskyy wear a suit before July?",
+    "rule_text": "This market will resolve to 'Yes' if Ukrainian President Volodymyr Zelenskyy is publicly photographed or filmed wearing a formal suit (defined as a matching jacket and trousers ensemble, typically with a collared shirt) at any official or public event before July 1, 2025, 11:59 PM ET. Otherwise this market will resolve to 'No'. Resolution will be based on verified photographic or video evidence from credible international news agencies (e.g., Reuters, AP, AFP, Getty Images). Military uniforms, casual attire, or non-matching separates do not qualify.",
+    "resolution_source": [
+      "reuters-photo-wire",
+      "associated-press-photo",
+      "afp-photo-wire",
+      "getty-images"
+    ],
+    "market_end_time": "2025-06-30T23:59:59-04:00",
+    "evaluation_time": "2025-07-05T12:00:00Z",
+    "numeric_rule": null,
+    "event_type": "binary_subjective",
+    "market_metadata": {
+      "platform": "Polymarket",
+      "url": "https://polymarket.com/event/zelensky-suit-before-july",
+      "volume_usd": 237000000,
+      "created_at": "2025-01-15T00:00:00Z",
+      "actual_resolution": "NO",
+      "controversy": "Zelenskyy photographed at NATO summit in The Hague (June 27, 2025) wearing dark blazer + matching trousers. Reuters, AP, and Getty all published photos. Debate: blazer+trousers vs 'matching suit.' Professional tailors consulted — some said yes, some said ambiguous. Two UMA whales controlling >50% voting power resolved NO. $237M in volume affected."
+    }
+  },
+  "evidence_stats": {
+    "sourceCount": 3,
+    "sourceTypeCount": 2,
+    "sampleCount": 3,
+    "medianValue": 0.8,
+    "deviationBps": 2499.9999999999995,
+    "evidenceFreshnessMinutes": {
+      "min": 60,
+      "max": 11400
+    }
+  },
+  "ai_deliberation": {
+    "proposer": {
+      "decision": "YES",
+      "confidence": 0.7012,
+      "rationale": "Weighted avg=0.783, disagreement=0.085, sources=3. Top: reuters-photo-wire=0.85(q=0.95), associated-press-photo=0.8(q=0.95), polymarket-token-price=0.65(q=0.6)",
+      "used_evidence_ids": [
+        "zel-1",
+        "zel-2",
+        "zel-3"
+      ]
+    },
+    "challenger": {
+      "counterpoints": [
+        "Flag: DEVIATION_TOO_HIGH"
+      ],
+      "conflict_flags": [
+        "DEVIATION_TOO_HIGH"
+      ],
+      "conflict_score": 0.58,
+      "adjusted_confidence": 0.3532
+    }
+  },
+  "policy_evaluation": {
+    "event_id": "zelenskyy-suit-before-july",
+    "rules": [
+      {
+        "name": "allow_too_early",
+        "passed": true,
+        "value": true,
+        "threshold": true
+      },
+      {
+        "name": "min_sources",
+        "passed": true,
+        "value": 3,
+        "threshold": 3
+      },
+      {
+        "name": "max_cross_source_deviation_bps",
+        "passed": false,
+        "value": 2500,
+        "threshold": 30
+      },
+      {
+        "name": "min_ai_confidence",
+        "passed": false,
+        "value": 0.3532,
+        "threshold": 0.75
+      },
+      {
+        "name": "max_conflict_score",
+        "passed": false,
+        "value": 0.58,
+        "threshold": 0.25
+      },
+      {
+        "name": "min_source_types",
+        "passed": true,
+        "value": 2,
+        "threshold": 1
+      },
+      {
+        "name": "max_evidence_age_minutes",
+        "passed": false,
+        "value": 11400,
+        "threshold": 90
+      },
+      {
+        "name": "require_rule_text_match",
+        "passed": true,
+        "value": true,
+        "threshold": true
+      }
+    ],
+    "final_state": "HOLD_FOR_REVIEW",
+    "reason_codes": [
+      "DEVIATION_TOO_HIGH",
+      "LOW_CONFIDENCE",
+      "CONFLICT_SCORE_HIGH",
+      "EVIDENCE_TOO_OLD"
+    ],
+    "decision": "YES",
+    "adjusted_confidence": 0.3532
+  },
+  "cre": {
+    "mode": "sim",
+    "status": "ok",
+    "workflow_id": "sim-1771885713685",
+    "detail": "Simulated CRE orchestration executed locally",
+    "payload_echo": {
+      "event_id": "zelenskyy-suit-before-july",
+      "decision": "YES",
+      "final_state": "HOLD_FOR_REVIEW",
+      "reasons": [
+        "DEVIATION_TOO_HIGH",
+        "LOW_CONFIDENCE",
+        "CONFLICT_SCORE_HIGH",
+        "EVIDENCE_TOO_OLD"
+      ]
+    }
+  },
+  "audit": {
+    "policy_hash": "7cd64eceac67c868a31a7670911198e53758cef792422fad4dfd0f3713b6d5c0",
+    "event_hash": "7fa9e90e842164ec58a5a6838f7af80f8ec542b898cdef4b1d8ca156db6d44e9",
+    "evidence_hash": "1349de97bd00835f898839afbddebbf4a84dc7c64a425333c09669f48bd17876",
+    "decision_hash": "c67bcf0c3c07df3f7bb1f19fbe9eab757ee1aa92afd8d6917befd3c58d708a02"
+  },
+  "started_at": "2026-02-23T22:28:33.685Z",
+  "finished_at": "2026-02-23T22:28:33.685Z",
+  "latency_ms": 0,
+  "human_summary": "State=HOLD_FOR_REVIEW, decision=YES, adjusted_confidence=0.3532, CRE=ok/sim, reasons=DEVIATION_TOO_HIGH,LOW_CONFIDENCE,CONFLICT_SCORE_HIGH,EVIDENCE_TOO_OLD",
+  "case_id": "case-zelenskyy-suit",
+  "checkpoint": "T-24h"
+}

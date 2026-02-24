@@ -1,0 +1,5 @@
+node_modules/
+.env
+artifacts/tmp_frames/
+submission/demo-video.silent-draft.mp4
+submission/demo-audio.aiff

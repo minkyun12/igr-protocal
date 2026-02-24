@@ -1,0 +1,10 @@
+{
+  "label": "T+1h",
+  "evaluation_time": "2026-03-01T01:00:00Z",
+  "evidence_records": [
+    {"evidence_id": "d9", "event_id": "case-d-multi-source-stale", "source_id": "chainlink", "source_type": "price", "timestamp": "2026-03-01T00:58:00Z", "normalized_value": 201.5},
+    {"evidence_id": "d10", "event_id": "case-d-multi-source-stale", "source_id": "binance", "source_type": "price", "timestamp": "2026-03-01T00:59:00Z", "normalized_value": 202.1},
+    {"evidence_id": "d11", "event_id": "case-d-multi-source-stale", "source_id": "dex-raydium", "source_type": "dex_twap", "timestamp": "2026-03-01T00:50:00Z", "normalized_value": 200.8},
+    {"evidence_id": "d12", "event_id": "case-d-multi-source-stale", "source_id": "news-reuters", "source_type": "news", "timestamp": "2026-02-28T12:00:00Z", "normalized_value": 199.0, "raw_value": "SOL recovers toward $200 on renewed DeFi activity — Reuters (12h old)"}
+  ]
+}

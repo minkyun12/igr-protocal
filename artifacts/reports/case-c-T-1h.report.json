@@ -1,0 +1,136 @@
+{
+  "run_id": "case-c-eth-tight-margin-2026-02-23T20:30:21.792Z",
+  "event_spec": {
+    "event_id": "case-c-eth-tight-margin",
+    "market_id": "pm-case-c",
+    "question": "Will ETH settle above $4,000 at resolution time?",
+    "rule_text": "This market resolves YES if ETH/USD price is >= 4000 at market close using listed resolution sources.",
+    "resolution_source": [
+      "source-binance",
+      "source-coinbase",
+      "source-chainlink-feed",
+      "source-kraken"
+    ],
+    "market_end_time": "2026-03-01T00:00:00Z",
+    "evaluation_time": "2026-02-28T23:30:00Z",
+    "numeric_rule": {
+      "operator": ">=",
+      "threshold": 4000
+    }
+  },
+  "evidence_stats": {
+    "sourceCount": 4,
+    "sourceTypeCount": 1,
+    "sampleCount": 4,
+    "medianValue": 4000,
+    "deviationBps": 12.5,
+    "evidenceFreshnessMinutes": {
+      "min": 0,
+      "max": 0
+    }
+  },
+  "ai_deliberation": {
+    "proposer": {
+      "decision": "YES",
+      "confidence": 0.9375,
+      "rationale": "Median=4000, deviationBps=12.50, sources=4",
+      "used_evidence_ids": [
+        "c5",
+        "c6",
+        "c7",
+        "c8"
+      ]
+    },
+    "challenger": {
+      "counterpoints": [],
+      "conflict_flags": [],
+      "conflict_score": 0.025,
+      "adjusted_confidence": 0.9225
+    }
+  },
+  "policy_evaluation": {
+    "event_id": "case-c-eth-tight-margin",
+    "rules": [
+      {
+        "name": "allow_too_early",
+        "passed": false,
+        "value": false,
+        "threshold": true
+      },
+      {
+        "name": "min_sources",
+        "passed": true,
+        "value": 4,
+        "threshold": 3
+      },
+      {
+        "name": "max_cross_source_deviation_bps",
+        "passed": true,
+        "value": 12.5,
+        "threshold": 30
+      },
+      {
+        "name": "min_ai_confidence",
+        "passed": true,
+        "value": 0.9225,
+        "threshold": 0.75
+      },
+      {
+        "name": "max_conflict_score",
+        "passed": true,
+        "value": 0.025,
+        "threshold": 0.25
+      },
+      {
+        "name": "min_source_types",
+        "passed": true,
+        "value": 1,
+        "threshold": 1
+      },
+      {
+        "name": "max_evidence_age_minutes",
+        "passed": true,
+        "value": 0,
+        "threshold": 90
+      },
+      {
+        "name": "require_rule_text_match",
+        "passed": true,
+        "value": true,
+        "threshold": true
+      }
+    ],
+    "final_state": "HOLD_FOR_REVIEW",
+    "reason_codes": [
+      "TOO_EARLY"
+    ],
+    "decision": "YES",
+    "adjusted_confidence": 0.9225
+  },
+  "cre": {
+    "mode": "sim",
+    "status": "ok",
+    "workflow_id": "sim-1771878621792",
+    "detail": "Simulated CRE orchestration executed locally",
+    "payload_echo": {
+      "event_id": "case-c-eth-tight-margin",
+      "decision": "YES",
+      "final_state": "HOLD_FOR_REVIEW",
+      "reasons": [
+        "TOO_EARLY"
+      ]
+    }
+  },
+  "audit": {
+    "policy_hash": "7cd64eceac67c868a31a7670911198e53758cef792422fad4dfd0f3713b6d5c0",
+    "event_hash": "c96f1fa74c59747c224dc9339ff75246f9170e75552478cc7ba835f24bd6c04b",
+    "evidence_hash": "d339751696c74a9e031ffcb7cdb48244f4643103e53a11509c44b0ffad5c2a08",
+    "decision_hash": "f2ff9f227fc0ccc66924b655cf575c4c8b4b4fff268b4c40d4bd9bcbeb76c53f"
+  },
+  "started_at": "2026-02-23T20:30:21.791Z",
+  "finished_at": "2026-02-23T20:30:21.792Z",
+  "latency_ms": 1,
+  "human_summary": "State=HOLD_FOR_REVIEW, decision=YES, adjusted_confidence=0.9225, CRE=ok/sim, reasons=TOO_EARLY",
+  "case_id": "case-c",
+  "checkpoint": "T-1h"
+}

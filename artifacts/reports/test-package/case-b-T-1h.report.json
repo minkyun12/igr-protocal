@@ -1,0 +1,144 @@
+{
+  "run_id": "case-b-disputed-2026-02-23T22:28:32.624Z",
+  "event_spec": {
+    "event_id": "case-b-disputed",
+    "market_id": "pm-case-b",
+    "question": "Will BTC settle above 100000 at resolution time?",
+    "rule_text": "This market resolves YES if BTC price is >= 100000 at market close using listed resolution sources.",
+    "resolution_source": [
+      "source-binance",
+      "source-coinbase",
+      "source-chainlink-feed"
+    ],
+    "market_end_time": "2026-03-01T00:00:00Z",
+    "evaluation_time": "2026-02-28T23:00:00Z",
+    "numeric_rule": {
+      "operator": ">=",
+      "threshold": 100000
+    }
+  },
+  "evidence_stats": {
+    "sourceCount": 3,
+    "sourceTypeCount": 1,
+    "sampleCount": 3,
+    "medianValue": 100050,
+    "deviationBps": 80.95952023988006,
+    "evidenceFreshnessMinutes": {
+      "min": 0,
+      "max": 0
+    }
+  },
+  "ai_deliberation": {
+    "proposer": {
+      "decision": "YES",
+      "confidence": 0.5952,
+      "rationale": "Median=100050, deviationBps=80.96, sources=3",
+      "used_evidence_ids": [
+        "b4",
+        "b5",
+        "b6"
+      ]
+    },
+    "challenger": {
+      "counterpoints": [
+        "Flag: DEVIATION_TOO_HIGH"
+      ],
+      "conflict_flags": [
+        "DEVIATION_TOO_HIGH"
+      ],
+      "conflict_score": 0.3419,
+      "adjusted_confidence": 0.39
+    }
+  },
+  "policy_evaluation": {
+    "event_id": "case-b-disputed",
+    "rules": [
+      {
+        "name": "allow_too_early",
+        "passed": false,
+        "value": false,
+        "threshold": true
+      },
+      {
+        "name": "min_sources",
+        "passed": true,
+        "value": 3,
+        "threshold": 3
+      },
+      {
+        "name": "max_cross_source_deviation_bps",
+        "passed": false,
+        "value": 80.9595,
+        "threshold": 30
+      },
+      {
+        "name": "min_ai_confidence",
+        "passed": false,
+        "value": 0.39,
+        "threshold": 0.75
+      },
+      {
+        "name": "max_conflict_score",
+        "passed": false,
+        "value": 0.3419,
+        "threshold": 0.25
+      },
+      {
+        "name": "min_source_types",
+        "passed": true,
+        "value": 1,
+        "threshold": 1
+      },
+      {
+        "name": "max_evidence_age_minutes",
+        "passed": true,
+        "value": 0,
+        "threshold": 90
+      },
+      {
+        "name": "require_rule_text_match",
+        "passed": true,
+        "value": true,
+        "threshold": true
+      }
+    ],
+    "final_state": "HOLD_FOR_REVIEW",
+    "reason_codes": [
+      "TOO_EARLY",
+      "DEVIATION_TOO_HIGH",
+      "LOW_CONFIDENCE",
+      "CONFLICT_SCORE_HIGH"
+    ],
+    "decision": "YES",
+    "adjusted_confidence": 0.39
+  },
+  "cre": {
+    "mode": "sim",
+    "status": "ok",
+    "workflow_id": "sim-1771885712624",
+    "detail": "Simulated CRE orchestration executed locally",
+    "payload_echo": {
+      "event_id": "case-b-disputed",
+      "decision": "YES",
+      "final_state": "HOLD_FOR_REVIEW",
+      "reasons": [
+        "TOO_EARLY",
+        "DEVIATION_TOO_HIGH",
+        "LOW_CONFIDENCE",
+        "CONFLICT_SCORE_HIGH"
+      ]
+    }
+  },
+  "audit": {
+    "policy_hash": "7cd64eceac67c868a31a7670911198e53758cef792422fad4dfd0f3713b6d5c0",
+    "event_hash": "6d7f6a8b2d9ea343cb0b9a06a17b2b451623f36f55a28859a20fe66b6f85bb8f",
+    "evidence_hash": "632731e67f6967d8e8facf0181366c97fc30470e2c6684dbc765109e593ae7b9",
+    "decision_hash": "9eb8b262661f4de72115df0c6bc9032a0a4603cd933ebaad9393f6e2a305234d"
+  },
+  "started_at": "2026-02-23T22:28:32.624Z",
+  "finished_at": "2026-02-23T22:28:32.624Z",
+  "latency_ms": 0,
+  "human_summary": "State=HOLD_FOR_REVIEW, decision=YES, adjusted_confidence=0.39, CRE=ok/sim, reasons=TOO_EARLY,DEVIATION_TOO_HIGH,LOW_CONFIDENCE,CONFLICT_SCORE_HIGH",
+  "case_id": "case-b",
+  "checkpoint": "T-1h"
+}

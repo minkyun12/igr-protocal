@@ -1,0 +1,31 @@
+{
+  "case_id": "case-c",
+  "policy_path": "/Users/macmini/workspace/chainlink-convergence-2026/configs/policy.v1.json",
+  "generated_at": "2026-02-23T20:30:21.792Z",
+  "checkpoint_count": 3,
+  "state_counts": {
+    "AUTO_RESOLVE_RECOMMENDED": 1,
+    "HOLD_FOR_REVIEW": 2
+  },
+  "report_bundle_hash": "9a84c344f54bd266ec829956d6e173425e0ff4e4129615e21fb1fb0a9ab3526b",
+  "reports": [
+    {
+      "checkpoint": "T+1h",
+      "final_state": "AUTO_RESOLVE_RECOMMENDED",
+      "decision_hash": "22a6babc585349d6918159f5f6ba265d4220d1ee956d5e11e426a4aba2241a31",
+      "report_path": "/Users/macmini/workspace/chainlink-convergence-2026/artifacts/reports/case-c-T+1h.report.json"
+    },
+    {
+      "checkpoint": "T-1h",
+      "final_state": "HOLD_FOR_REVIEW",
+      "decision_hash": "f2ff9f227fc0ccc66924b655cf575c4c8b4b4fff268b4c40d4bd9bcbeb76c53f",
+      "report_path": "/Users/macmini/workspace/chainlink-convergence-2026/artifacts/reports/case-c-T-1h.report.json"
+    },
+    {
+      "checkpoint": "T-24h",
+      "final_state": "HOLD_FOR_REVIEW",
+      "decision_hash": "3466a52b55e249262dc9dffce77137f0d71af47701fc0936804251e37cae2744",
+      "report_path": "/Users/macmini/workspace/chainlink-convergence-2026/artifacts/reports/case-c-T-24h.report.json"
+    }
+  ]
+}

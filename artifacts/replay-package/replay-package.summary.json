@@ -1,0 +1,87 @@
+{
+  "generated_at": "2026-02-23T19:55:35.797Z",
+  "reports_dir": "/Users/macmini/workspace/chainlink-convergence-2026/artifacts/reports",
+  "report_count": 6,
+  "manifest_count": 2,
+  "state_counts": {
+    "AUTO_RESOLVE_RECOMMENDED": 1,
+    "HOLD_FOR_REVIEW": 5
+  },
+  "package_hash": "3e599b555c82a37c723d81398222d001d2428c8a553b2100b9bb44eaa6bd65f1",
+  "reports": [
+    {
+      "file": "case-a-T+1h.report.json",
+      "case_id": "case-a",
+      "checkpoint": "T+1h",
+      "final_state": "AUTO_RESOLVE_RECOMMENDED",
+      "reason_codes": [
+        "ALL_POLICIES_PASSED"
+      ],
+      "decision_hash": "7cfbc43525a39f93af593c439468a688f2c92e2219ba4e40efa78737ab53763c",
+      "file_hash": "57f7447d8a9483300d420567cb4b82c0a671cc956f6f87b6cc66a7e5e6b93f2c"
+    },
+    {
+      "file": "case-a-T-1h.report.json",
+      "case_id": "case-a",
+      "checkpoint": "T-1h",
+      "final_state": "HOLD_FOR_REVIEW",
+      "reason_codes": [
+        "TOO_EARLY"
+      ],
+      "decision_hash": "97ae9f319733a119f754067b88ae0b525618799c2652bfaafd7e255f122eaa8f",
+      "file_hash": "050f848ef818266ea511e4b5704f28c9b7202f4195a0c4772e0962b75417ee38"
+    },
+    {
+      "file": "case-a-T-24h.report.json",
+      "case_id": "case-a",
+      "checkpoint": "T-24h",
+      "final_state": "HOLD_FOR_REVIEW",
+      "reason_codes": [
+        "TOO_EARLY"
+      ],
+      "decision_hash": "81469208eee919f29fe7a044aa9ebaef487021aca60911ce5d6ffa6e269a8cb9",
+      "file_hash": "242bf9ea7dba6c5f75b07c5db213cd3782de56fa469aa95db52794c804a46640"
+    },
+    {
+      "file": "case-b-T+1h.report.json",
+      "case_id": "case-b",
+      "checkpoint": "T+1h",
+      "final_state": "HOLD_FOR_REVIEW",
+      "reason_codes": [
+        "DEVIATION_TOO_HIGH",
+        "LOW_CONFIDENCE",
+        "CONFLICT_SCORE_HIGH"
+      ],
+      "decision_hash": "22fcb456290d4aae8877831e685ed473d8c7af9bee5bceae47cfaaf9dfebba27",
+      "file_hash": "c0bd95d3eecb9f9e3adaee6f651a0040b148caa681c471b90d2d5139300554d4"
+    },
+    {
+      "file": "case-b-T-1h.report.json",
+      "case_id": "case-b",
+      "checkpoint": "T-1h",
+      "final_state": "HOLD_FOR_REVIEW",
+      "reason_codes": [
+        "TOO_EARLY",
+        "DEVIATION_TOO_HIGH",
+        "LOW_CONFIDENCE",
+        "CONFLICT_SCORE_HIGH"
+      ],
+      "decision_hash": "9eb8b262661f4de72115df0c6bc9032a0a4603cd933ebaad9393f6e2a305234d",
+      "file_hash": "ef06e1328c760b9c89911cee30c108e29c83d788654184c77ddb76450348391b"
+    },
+    {
+      "file": "case-b-T-24h.report.json",
+      "case_id": "case-b",
+      "checkpoint": "T-24h",
+      "final_state": "HOLD_FOR_REVIEW",
+      "reason_codes": [
+        "TOO_EARLY",
+        "DEVIATION_TOO_HIGH",
+        "LOW_CONFIDENCE",
+        "CONFLICT_SCORE_HIGH"
+      ],
+      "decision_hash": "46a0181c926e597db8a7a96691c98b69e64ffa0932033d5124dfedd6c0e14633",
+      "file_hash": "5d2ca51f91481d966cd5973fb0f9c37c21cccb75665e9152c37112017e983a18"
+    }
+  ]
+}

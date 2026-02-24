@@ -1,0 +1,21 @@
+{
+  "name": "pore-chainlink-convergence-2026",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "PoRE (Proof-of-Resolution Engine) MVP for Chainlink Convergence 2026",
+  "scripts": {
+    "test": "node --test",
+    "replay": "node src/cli/replay.js",
+    "replay:package": "node src/cli/replay-package.js",
+    "evaluate": "node src/cli/evaluate.js",
+    "score": "node src/cli/self-score.js",
+    "live": "node src/cli/live-evaluate.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "ethers": "^6.16.0"
+  }
+}

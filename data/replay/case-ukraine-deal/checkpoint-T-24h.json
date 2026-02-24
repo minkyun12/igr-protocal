@@ -1,0 +1,39 @@
+{
+  "label": "T-24h",
+  "evaluation_time": "2025-03-24T12:00:00Z",
+  "evidence_records": [
+    {
+      "evidence_id": "ukr-1",
+      "event_id": "ukraine-mineral-deal",
+      "source_id": "reuters",
+      "source_type": "news",
+      "timestamp": "2025-03-24T10:00:00Z",
+      "normalized_value": 0.15,
+      "raw_value": "Reuters: 'Talks between US and Ukrainian officials on rare earth cooperation are ongoing, but no deal is imminent, according to three officials familiar with the discussions.'",
+      "quality_score": 0.90,
+      "notes": "Tier-1 wire service, multiple unnamed sources."
+    },
+    {
+      "evidence_id": "ukr-2",
+      "event_id": "ukraine-mineral-deal",
+      "source_id": "associated-press",
+      "source_type": "news",
+      "timestamp": "2025-03-24T08:30:00Z",
+      "normalized_value": 0.10,
+      "raw_value": "AP: 'Zelenskyy spokesperson dismisses reports of an imminent mineral deal, calling discussions premature. No timeline has been set.'",
+      "quality_score": 0.90,
+      "notes": "Tier-1 wire service, official Ukrainian government spokesperson."
+    },
+    {
+      "evidence_id": "ukr-3",
+      "event_id": "ukraine-mineral-deal",
+      "source_id": "polymarket-token-price",
+      "source_type": "market",
+      "timestamp": "2025-03-24T11:00:00Z",
+      "normalized_value": 0.09,
+      "raw_value": "Polymarket YES token at $0.09. Market implies 9% probability of deal. Volume: ~$6.5M cumulative.",
+      "quality_score": 0.70,
+      "notes": "Market price pre-manipulation. At this point, market reflected consensus with news sources."
+    }
+  ]
+}

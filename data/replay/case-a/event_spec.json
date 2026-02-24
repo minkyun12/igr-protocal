@@ -1,0 +1,17 @@
+{
+  "event_id": "case-a-btc-100k",
+  "market_id": "pm-case-a",
+  "question": "Will BTC settle above 100000 at resolution time?",
+  "rule_text": "This market resolves YES if BTC price is >= 100000 at market close using listed resolution sources.",
+  "resolution_source": [
+    "source-binance",
+    "source-coinbase",
+    "source-chainlink-feed"
+  ],
+  "market_end_time": "2026-03-01T00:00:00Z",
+  "evaluation_time": "2026-03-01T00:30:00Z",
+  "numeric_rule": {
+    "operator": ">=",
+    "threshold": 100000
+  }
+}

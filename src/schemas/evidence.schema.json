@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EvidenceRecord",
+  "type": "object",
+  "required": [
+    "evidence_id",
+    "event_id",
+    "source_id",
+    "source_type",
+    "timestamp",
+    "normalized_value"
+  ],
+  "properties": {
+    "evidence_id": {"type": "string"},
+    "event_id": {"type": "string"},
+    "source_id": {"type": "string"},
+    "source_type": {"type": "string"},
+    "timestamp": {"type": "string"},
+    "raw_value": {},
+    "normalized_value": {"type": ["number", "string", "object"]},
+    "unit": {"type": "string"},
+    "quality_score": {"type": "number"}
+  }
+}
