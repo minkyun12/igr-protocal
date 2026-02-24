@@ -24,8 +24,24 @@
 \usepackage{placeins}
 \usepackage{multicol}
 \usepackage{microtype}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,fit,calc,patterns,decorations.pathreplacing}
 
 \definecolor{linkblue}{HTML}{2563EB}
+\definecolor{tikzgreen}{HTML}{059669}
+\definecolor{tikzred}{HTML}{DC2626}
+\definecolor{tikzorange}{HTML}{D97706}
+\definecolor{tikzpurple}{HTML}{7C3AED}
+\definecolor{tikzdark}{HTML}{1E293B}
+\definecolor{tikzlight}{HTML}{F1F5F9}
+\definecolor{layerblue}{HTML}{DBEAFE}
+\definecolor{layergreen}{HTML}{D1FAE5}
+\definecolor{layerpurple}{HTML}{EDE9FE}
+\definecolor{layerorange}{HTML}{FEF3C7}
+\definecolor{layerred}{HTML}{FEE2E2}
+\definecolor{layergray}{HTML}{E2E8F0}
 \definecolor{codegray}{HTML}{F1F5F9}
 \definecolor{codetext}{HTML}{1E293B}
 
@@ -102,7 +118,26 @@ Resolution faces a trilemma among \emph{decentralization}, \emph{accuracy}, and 
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.88\columnwidth]{diagrams/fig6_trilemma.png}
+    \begin{tikzpicture}[scale=0.9, every node/.style={font=\small\sffamily}]
+      % Triangle
+      \coordinate (D) at (-2.2, -1.4);
+      \coordinate (A) at (2.2, -1.4);
+      \coordinate (S) at (0, 2.0);
+      \draw[thick, tikzdark] (D) -- (A) -- (S) -- cycle;
+      % Vertices
+      \node[below left, font=\small\bfseries\sffamily] at (D) {Decentralization};
+      \node[below right, font=\small\bfseries\sffamily] at (A) {Accuracy};
+      \node[above, font=\small\bfseries\sffamily] at (S) {Speed};
+      % Edge labels
+      \node[below, font=\scriptsize\sffamily, text=gray] at (0,-1.4) {UMA: fast but inaccurate};
+      \node[rotate=56, above left, font=\scriptsize\sffamily, text=gray] at (-1.3,0.4) {Centralized AI};
+      \node[rotate=-56, above right, font=\scriptsize\sffamily, text=gray] at (1.3,0.4) {Kleros: slow};
+      % PoRE position
+      \node[circle, fill=linkblue, text=white, inner sep=2pt, font=\small\bfseries\sffamily] at (0, 0.4) {PoRE};
+      \draw[-{Stealth[length=2mm]}, linkblue, thick] (0,0.4) -- (-0.9,-0.5);
+      \draw[-{Stealth[length=2mm]}, linkblue, thick] (0,0.4) -- (0.9,-0.5);
+      \draw[-{Stealth[length=2mm]}, linkblue, thick] (0,0.4) -- (0,1.3);
+    \end{tikzpicture}
     \caption{Resolution trilemma. PoRE uses conditional \textsc{auto}/\textsc{hold} routing to approach all three vertices simultaneously.}
     \label{fig:trilemma}
 \end{figure}
@@ -187,7 +222,30 @@ No single layer has complete authority. AI~(L3--4) cannot override the policy en
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=0.88\textwidth]{diagrams/fig1_architecture.png}
+    \begin{tikzpicture}[
+      layer/.style={minimum width=14cm, minimum height=0.9cm, rounded corners=3pt,
+        draw=#1!60, fill=#1!15, font=\small\sffamily, text=tikzdark, thick},
+      lbl/.style={font=\scriptsize\sffamily\itshape, text=gray, anchor=east},
+      arr/.style={-{Stealth[length=2.5mm]}, thick, gray!60},
+      every node/.style={font=\small\sffamily}
+    ]
+      \node[layer=linkblue]   (L1) at (0,0)    {\textbf{L1} Evidence Collection \quad\textnormal{\scriptsize PLUGGABLE}};
+      \node[layer=tikzgreen]  (L2) at (0,1.15) {\textbf{L2} Source Curation \quad\textnormal{\scriptsize COMMUNITY}};
+      \node[layer=tikzpurple] (L3) at (0,2.30) {\textbf{L3} Adversarial Analysis \quad\textnormal{\scriptsize AI}};
+      \node[layer=tikzpurple] (L4) at (0,3.45) {\textbf{L4} AI Ensemble \quad\textnormal{\scriptsize MULTI-AI}};
+      \node[layer=tikzorange]  (L5) at (0,4.60) {\textbf{L5} Policy Engine \quad\textnormal{\scriptsize DETERMINISTIC}};
+      \node[layer=tikzdark]   (L6) at (0,5.75) {\textbf{L6} On-chain Recording \quad\textnormal{\scriptsize BLOCKCHAIN}};
+      % Trust domain labels
+      \node[lbl] at (-7.5,0.575)  {Data};
+      \node[lbl] at (-7.5,1.725)  {Human};
+      \node[lbl] at (-7.5,2.875)  {AI};
+      \node[lbl] at (-7.5,4.025)  {AI};
+      \node[lbl] at (-7.5,4.60)  {Code};
+      \node[lbl] at (-7.5,5.75)  {Chain};
+      % Arrows
+      \foreach \i/\j in {L1/L2, L2/L3, L3/L4, L4/L5, L5/L6}
+        \draw[arr] (\i) -- (\j);
+    \end{tikzpicture}
     \caption{PoRE six-layer architecture. Trust domains: humans curate (L1--2), AI interprets (L3--4), code evaluates (L5), blockchain records (L6).}
     \label{fig:arch}
 \end{figure*}
@@ -205,7 +263,36 @@ All transitions are deterministic, logged with timestamp, trigger, and evidence 
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=0.82\textwidth]{diagrams/fig2_state_machine.png}
+    \begin{tikzpicture}[
+      state/.style={rounded corners=4pt, minimum height=0.7cm, minimum width=1.6cm,
+        draw=tikzdark, thick, font=\small\sffamily\bfseries, text=white, fill=tikzdark},
+      greenst/.style={state, fill=tikzgreen, draw=tikzgreen!70},
+      redst/.style={state, fill=tikzred, draw=tikzred!70},
+      orangest/.style={state, fill=tikzorange, draw=tikzorange!70, text=tikzdark},
+      arr/.style={-{Stealth[length=2.5mm]}, thick},
+      lbl/.style={font=\scriptsize\sffamily, fill=white, inner sep=1pt},
+      every node/.style={font=\small\sffamily}
+    ]
+      \node[state] (pend) at (0,0) {PENDING};
+      \node[state] (prop) at (2.8,0) {PROPOSED};
+      \node[state] (chal) at (5.6,0) {CHALLENGED};
+      \node[greenst] (acc) at (8.4,0.6) {ACCEPTED};
+      \node[redst] (rej) at (8.4,-0.6) {REJECTED};
+      % Policy gate
+      \node[draw=tikzorange, dashed, thick, rounded corners=4pt, minimum width=4.5cm, minimum height=2.2cm, label={[font=\scriptsize\sffamily\bfseries, tikzorange]above:Policy Gates}] (pg) at (12.2,0) {};
+      \node[greenst] (auto) at (11.2,0.6) {AUTO};
+      \node[orangest] (hold) at (13.2,0.6) {HOLD};
+      \node[state, fill=tikzpurple, draw=tikzpurple!70] (man) at (12.2,-0.6) {MANUAL};
+      % Arrows
+      \draw[arr] (pend) -- node[lbl, above] {submit} (prop);
+      \draw[arr] (prop) -- node[lbl, above] {dispute} (chal);
+      \draw[arr] (chal) -- node[lbl, above left=-2pt] {majority} (acc);
+      \draw[arr] (chal) -- node[lbl, below left=-2pt] {minority} (rej);
+      \draw[arr] (acc) -- node[lbl, above] {$\pi$ pass} (auto);
+      \draw[arr] (acc) -- node[lbl, below] {$\pi$ fail} (hold);
+      \draw[arr] (rej) -- (man);
+      \draw[arr, dashed] (prop) to[bend left=25] node[lbl, above] {no dispute} (acc);
+    \end{tikzpicture}
     \caption{State machine. Policy gates (dashed) are the final safety barrier.}
     \label{fig:sm}
 \end{figure*}
@@ -280,7 +367,31 @@ Current systems: voters choose $\{\textsc{yes}, \textsc{no}\}$ (1-bit). PoRE: vo
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=0.88\textwidth]{diagrams/fig3_source_curation.png}
+    \begin{tikzpicture}[
+      phase/.style={rounded corners=4pt, minimum height=0.8cm, minimum width=2.2cm,
+        draw=#1!70, fill=#1!12, thick, font=\small\sffamily, text=tikzdark, align=center},
+      arr/.style={-{Stealth[length=2.5mm]}, thick, tikzdark},
+      darr/.style={-{Stealth[length=2mm]}, dashed, thick, tikzpurple},
+      lbl/.style={font=\scriptsize\sffamily, fill=white, inner sep=1pt},
+      every node/.style={font=\small\sffamily}
+    ]
+      \node[phase=linkblue] (p1) at (0,0) {\textbf{Phase 1}\\[-1pt]\scriptsize Source\\[-1pt]\scriptsize Submission};
+      \node[phase=tikzgreen] (p2) at (3.2,0) {\textbf{Phase 2}\\[-1pt]\scriptsize Voting};
+      \node[phase=tikzpurple] (p3) at (6.4,0) {\textbf{Phase 3}\\[-1pt]\scriptsize AI Ensemble};
+      \node[phase=tikzorange] (p4) at (9.6,0) {\textbf{Phase 4}\\[-1pt]\scriptsize Policy\\[-1pt]\scriptsize Engine};
+      \node[phase=tikzdark] (p5) at (12.8,0) {\textbf{Phase 5}\\[-1pt]\scriptsize Resolution};
+      % Main flow
+      \draw[arr] (p1) -- (p2);
+      \draw[arr] (p2) -- (p3);
+      \draw[arr] (p3) -- (p4);
+      \draw[arr] (p4) -- (p5);
+      % Excluded sources metadata path
+      \node[font=\scriptsize\sffamily, text=tikzpurple] (excl) at (3.2,-1.3) {Excluded sources};
+      \draw[darr] (p2) -- (excl);
+      \draw[darr] (excl) -| node[lbl, pos=0.3, below] {\scriptsize metadata} (p3);
+      % Whitelist bypass
+      \draw[arr, linkblue, dashed] (p1) to[bend left=30] node[lbl, above] {\scriptsize whitelisted} (p3);
+    \end{tikzpicture}
     \caption{Decentralized Source Curation. Token-weighted validation (Phase~2) feeds deterministic policy evaluation (Phase~4). Excluded sources trigger forensic analysis.}
     \label{fig:curation}
 \end{figure*}
@@ -294,6 +405,8 @@ Base quality $q_0(\tau)$ adjusted by vote ratio $r_i$:
 \end{equation}
 
 Even with unanimous support: $q_{\texttt{social}} = 0.20 \times 1.20 = 0.24 \ll 0.95 = q_{\texttt{oracle}}$. Base quality is a \textbf{structural ceiling}. Key base scores: \texttt{onchain\_oracle}~0.95, \texttt{official\_govt}~0.95, \texttt{news\_agency}~0.85, \texttt{cex\_spot}~0.75, \texttt{social\_media}~0.20.
+
+\textbf{Calibration.} Base quality values are \emph{informed priors}, not fixed constants. We propose a \textbf{Historical Calibration Loop}: after each resolved market, source-level accuracy is compared against the verified outcome, and $q_0(\tau)$ is adjusted via exponential moving average. This creates a self-correcting feedback mechanism where persistently accurate source types gain higher base quality over time. A \textbf{Governance Override} allows token holders to propose base quality changes for specific source types via a 7-day governance vote. However, a \emph{structural ceiling invariant} is enforced: while absolute values of $q_0$ may shift, the categorical ordering $q_0(\texttt{oracle}) > q_0(\texttt{news}) > q_0(\texttt{social})$ is a system-level invariant protected from governance modification. This ensures that community governance can fine-tune the system without undermining its core trust hierarchy.
 
 \subsection{Whitelist \& Manipulation Trap}
 
@@ -310,10 +423,51 @@ Types $\mathcal{W} = \{\texttt{official\_govt}, \texttt{onchain\_oracle}\}$ cann
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\columnwidth]{diagrams/fig8_manipulation_trap.png}
+    \begin{tikzpicture}[
+      box/.style={rounded corners=3pt, draw=#1, thick, fill=#1!10,
+        minimum height=0.55cm, minimum width=2cm, font=\scriptsize\sffamily, text=tikzdark, align=center},
+      arr/.style={-{Stealth[length=2mm]}, thick, tikzdark},
+      every node/.style={font=\small\sffamily}
+    ]
+      % Attacker
+      \node[box=tikzred] (att) at (0,0) {Attacker};
+      % Two paths
+      \node[box=tikzred, minimum width=2.5cm] (pa) at (-2.2,-1.2) {\textbf{Path A}: Remove source};
+      \node[box=tikzgreen, minimum width=2.5cm] (pb) at (2.2,-1.2) {\textbf{Path B}: Keep source};
+      \draw[arr] (att) -- (pa);
+      \draw[arr] (att) -- (pb);
+      % Path A
+      \node[box=tikzorange] (excl) at (-2.2,-2.4) {Source excluded};
+      \node[box=tikzpurple] (meta) at (-2.2,-3.5) {AI gets metadata};
+      \node[box=tikzorange] (r8) at (-2.2,-4.6) {Rule 8 check};
+      \node[box=tikzred] (flip) at (-3.5,-5.7) {Flip? YES $\to$ HOLD};
+      \node[box=gray] (nof) at (-0.9,-5.7) {No flip $\to$ harmless};
+      \draw[arr] (pa) -- (excl);
+      \draw[arr] (excl) -- (meta);
+      \draw[arr] (meta) -- (r8);
+      \draw[arr] (r8) -- (flip);
+      \draw[arr] (r8) -- (nof);
+      % Path B
+      \node[box=tikzgreen] (truth) at (2.2,-2.4) {Evidence = truth};
+      \node[box=tikzgreen] (honest) at (2.2,-3.5) {Honest outcome};
+      \draw[arr] (pb) -- (truth);
+      \draw[arr] (truth) -- (honest);
+      % Convergence
+      \node[draw=tikzgreen, thick, rounded corners=5pt, fill=tikzgreen!15,
+        minimum width=4cm, minimum height=0.7cm, font=\small\sffamily\bfseries] (fail) at (0,-7) {Manipulation Fails};
+      \draw[arr, tikzred] (flip) |- (fail);
+      \draw[arr] (nof) |- (fail);
+      \draw[arr, tikzgreen] (honest) |- (fail);
+    \end{tikzpicture}
     \caption{Manipulation Trap. Any attempt to remove contradicting sources triggers Rule~8 forensics, making the attack self-defeating.}
     \label{fig:trap}
 \end{figure}
+
+\subsection{Post-HOLD Arbitration}
+
+When a market receives a \textsc{hold} verdict, it escalates to a \textbf{Human Arbitration Committee}---a structured process distinct from UMA's open-ended token vote. A committee of 5--9 \emph{staked arbitrators} is randomly selected from a bonded arbitrator pool, supplemented by 2~domain experts matched to the event category (e.g., geopolitics, sports, finance). Arbitrators receive the full \textbf{PoRE evidence package}: curated sources with quality scores, excluded source metadata, all AI model analyses with reasoning chains, and the policy violation report. This is structurally different from UMA's DVM, where voters receive only a binary question.
+
+Voting proceeds via \emph{commit-reveal} (secret ballot) with a $\frac{2}{3}$ supermajority required for a binding decision. The timeline is bounded: 48h evidence review, 24h voting, immediate result publication---72h maximum. Incentive alignment follows Schelling-point economics: arbitrators in the majority retain their stake and earn resolution fees; minority voters face partial stake slashing (5--15\%, configurable). Because PoRE's violation report identifies \emph{exactly which rules failed and why}, arbitrators deliberate over structured evidence rather than raw opinion---converting subjective judgment into an informed, accountable process.
 
 % ═══════════════════════════════════════════════════
 \section{Decentralized AI Governance}
@@ -336,7 +490,42 @@ Adversarial analysis arises \emph{naturally}: majority = Proposer, minority = Ch
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\columnwidth]{diagrams/fig7_ai_ensemble.png}
+    \begin{tikzpicture}[
+      box/.style={rounded corners=3pt, draw=#1, thick, fill=#1!10,
+        minimum height=0.55cm, minimum width=1.8cm, font=\scriptsize\sffamily, text=tikzdark},
+      arr/.style={-{Stealth[length=2mm]}, thick, tikzdark},
+      every node/.style={font=\small\sffamily}
+    ]
+      % Input
+      \node[box=linkblue] (input) at (0,0) {Curated Evidence $E'$};
+      % Models
+      \node[box=tikzpurple] (m1) at (-2.4,-1.2) {Claude};
+      \node[box=tikzpurple] (m2) at (-0.8,-1.2) {GPT};
+      \node[box=tikzpurple] (m3) at (0.8,-1.2) {Gemini};
+      \node[box=tikzpurple] (m4) at (2.4,-1.2) {Exch.\ AI};
+      % Verdicts
+      \foreach \m/\v in {m1/0.82, m2/0.78, m3/0.75, m4/0.85}
+        \draw[arr] (input) -- (\m);
+      \foreach \m/\v in {m1/0.82, m2/0.78, m3/0.75, m4/0.85}
+        \node[font=\tiny\sffamily, below=0pt of \m] {$\gamma$=\v};
+      % Consensus
+      \node[box=tikzdark, minimum width=3.5cm] (cons) at (0,-2.6) {Cross-Model Consensus};
+      \foreach \m in {m1,m2,m3,m4}
+        \draw[arr] (\m) -- (cons);
+      % IMA
+      \node[box=linkblue] (ima) at (0,-3.7) {IMA = 1.0};
+      \draw[arr] (cons) -- (ima);
+      % Roles
+      \node[box=tikzgreen, anchor=east] (prop) at (-0.3,-4.6) {Majority $\to$ Proposer};
+      \node[box=tikzred, anchor=west] (chal) at (0.3,-4.6) {Minority $\to$ Challenger};
+      \draw[arr] (ima) -- (prop);
+      \draw[arr] (ima) -- (chal);
+      % Decision
+      \node[box=tikzgreen] (pe) at (-1.5,-5.6) {IMA$\geq$0.50 $\to$ Policy};
+      \node[box=tikzorange] (hd) at (1.5,-5.6) {IMA$<$0.50 $\to$ HOLD};
+      \draw[arr] (prop) -- (pe);
+      \draw[arr] (chal) -- (hd);
+    \end{tikzpicture}
     \caption{AI Ensemble flow. $N$ models analyze the same evidence; cross-model consensus feeds into IMA and adversarial P/C roles.}
     \label{fig:ensemble}
 \end{figure}
@@ -373,7 +562,13 @@ model-04 & Exchange~X & 2.0$\times$ & 92\% \\
 
 Token holders vote on model addition/removal, weight adjustment, and domain routing (price events $\to$ quantitative models; subjective $\to$ reasoning models).
 
-\textbf{Anti-capture}: min 3 active models, max 40\% single-model weight, min 2 providers, 7-day governance cooldown, emergency suspension if accuracy $<$50\%.
+\textbf{Anti-capture}: min 3 active models, max 40\% single-model weight, min 2 providers, 7-day governance cooldown, emergency suspension if accuracy $<$50\%. Additional independence requirements:
+\begin{itemize}[nosep]
+    \item \textbf{Mandatory open-source model}: at least one ensemble member must be an open-source model with publicly auditable training data, ensuring transparency.
+    \item \textbf{Training data correlation audit}: upon registration, each model must submit a training data overlap analysis; models with $>$60\% corpus overlap are treated as correlated, not independent.
+    \item \textbf{Domain-specific model slot}: each event category must include $\geq$1 domain-specialized model; ensembles composed exclusively of general-purpose LLMs are prohibited.
+\end{itemize}
+\noindent The guiding principle: \emph{independence $\neq$ provider diversity}. Two models from different companies trained on near-identical corpora share failure modes and do not constitute genuine independence.
 
 \textbf{Self-improving loop}: historical accuracy feeds weight updates:
 \begin{equation}
@@ -403,7 +598,45 @@ Token holders vote on model addition/removal, weight adjustment, and domain rout
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=0.88\textwidth]{diagrams/fig4_attack_cost.png}
+    \begin{minipage}[t]{0.48\textwidth}
+    \centering\textbf{(a) Attack Cost}\\[6pt]
+    \begin{tikzpicture}[every node/.style={font=\small\sffamily}]
+      \begin{axis}[
+        ybar, width=6cm, height=5cm,
+        symbolic x coords={UMA,PoRE},
+        xtick=data, ymin=0, ymax=15,
+        ylabel={Cost (\$M)}, ylabel style={font=\small\sffamily},
+        xticklabel style={font=\small\sffamily\bfseries},
+        yticklabel style={font=\scriptsize\sffamily},
+        nodes near coords, nodes near coords style={font=\scriptsize\sffamily},
+        bar width=1.2cm,
+        every axis plot/.append style={thick},
+      ]
+        \addplot[fill=tikzred!70, draw=tikzred] coordinates {(UMA,10.5)};
+        \addplot[fill=tikzgreen!70, draw=tikzgreen] coordinates {(PoRE,14)};
+      \end{axis}
+      \node[font=\scriptsize\sffamily, text=tikzred] at (1.3,4.8) {achievable};
+      \node[font=\scriptsize\sffamily, text=tikzgreen] at (3.7,5.4) {$\to\infty$ (structural)};
+    \end{tikzpicture}
+    \end{minipage}\hfill
+    \begin{minipage}[t]{0.48\textwidth}
+    \centering\textbf{(b) Constraint Checklist}\\[6pt]
+    \begin{tikzpicture}[every node/.style={font=\small\sffamily, anchor=west}]
+      \foreach \i/\c/\d in {
+        0/C1/$|E'|\geq n_{\min}$,
+        1/C2/$|\mathcal{T}|\geq t_{\min}$,
+        2/C3/$\sigma\leq\delta_{\max}$,
+        3/C4/$\gamma\geq\gamma_{\min}$,
+        4/C5/Whitelisted $\in E'$,
+        5/C6/IMA $\geq\theta$,
+        6/C7/ExclRev $=$ false}
+      {
+        \node[font=\small\sffamily\bfseries, text=tikzred] at (0,-\i*0.55) {\c};
+        \node[font=\scriptsize\sffamily] at (0.6,-\i*0.55) {\d};
+        \node[font=\scriptsize, text=tikzred] at (4.5,-\i*0.55) {$\times$ ALL required};
+      }
+    \end{tikzpicture}
+    \end{minipage}
     \caption{(a)~Attack cost comparison. PoRE with whitelisted sources is structurally infeasible. (b)~Constraint dimensionality.}
     \label{fig:attack}
 \end{figure*}
@@ -452,7 +685,30 @@ A whale ($\sim$5M UMA, $\sim$25\%) forced YES without official confirmation~\cit
 
 \begin{figure*}[t]
     \centering
-    \includegraphics[width=0.85\textwidth]{diagrams/fig5_case_study.png}
+    \begin{tikzpicture}[
+      box/.style={rounded corners=3pt, draw=tikzdark, thick, minimum width=3.8cm,
+        minimum height=0.5cm, font=\scriptsize\sffamily, text=tikzdark, fill=#1!10},
+      arr/.style={-{Stealth[length=2.5mm]}, thick, tikzdark},
+      every node/.style={font=\small\sffamily}
+    ]
+      % Left: Sources
+      \node[font=\small\sffamily\bfseries] at (-5.5,2.2) {Sources};
+      \node[box=linkblue, anchor=west] (s1) at (-7,1.6) {State Dept \quad $q$=0.95 \quad $v$=0.10};
+      \node[box=linkblue, anchor=west] (s2) at (-7,0.9) {Ukraine MFA \quad $q$=0.95 \quad $v$=0.15};
+      \node[box=linkblue, anchor=west] (s3) at (-7,0.2) {Reuters \quad $q$=0.94 \quad $v$=0.20};
+      \node[box=linkblue, anchor=west] (s4) at (-7,-0.5) {AP \quad $q$=0.94 \quad $v$=0.20};
+      \node[box=gray, anchor=west] (s5) at (-7,-1.2) {Polymarket \quad $q$=0.21 \quad $v$=0.79};
+      % Center: Engine
+      \node[draw=tikzdark, thick, rounded corners=5pt, fill=tikzlight, minimum width=3.5cm, minimum height=3cm, align=center] (eng) at (0,0.5) {\textbf{PoRE Engine}\\[4pt]\scriptsize $\bar{v}=\frac{\sum q_i v_i}{\sum q_i}=0.178$\\[2pt]\scriptsize $\sigma=0.43>\delta_{\max}$\\[2pt]\scriptsize $\gamma=0.45<\gamma_{\min}$};
+      % Right: Result
+      \node[draw=tikzorange, thick, rounded corners=5pt, fill=tikzorange!15, minimum width=3cm, minimum height=1.2cm, align=center, font=\normalsize\sffamily\bfseries] (hold) at (5.5,1) {\textcolor{tikzorange}{HOLD}\\[2pt]\scriptsize 3 violations};
+      \node[draw=tikzred, thick, rounded corners=3pt, fill=tikzred!10, minimum width=3cm, align=center, font=\scriptsize\sffamily] (uma) at (5.5,-1) {UMA: YES (\$7M loss)\\Whale: 25\% DVM};
+      % Arrows
+      \foreach \s in {s1,s2,s3,s4,s5}
+        \draw[arr] (\s.east) -- (eng.west);
+      \draw[arr] (eng) -- (hold);
+      \draw[arr, dashed, tikzred] (eng) -- (uma);
+    \end{tikzpicture}
     \caption{Ukraine case. Official sources ($q$=0.95) dominate the weighted average. Five violations $\to$ \textsc{hold}. UMA resolved YES (\$7M loss).}
     \label{fig:case}
 \end{figure*}
@@ -516,7 +772,15 @@ JavaScript (Node.js), single external dependency (\texttt{ethers}):
 % ═══════════════════════════════════════════════════
 \section{Discussion}
 
-\textbf{Limitations.} Subjective events use pre-curated data; production needs automated pipelines. AI uses heuristics; LLM integration on roadmap. Quality scores are expert-assigned; empirical calibration is future work. 48h voting window adds latency (mitigated by fast-track mode for low-volume markets).
+\textbf{Limitations.} Subjective events use pre-curated data; production needs automated pipelines. AI uses heuristics; LLM integration on roadmap. Quality scores are expert-assigned; empirical calibration is future work.
+
+\textbf{Latency Mitigation.} The full 72h protocol (24h submission + 48h voting) is designed for high-stakes markets. For lower-volume markets, a \textbf{tiered fast-track} reduces end-to-end latency:
+\begin{itemize}[nosep]
+    \item \textbf{Tier~1} ($<$\$50K volume): 6h submission + 12h vote = \textbf{18h}.
+    \item \textbf{Tier~2} (\$50K--\$500K): 12h submission + 24h vote = \textbf{36h}.
+    \item \textbf{Tier~3} ($>$\$500K): full protocol, 24h + 48h = \textbf{72h}.
+\end{itemize}
+Two additional optimizations apply across all tiers. A \textbf{Pre-registered Source Registry} allows platforms to pre-register trusted sources (e.g., Chainlink feeds, Reuters API endpoints); pre-registered sources skip the submission phase entirely. \textbf{Express Consensus}: when IMA $= 1.0$ and $\sigma < 0.05$ (all sources and all models agree unambiguously), the voting phase is bypassed and the system resolves via \textsc{auto} immediately---reducing clear-case latency to minutes regardless of tier.
 
 \textbf{vs.\ Pure AI.} An LLM approximates PoRE \emph{most of the time}. For \$237M, ``most'' is insufficient. LLMs are stochastic, unauditable, adversarially vulnerable, and single-point failures. PoRE: AI interprets where it excels; code enforces where code excels; ensemble distributes risk.
 
@@ -823,17 +1087,90 @@ Policy: R1-R10 PASS. sigma=0.0001, gamma=0.96
 % Appendix C (Glossary) moved to two-column section before Appendix A
 % to eliminate blank page.
 
+\section*{Appendix D: Attack Infeasibility Proof Sketch}
+\addcontentsline{toc}{section}{Appendix D}
+
+\textbf{Theorem 1} (Whitelist Constraint $\Rightarrow$ $C_B \to \infty$).
+\textit{Under the whitelist constraint (C5), achieving a false \textsc{auto} verdict requires real-world institutional fraud.}
+
+\smallskip\noindent\textit{Proof sketch.}
+Let $v^*$ be the attacker's desired (false) verdict, and let $E'$ be the curated evidence set. By (C5), $\forall\, e_w \in \mathcal{W}: e_w \in E'$. If whitelisted sources reflect ground truth, then $v(e_w) \neq v^*$ for at least one $e_w$. This creates two cases: (i)~the conflicting whitelisted source drives $\sigma(E') > \delta_{\max}$, triggering Rule~4 $\to$ \textsc{hold}; or (ii)~the cross-type conflict $|v(\tau_{\text{official}}) - v(\tau_{\text{other}})| > \phi$, triggering Rule~6 $\to$ \textsc{hold}. To achieve \textsc{auto} with verdict $v^*$, the attacker must therefore corrupt the whitelisted source \emph{itself}---i.e., forge official government statements or manipulate on-chain oracle infrastructure, both constituting real-world institutional fraud with cost $C_B \to \infty$. \hfill$$\square$$
+
+\medskip
+\textbf{Theorem 2} (Manipulation is Strictly Dominated).
+\textit{In the PoRE curation game, the manipulation strategy is strictly dominated by honest play at Nash equilibrium.}
+
+\smallskip\noindent\textit{Proof sketch.}
+Consider an attacker choosing between two strategies: (a)~exclude contradicting sources, or (b)~retain all sources. Under~(a), Rule~8 (Excluded Source Reversal) detects that restoring excluded sources flips the verdict, triggering \textsc{hold}. The attacker's payoff is $\leq 0$ (bond loss + no manipulation gain). Under~(b), the evidence set $E'$ retains ground-truth sources, so the deterministic engine produces the honest verdict. The attacker's payoff equals honest play. Since $\text{payoff}(\text{manipulate}) \leq \text{payoff}(\text{honest})$ under both branches, and strictly less under~(a), manipulation is a strictly dominated strategy. Rational agents therefore converge to honest curation at equilibrium. \hfill$$\square$$
+
+\bigskip
+\hrule
+\bigskip
+
 \begin{tabularx}{\textwidth}{@{}lX@{}}
 \toprule
 \multicolumn{2}{@{}l}{\textbf{Extended Notation Reference}} \\
 \midrule
-$n_{\min}$, $t_{\min}$ & Min sources, min source types \\
-$\delta_{\max}$, $\gamma_{\min}$ & Max deviation, confidence threshold \\
-$\alpha_{\max}$ & Max evidence age (hours) \\
-$\theta_{\text{\tiny IMA}}$ & IMA threshold (default 0.50) \\
-$\phi$ & Cross-type conflict threshold \\
-$\mathcal{W}$ & Whitelist source types \\
+$n_{\min}$, $t_{\min}$ & Minimum sources, minimum source types \\
+$\delta_{\max}$ & Maximum quality-weighted standard deviation \\
+$\gamma_{\min}$ & Minimum composite confidence score \\
+$\alpha_{\max}$ & Maximum evidence age (hours) \\
+$\theta_{\text{\tiny IMA}}$ & Inter-Model Agreement threshold (default 0.50) \\
+$\phi$ & Cross-type source conflict threshold \\
+$\mathcal{W}$ & Whitelist source types (non-removable) \\
+$q_0(\tau)$ & Base quality score for source type $\tau$ \\
+$r_i$ & Community vote ratio for source $i$ \\
+$\bar{v}$ & Quality-weighted mean of source values \\
+$\sigma$ & Quality-weighted standard deviation \\
+$\gamma$ & Composite confidence: $w_1(1{-}\sigma) + w_2\frac{|\mathcal{T}_E|}{|\mathcal{T}|} + w_3(1 {-} \frac{\max\text{age}}{\alpha_{\max}})$ \\
+IMA & $1 - \sigma(\{v_1,\ldots,v_N\}) / \sigma_{\max}$ \\
+$w_i^{(t)}$ & Weight of model $i$ at epoch $t$ \\
 \bottomrule
 \end{tabularx}
+
+\bigskip
+
+\begin{tabularx}{\textwidth}{@{}lX@{}}
+\toprule
+\multicolumn{2}{@{}l}{\textbf{Source Type Base Quality ($q_0$)}} \\
+\midrule
+\texttt{onchain\_oracle} & 0.95 --- Cryptographically verified, manipulation-resistant \\
+\texttt{official\_govt} & 0.95 --- Institutional authority, legal accountability \\
+\texttt{news\_agency} & 0.85 --- Editorial standards, reputation at stake \\
+\texttt{academic} & 0.80 --- Peer review, publication lag \\
+\texttt{cex\_spot} & 0.75 --- Regulated exchanges \\
+\texttt{api\_feed} & 0.70 --- Structured data, variable reliability \\
+\texttt{aggregator} & 0.60 --- Derived data, single point of failure \\
+\texttt{dex\_twap} & 0.55 --- On-chain but flash-loan manipulable \\
+\texttt{image\_analysis} & 0.50 --- Requires AI interpretation \\
+\texttt{social\_media} & 0.20 --- Unverified, bot-susceptible \\
+\bottomrule
+\end{tabularx}
+
+\bigskip
+
+\begin{tabularx}{\textwidth}{@{}clX@{}}
+\toprule
+\multicolumn{3}{@{}l}{\textbf{Policy Rules Summary}} \\
+\midrule
+R1 & \texttt{MIN\_SOURCES} & $|E| \geq n_{\min}$ \\
+R2 & \texttt{TYPE\_DIVERSITY} & $|\mathcal{T}_E| \geq t_{\min}$ \\
+R3 & \texttt{EVIDENCE\_TOO\_OLD} & $\forall\, e_i: \text{age}(e_i) \leq \alpha_{\max}$ \\
+R4 & \texttt{DEVIATION\_TOO\_HIGH} & $\sigma \leq \delta_{\max}$ \\
+R5 & \texttt{LOW\_CONFIDENCE} & $\gamma \geq \gamma_{\min}$ \\
+R6 & \texttt{SOURCE\_CONFLICT} & $\forall\, (\tau_a,\tau_b): |\bar{v}_a - \bar{v}_b| \leq \phi$ \\
+R7 & \texttt{MODEL\_DISAGREEMENT} & $\text{IMA} \geq \theta_{\text{\tiny IMA}}$ \\
+R8 & \texttt{EXCL\_SRC\_REVERSAL} & Restoring excluded sources must not flip verdict \\
+R9 & \texttt{TOO\_EARLY} & Event end time must have passed \\
+R10 & \texttt{P\_C\_DISAGREE} & Proposer and Challenger must agree (if required) \\
+\bottomrule
+\end{tabularx}
+
+\bigskip
+\begin{center}
+\small\itshape
+This paper is released under CC BY 4.0. The PoRE software prototype is released under the MIT License.\\
+Correspondence: Seo Mk --- GitHub: \texttt{github.com/minkyun12/pore-engine}
+\end{center}
 
 \end{document}
