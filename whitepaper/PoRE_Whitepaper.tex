@@ -238,13 +238,13 @@ No single layer has complete authority. AI~(L3--4) cannot override the policy en
       % Trust domain labels
       \node[lbl] at (-7.5,0.575)  {Data};
       \node[lbl] at (-7.5,1.725)  {Human};
-      \node[lbl] at (-7.5,2.875)  {AI};
-      \node[lbl] at (-7.5,4.025)  {AI};
+      \node[lbl] at (-7.5,2.875)  {AI (Adversarial)};
+      \node[lbl] at (-7.5,4.025)  {Multi-AI};
       \node[lbl] at (-7.5,4.60)  {Code};
       \node[lbl] at (-7.5,5.75)  {Chain};
       % Arrows
       \foreach \i/\j in {L1/L2, L2/L3, L3/L4, L4/L5, L5/L6}
-        \draw[arr] (\i) -- (\j);
+        \draw[arr, line width=2pt] (\i) -- (\j);
     \end{tikzpicture}
     \caption{PoRE six-layer architecture. Trust domains: humans curate (L1--2), AI interprets (L3--4), code evaluates (L5), blockchain records (L6).}
     \label{fig:arch}
@@ -264,34 +264,34 @@ All transitions are deterministic, logged with timestamp, trigger, and evidence 
 \begin{figure*}[t]
     \centering
     \begin{tikzpicture}[
-      state/.style={rounded corners=4pt, minimum height=0.7cm, minimum width=1.6cm,
+      state/.style={rounded corners=4pt, minimum height=0.8cm, minimum width=1.8cm,
         draw=tikzdark, thick, font=\small\sffamily\bfseries, text=white, fill=tikzdark},
       greenst/.style={state, fill=tikzgreen, draw=tikzgreen!70},
       redst/.style={state, fill=tikzred, draw=tikzred!70},
       orangest/.style={state, fill=tikzorange, draw=tikzorange!70, text=tikzdark},
-      arr/.style={-{Stealth[length=2.5mm]}, thick},
-      lbl/.style={font=\scriptsize\sffamily, fill=white, inner sep=1pt},
+      arr/.style={-{Stealth[length=3mm]}, thick},
+      lbl/.style={font=\scriptsize\sffamily, fill=white, inner sep=2pt},
       every node/.style={font=\small\sffamily}
     ]
       \node[state] (pend) at (0,0) {PENDING};
-      \node[state] (prop) at (2.8,0) {PROPOSED};
-      \node[state] (chal) at (5.6,0) {CHALLENGED};
-      \node[greenst] (acc) at (8.4,0.6) {ACCEPTED};
-      \node[redst] (rej) at (8.4,-0.6) {REJECTED};
-      % Policy gate
-      \node[draw=tikzorange, dashed, thick, rounded corners=4pt, minimum width=4.5cm, minimum height=2.2cm, label={[font=\scriptsize\sffamily\bfseries, tikzorange]above:Policy Gates}] (pg) at (12.2,0) {};
-      \node[greenst] (auto) at (11.2,0.6) {AUTO};
-      \node[orangest] (hold) at (13.2,0.6) {HOLD};
-      \node[state, fill=tikzpurple, draw=tikzpurple!70] (man) at (12.2,-0.6) {MANUAL};
-      % Arrows
+      \node[state] (prop) at (3.2,0) {PROPOSED};
+      \node[state] (chal) at (6.4,0) {CHALLENGED};
+      \node[greenst] (acc) at (9.4,0.8) {ACCEPTED};
+      \node[redst] (rej) at (9.4,-0.8) {REJECTED};
+      % Policy gate — wider padding so labels don't overlap nodes
+      \node[draw=tikzorange, dashed, thick, rounded corners=4pt, minimum width=5.4cm, minimum height=3.2cm, label={[font=\scriptsize\sffamily\bfseries, tikzorange]above:Policy Gates}] (pg) at (13.2,0) {};
+      \node[greenst] (auto) at (12.0,0.8) {AUTO};
+      \node[orangest] (hold) at (14.4,0.8) {HOLD};
+      \node[state, fill=tikzpurple, draw=tikzpurple!70] (man) at (13.2,-0.8) {MANUAL};
+      % Arrows — labels positioned above to avoid clipping
       \draw[arr] (pend) -- node[lbl, above] {submit} (prop);
       \draw[arr] (prop) -- node[lbl, above] {dispute} (chal);
       \draw[arr] (chal) -- node[lbl, above left=-2pt] {majority} (acc);
       \draw[arr] (chal) -- node[lbl, below left=-2pt] {minority} (rej);
-      \draw[arr] (acc) -- node[lbl, above] {$\pi$ pass} (auto);
-      \draw[arr] (acc) -- node[lbl, below] {$\pi$ fail} (hold);
+      \draw[arr] (acc) -- node[lbl, above=3pt] {$\pi$ pass} (auto);
+      \draw[arr] (acc.east) -- ++(0.5,0) |- node[lbl, below=3pt, pos=0.25] {$\pi$ fail} (hold);
       \draw[arr] (rej) -- (man);
-      \draw[arr, dashed] (prop) to[bend left=25] node[lbl, above] {no dispute} (acc);
+      \draw[arr, dashed] (prop) -- ++(0,1.6) -| node[lbl, above, pos=0.75] {no dispute} (acc);
     \end{tikzpicture}
     \caption{State machine. Policy gates (dashed) are the final safety barrier.}
     \label{fig:sm}
@@ -369,28 +369,28 @@ Current systems: voters choose $\{\textsc{yes}, \textsc{no}\}$ (1-bit). PoRE: vo
     \centering
     \begin{tikzpicture}[
       phase/.style={rounded corners=4pt, minimum height=0.8cm, minimum width=2.2cm,
-        draw=#1!70, fill=#1!12, thick, font=\small\sffamily, text=tikzdark, align=center},
+        draw=linkblue!70, fill=linkblue!8, thick, font=\small\sffamily, text=tikzdark, align=center},
       arr/.style={-{Stealth[length=2.5mm]}, thick, tikzdark},
-      darr/.style={-{Stealth[length=2mm]}, dashed, thick, tikzpurple},
-      lbl/.style={font=\scriptsize\sffamily, fill=white, inner sep=1pt},
+      darr/.style={-{Stealth[length=3mm]}, dashed, thick, tikzpurple},
+      lbl/.style={font=\scriptsize\sffamily, fill=white, inner sep=2pt},
       every node/.style={font=\small\sffamily}
     ]
-      \node[phase=linkblue] (p1) at (0,0) {\textbf{Phase 1}\\[-1pt]\scriptsize Source\\[-1pt]\scriptsize Submission};
-      \node[phase=tikzgreen] (p2) at (3.2,0) {\textbf{Phase 2}\\[-1pt]\scriptsize Voting};
-      \node[phase=tikzpurple] (p3) at (6.4,0) {\textbf{Phase 3}\\[-1pt]\scriptsize AI Ensemble};
-      \node[phase=tikzorange] (p4) at (9.6,0) {\textbf{Phase 4}\\[-1pt]\scriptsize Policy\\[-1pt]\scriptsize Engine};
-      \node[phase=tikzdark] (p5) at (12.8,0) {\textbf{Phase 5}\\[-1pt]\scriptsize Resolution};
-      % Main flow
+      \node[phase] (p1) at (0,0) {\textbf{Phase 1}\\[-1pt]\scriptsize Source\\[-1pt]\scriptsize Submission};
+      \node[phase] (p2) at (3.2,0) {\textbf{Phase 2}\\[-1pt]\scriptsize Voting};
+      \node[phase] (p3) at (6.4,0) {\textbf{Phase 3}\\[-1pt]\scriptsize AI Ensemble};
+      \node[phase] (p4) at (9.6,0) {\textbf{Phase 4}\\[-1pt]\scriptsize Policy\\[-1pt]\scriptsize Engine};
+      \node[phase] (p5) at (12.8,0) {\textbf{Phase 5}\\[-1pt]\scriptsize Resolution};
+      % Main flow — all five arrows explicit
       \draw[arr] (p1) -- (p2);
       \draw[arr] (p2) -- (p3);
       \draw[arr] (p3) -- (p4);
       \draw[arr] (p4) -- (p5);
-      % Excluded sources metadata path
-      \node[font=\scriptsize\sffamily, text=tikzpurple] (excl) at (3.2,-1.3) {Excluded sources};
+      % Excluded sources metadata path — clearer route via Phase 3
+      \node[font=\scriptsize\sffamily, text=tikzpurple, align=center] (excl) at (3.2,-1.5) {Excluded\\[-1pt]sources};
       \draw[darr] (p2) -- (excl);
-      \draw[darr] (excl) -| node[lbl, pos=0.3, below] {\scriptsize metadata} (p3);
-      % Whitelist bypass
-      \draw[arr, linkblue, dashed] (p1) to[bend left=30] node[lbl, above] {\scriptsize whitelisted} (p3);
+      \draw[darr] (excl) -- node[lbl, below] {\scriptsize metadata} (excl -| p3) -- (p3);
+      % Whitelist bypass — arc well above Phase 2
+      \draw[arr, linkblue, dashed] (p1.north) to[out=40,in=140] node[lbl, above=2pt] {\scriptsize whitelisted} (p3.north);
     \end{tikzpicture}
     \caption{Decentralized Source Curation. Token-weighted validation (Phase~2) feeds deterministic policy evaluation (Phase~4). Excluded sources trigger forensic analysis.}
     \label{fig:curation}
@@ -425,39 +425,41 @@ Types $\mathcal{W} = \{\texttt{official\_govt}, \texttt{onchain\_oracle}\}$ cann
     \centering
     \begin{tikzpicture}[
       box/.style={rounded corners=3pt, draw=#1, thick, fill=#1!10,
-        minimum height=0.55cm, minimum width=2cm, font=\scriptsize\sffamily, text=tikzdark, align=center},
+        minimum height=0.6cm, minimum width=2.2cm, font=\scriptsize\sffamily, text=tikzdark, align=center},
+      decision/.style={rounded corners=3pt, draw=#1, thick, fill=#1!10,
+        minimum height=0.7cm, minimum width=2.8cm, font=\scriptsize\sffamily, text=tikzdark, align=center},
       arr/.style={-{Stealth[length=2mm]}, thick, tikzdark},
-      every node/.style={font=\small\sffamily}
+      every node/.style={font=\scriptsize\sffamily}
     ]
       % Attacker
       \node[box=tikzred] (att) at (0,0) {Attacker};
       % Two paths
-      \node[box=tikzred, minimum width=2.5cm] (pa) at (-2.2,-1.2) {\textbf{Path A}: Remove source};
-      \node[box=tikzgreen, minimum width=2.5cm] (pb) at (2.2,-1.2) {\textbf{Path B}: Keep source};
+      \node[box=tikzred, minimum width=2.2cm] (pa) at (-2.0,-1.2) {\textbf{A}: Remove};
+      \node[box=tikzgreen, minimum width=2.2cm] (pb) at (2.0,-1.2) {\textbf{B}: Keep};
       \draw[arr] (att) -- (pa);
       \draw[arr] (att) -- (pb);
       % Path A
-      \node[box=tikzorange] (excl) at (-2.2,-2.4) {Source excluded};
-      \node[box=tikzpurple] (meta) at (-2.2,-3.5) {AI gets metadata};
-      \node[box=tikzorange] (r8) at (-2.2,-4.6) {Rule 8 check};
-      \node[box=tikzred] (flip) at (-3.5,-5.7) {Flip? YES $\to$ HOLD};
-      \node[box=gray] (nof) at (-0.9,-5.7) {No flip $\to$ harmless};
+      \node[box=tikzorange] (excl) at (-2.0,-2.3) {Excluded};
+      \node[box=tikzpurple] (meta) at (-2.0,-3.3) {AI metadata};
+      \node[box=tikzorange, minimum width=2cm] (r8) at (-2.0,-4.3) {Rule 8};
+      \node[decision=tikzred] (flip) at (-3.2,-5.5) {Flip $\to$ HOLD};
+      \node[decision=gray] (nof) at (-0.8,-5.5) {No flip};
       \draw[arr] (pa) -- (excl);
       \draw[arr] (excl) -- (meta);
       \draw[arr] (meta) -- (r8);
-      \draw[arr] (r8) -- (flip);
-      \draw[arr] (r8) -- (nof);
+      \draw[arr] (r8) -- node[font=\tiny\sffamily, left] {yes} (flip);
+      \draw[arr] (r8) -- node[font=\tiny\sffamily, right] {no} (nof);
       % Path B
-      \node[box=tikzgreen] (truth) at (2.2,-2.4) {Evidence = truth};
-      \node[box=tikzgreen] (honest) at (2.2,-3.5) {Honest outcome};
+      \node[box=tikzgreen] (truth) at (2.0,-2.3) {Truth};
+      \node[box=tikzgreen] (honest) at (2.0,-3.3) {Honest};
       \draw[arr] (pb) -- (truth);
       \draw[arr] (truth) -- (honest);
       % Convergence
-      \node[draw=tikzgreen, thick, rounded corners=5pt, fill=tikzgreen!15,
-        minimum width=4cm, minimum height=0.7cm, font=\small\sffamily\bfseries] (fail) at (0,-7) {Manipulation Fails};
-      \draw[arr, tikzred] (flip) |- (fail);
-      \draw[arr] (nof) |- (fail);
-      \draw[arr, tikzgreen] (honest) |- (fail);
+      \node[draw=tikzgreen, thick, rounded corners=4pt, fill=tikzgreen!15,
+        minimum width=3.5cm, minimum height=0.7cm, font=\scriptsize\sffamily\bfseries] (fail) at (0,-6.8) {Manipulation Fails};
+      \draw[arr, tikzred] (flip.south) -- ++(0,-0.3) -| (-1.8,-6.5) -- (fail.north west);
+      \draw[arr, gray] (nof.south) -- ++(0,-0.3) -- (fail.north);
+      \draw[arr, tikzgreen] (honest.south) -- ++(0,-0.5) -| (1.8,-6.5) -- (fail.north east);
     \end{tikzpicture}
     \caption{Manipulation Trap. Any attempt to remove contradicting sources triggers Rule~8 forensics, making the attack self-defeating.}
     \label{fig:trap}
@@ -492,37 +494,42 @@ Adversarial analysis arises \emph{naturally}: majority = Proposer, minority = Ch
     \centering
     \begin{tikzpicture}[
       box/.style={rounded corners=3pt, draw=#1, thick, fill=#1!10,
-        minimum height=0.55cm, minimum width=1.8cm, font=\scriptsize\sffamily, text=tikzdark},
+        minimum height=0.6cm, minimum width=2cm, font=\scriptsize\sffamily, text=tikzdark},
       arr/.style={-{Stealth[length=2mm]}, thick, tikzdark},
       every node/.style={font=\small\sffamily}
     ]
       % Input
       \node[box=linkblue] (input) at (0,0) {Curated Evidence $E'$};
-      % Models
-      \node[box=tikzpurple] (m1) at (-2.4,-1.2) {Claude};
-      \node[box=tikzpurple] (m2) at (-0.8,-1.2) {GPT};
-      \node[box=tikzpurple] (m3) at (0.8,-1.2) {Gemini};
-      \node[box=tikzpurple] (m4) at (2.4,-1.2) {Exch.\ AI};
-      % Verdicts
-      \foreach \m/\v in {m1/0.82, m2/0.78, m3/0.75, m4/0.85}
+      % Models — wider spacing
+      \node[box=tikzpurple] (m1) at (-3.0,-1.3) {Claude};
+      \node[box=tikzpurple] (m2) at (-1.0,-1.3) {GPT};
+      \node[box=tikzpurple] (m3) at (1.0,-1.3) {Gemini};
+      \node[box=tikzpurple] (m4) at (3.0,-1.3) {Exch.\ AI};
+      % Arrows from input
+      \foreach \m in {m1, m2, m3, m4}
         \draw[arr] (input) -- (\m);
-      \foreach \m/\v in {m1/0.82, m2/0.78, m3/0.75, m4/0.85}
-        \node[font=\tiny\sffamily, below=0pt of \m] {$\gamma$=\v};
-      % Consensus
-      \node[box=tikzdark, minimum width=3.5cm] (cons) at (0,-2.6) {Cross-Model Consensus};
-      \foreach \m in {m1,m2,m3,m4}
-        \draw[arr] (\m) -- (cons);
+      % γ labels below each box with clearance
+      \node[font=\tiny\sffamily, below=6pt of m1, anchor=north] {$\gamma{=}0.82$};
+      \node[font=\tiny\sffamily, below=6pt of m2, anchor=north] {$\gamma{=}0.78$};
+      \node[font=\tiny\sffamily, below=6pt of m3, anchor=north] {$\gamma{=}0.75$};
+      \node[font=\tiny\sffamily, below=6pt of m4, anchor=north] {$\gamma{=}0.85$};
+      % Consensus — wider box, fan-in spread
+      \node[box=tikzdark, minimum width=4cm] (cons) at (0,-3.0) {Cross-Model Consensus};
+      \draw[arr] (m1.south) -- ++(0,-0.35) -| ([xshift=-1cm]cons.north);
+      \draw[arr] (m2.south) -- ++(0,-0.35) -| ([xshift=-0.33cm]cons.north);
+      \draw[arr] (m3.south) -- ++(0,-0.35) -| ([xshift=0.33cm]cons.north);
+      \draw[arr] (m4.south) -- ++(0,-0.35) -| ([xshift=1cm]cons.north);
       % IMA
-      \node[box=linkblue] (ima) at (0,-3.7) {IMA = 1.0};
+      \node[box=linkblue] (ima) at (0,-4.2) {IMA = 1.0};
       \draw[arr] (cons) -- (ima);
       % Roles
-      \node[box=tikzgreen, anchor=east] (prop) at (-0.3,-4.6) {Majority $\to$ Proposer};
-      \node[box=tikzred, anchor=west] (chal) at (0.3,-4.6) {Minority $\to$ Challenger};
+      \node[box=tikzgreen, anchor=east] (prop) at (-0.3,-5.3) {Majority $\to$ Proposer};
+      \node[box=tikzred, anchor=west] (chal) at (0.3,-5.3) {Minority $\to$ Challenger};
       \draw[arr] (ima) -- (prop);
       \draw[arr] (ima) -- (chal);
       % Decision
-      \node[box=tikzgreen] (pe) at (-1.5,-5.6) {IMA$\geq$0.50 $\to$ Policy};
-      \node[box=tikzorange] (hd) at (1.5,-5.6) {IMA$<$0.50 $\to$ HOLD};
+      \node[box=tikzgreen] (pe) at (-1.5,-6.4) {IMA$\geq$0.50 $\to$ Policy};
+      \node[box=tikzorange] (hd) at (1.5,-6.4) {IMA$<$0.50 $\to$ HOLD};
       \draw[arr] (prop) -- (pe);
       \draw[arr] (chal) -- (hd);
     \end{tikzpicture}
@@ -605,18 +612,27 @@ Token holders vote on model addition/removal, weight adjustment, and domain rout
         ybar, width=6cm, height=5cm,
         symbolic x coords={UMA,PoRE},
         xtick=data, ymin=0, ymax=15,
+        ytick={0,5,10,15},
         ylabel={Cost (\$M)}, ylabel style={font=\small\sffamily},
         xticklabel style={font=\small\sffamily\bfseries},
         yticklabel style={font=\scriptsize\sffamily},
-        nodes near coords, nodes near coords style={font=\scriptsize\sffamily},
         bar width=1.2cm,
         every axis plot/.append style={thick},
       ]
+        % UMA bar with value label
         \addplot[fill=tikzred!70, draw=tikzred] coordinates {(UMA,10.5)};
-        \addplot[fill=tikzgreen!70, draw=tikzgreen] coordinates {(PoRE,14)};
+        % PoRE: dashed bar showing "broken" infinite cost
+        \addplot[fill=tikzgreen!20, draw=tikzgreen, thick, postaction={pattern=north east lines, pattern color=tikzgreen!60}] coordinates {(PoRE,13)};
       \end{axis}
-      \node[font=\scriptsize\sffamily, text=tikzred] at (1.3,4.8) {achievable};
-      \node[font=\scriptsize\sffamily, text=tikzgreen] at (3.7,5.4) {$\to\infty$ (structural)};
+      % UMA label connected to bar
+      \node[font=\scriptsize\sffamily\bfseries, text=tikzred] at (1.3,3.65) {\$10.5M};
+      \draw[-{Stealth[length=1.5mm]}, tikzred, thick] (1.3,3.45) -- (1.3,3.0);
+      \node[font=\scriptsize\sffamily, text=tikzred] at (1.3,3.85) {achievable};
+      % PoRE: broken bar + arrow to infinity
+      \draw[tikzgreen, thick, decorate, decoration={zigzag, segment length=4pt, amplitude=2pt}] (3.15,3.8) -- (3.85,3.8);
+      \draw[-{Stealth[length=2.5mm]}, tikzgreen, very thick] (3.5,4.0) -- (3.5,4.8);
+      \node[font=\scriptsize\sffamily\bfseries, text=tikzgreen] at (3.5,5.05) {$\to\infty$};
+      \node[font=\scriptsize\sffamily, text=tikzgreen] at (3.5,5.35) {structural};
     \end{tikzpicture}
     \end{minipage}\hfill
     \begin{minipage}[t]{0.48\textwidth}
@@ -686,30 +702,34 @@ A whale ($\sim$5M UMA, $\sim$25\%) forced YES without official confirmation~\cit
 \begin{figure*}[t]
     \centering
     \begin{tikzpicture}[
-      box/.style={rounded corners=3pt, draw=tikzdark, thick, minimum width=3.8cm,
+      box/.style={rounded corners=3pt, draw=tikzdark, thick, minimum width=4.2cm,
         minimum height=0.5cm, font=\scriptsize\sffamily, text=tikzdark, fill=#1!10},
       arr/.style={-{Stealth[length=2.5mm]}, thick, tikzdark},
       every node/.style={font=\small\sffamily}
     ]
-      % Left: Sources
-      \node[font=\small\sffamily\bfseries] at (-5.5,2.2) {Sources};
-      \node[box=linkblue, anchor=west] (s1) at (-7,1.6) {State Dept \quad $q$=0.95 \quad $v$=0.10};
-      \node[box=linkblue, anchor=west] (s2) at (-7,0.9) {Ukraine MFA \quad $q$=0.95 \quad $v$=0.15};
-      \node[box=linkblue, anchor=west] (s3) at (-7,0.2) {Reuters \quad $q$=0.94 \quad $v$=0.20};
-      \node[box=linkblue, anchor=west] (s4) at (-7,-0.5) {AP \quad $q$=0.94 \quad $v$=0.20};
-      \node[box=gray, anchor=west] (s5) at (-7,-1.2) {Polymarket \quad $q$=0.21 \quad $v$=0.79};
-      % Center: Engine
-      \node[draw=tikzdark, thick, rounded corners=5pt, fill=tikzlight, minimum width=3.5cm, minimum height=3cm, align=center] (eng) at (0,0.5) {\textbf{PoRE Engine}\\[4pt]\scriptsize $\bar{v}=\frac{\sum q_i v_i}{\sum q_i}=0.178$\\[2pt]\scriptsize $\sigma=0.43>\delta_{\max}$\\[2pt]\scriptsize $\gamma=0.45<\gamma_{\min}$};
+      % Left: Sources — tabular-aligned q/v values
+      \node[font=\small\sffamily\bfseries] at (-5.5,2.5) {Sources};
+      \node[box=linkblue, anchor=west] (s1) at (-7.2,1.8) {State Dept\hfill $q{=}0.95$\quad $v{=}0.10$};
+      \node[box=linkblue, anchor=west] (s2) at (-7.2,1.0) {Ukraine MFA\hfill $q{=}0.95$\quad $v{=}0.15$};
+      \node[box=linkblue, anchor=west] (s3) at (-7.2,0.2) {Reuters\hfill $q{=}0.94$\quad $v{=}0.20$};
+      \node[box=linkblue, anchor=west] (s4) at (-7.2,-0.6) {AP\hfill $q{=}0.94$\quad $v{=}0.20$};
+      \node[box=gray, anchor=west] (s5) at (-7.2,-1.4) {Polymarket\hfill $q{=}0.21$\quad $v{=}0.79$};
+      % Center: Engine — formula moved below box
+      \node[draw=tikzdark, thick, rounded corners=5pt, fill=tikzlight, minimum width=3.5cm, minimum height=1.8cm, align=center] (eng) at (0,0.5) {\textbf{PoRE Engine}\\[3pt]\scriptsize Deterministic Policy};
+      \node[font=\scriptsize\sffamily, text=tikzdark, align=left, anchor=north] at (0,-0.8) {%
+        $\bar{v}=\frac{\sum q_i v_i}{\sum q_i}=0.178$\\[1pt]%
+        $\sigma=0.43>\delta_{\max}=0.30$\\[1pt]%
+        $\gamma=0.45<\gamma_{\min}=0.60$};
       % Right: Result
-      \node[draw=tikzorange, thick, rounded corners=5pt, fill=tikzorange!15, minimum width=3cm, minimum height=1.2cm, align=center, font=\normalsize\sffamily\bfseries] (hold) at (5.5,1) {\textcolor{tikzorange}{HOLD}\\[2pt]\scriptsize 3 violations};
-      \node[draw=tikzred, thick, rounded corners=3pt, fill=tikzred!10, minimum width=3cm, align=center, font=\scriptsize\sffamily] (uma) at (5.5,-1) {UMA: YES (\$7M loss)\\Whale: 25\% DVM};
+      \node[draw=tikzorange, thick, rounded corners=5pt, fill=tikzorange!15, minimum width=3cm, minimum height=1.2cm, align=center, font=\normalsize\sffamily\bfseries] (hold) at (5.5,1.2) {\textcolor{tikzorange}{HOLD}\\[2pt]\scriptsize 3 violations};
+      \node[draw=tikzred!80, thick, rounded corners=3pt, fill=tikzred!20, minimum width=3cm, align=center, font=\scriptsize\sffamily] (uma) at (5.5,-0.8) {UMA: YES (\$7M loss)\\Whale: 25\% DVM};
       % Arrows
       \foreach \s in {s1,s2,s3,s4,s5}
         \draw[arr] (\s.east) -- (eng.west);
       \draw[arr] (eng) -- (hold);
       \draw[arr, dashed, tikzred] (eng) -- (uma);
     \end{tikzpicture}
-    \caption{Ukraine case. Official sources ($q$=0.95) dominate the weighted average. Five violations $\to$ \textsc{hold}. UMA resolved YES (\$7M loss).}
+    \caption{Ukraine case. Official sources ($q$=0.95) dominate the weighted average. Three violations $\to$ \textsc{hold}. UMA resolved YES (\$7M loss).}
     \label{fig:case}
 \end{figure*}
 
