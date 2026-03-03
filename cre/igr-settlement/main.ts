@@ -79,20 +79,16 @@ const onSettlementRequested = async (runtime: Runtime<IgrConfig>) => {
   const finalState = verdictA === verdictB ? "FINAL_MATCH" : "FINAL_MISMATCH";
   const finalSettlement = verdictA === verdictB ? verdictA : "SPLIT_50_50";
 
-  // Stage 6: EVM Write via IgrRegistry.onReport
-  const reportPayload = JSON.stringify({
-    marketId,
-    finalState,
-    finalSettlement,
-    verdictA,
-    verdictB,
-    ts: Date.now(),
-  });
+  // Stage 6: EVM Write (simulation-safe ABI path)
+  // Uses record(...) for deterministic scaffold runs; production can switch to onReport(bytes,bytes)
+  // once report ABI encoding is wired in this workflow package.
+  const decision = JSON.stringify({ marketId, finalState, finalSettlement, verdictA, verdictB, ts: Date.now() });
+  const decisionHash = "0x" + "0".repeat(64);
 
   await evmWrite.call({
     contract: runtime.config.igrRegistry,
-    method: "onReport(bytes,bytes)",
-    args: ["0x", reportPayload],
+    method: "record(string,string,string,string,bytes32)",
+    args: [String(marketId), decision, finalState, "CRE_WORKFLOW", decisionHash],
   });
 
   return {

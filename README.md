@@ -48,6 +48,14 @@ Run live evaluation:
 npm run live
 ```
 
+Verification helpers:
+
+```bash
+npm run verify:forwarder    # static guard verification for forwarder authorization
+npm run metrics             # aggregate replay metrics from simulation/output/reports
+npm run artifacts:llm       # build CRE-style artifact bundle (requires MODEL_MODE=llm + API keys)
+```
+
 ---
 
 ## CRE Workflow (Scaffold)

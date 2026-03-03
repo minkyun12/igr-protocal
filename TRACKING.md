@@ -12,11 +12,11 @@
 - [ ] Sepolia deployment evidence (`simulation/output/onchain/deploy.md`)
 
 ## Phase 2 — P1 Hardening
-- [ ] Forwarder authorization path tests
+- [x] Forwarder authorization path tests (static guard verification + core test)
 - [x] Rule/Schema lock adversarial tests
 - [x] Oracle lock enforcement hardening + tests (feed auto-include + network fetch gated)
 
 ## Phase 3 — P2 Reliability
-- [ ] LLM mode reproducible run artifacts
+- [ ] LLM mode reproducible run artifacts (bundle script ready; waiting API creds)
 - [x] CI split (core workflow added; integration kept separate)
 - [x] Whitepaper metrics auto-report script

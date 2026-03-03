@@ -15,7 +15,9 @@
     "score": "node src/cli/self-score.js",
     "live": "node src/cli/live-evaluate.js",
     "ui": "node src/cli/serve-frontend.js",
-    "metrics": "node scripts/generate-metrics-report.mjs"
+    "metrics": "node scripts/generate-metrics-report.mjs",
+    "verify:forwarder": "node scripts/verify-forwarder-guards.mjs",
+    "artifacts:llm": "node scripts/run-llm-artifact-bundle.mjs"
   },
   "engines": {
     "node": ">=20"
