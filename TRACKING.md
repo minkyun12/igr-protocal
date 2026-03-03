@@ -14,7 +14,7 @@
 ## Phase 2 — P1 Hardening
 - [ ] Forwarder authorization path tests
 - [ ] Rule/Schema lock adversarial tests
-- [ ] Oracle lock enforcement hardening + tests
+- [x] Oracle lock enforcement hardening + tests (feed auto-include + network fetch gated)
 
 ## Phase 3 — P2 Reliability
 - [ ] LLM mode reproducible run artifacts

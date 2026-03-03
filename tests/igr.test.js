@@ -197,3 +197,17 @@ test("§6.1: voted_prompts deterministic ordering", () => {
   const { canonical } = compileCanonicalPackage({ eventSpec, evidenceRecords: [], policy });
   assert.deepEqual(canonical.voted_prompts, ["earlier", "later", "plain-a", "plain-z"]);
 });
+
+test("§5 Oracle Lock: live Chainlink feed is auto-included in mandatory sources", () => {
+  const eventSpec = { market_id: "oracle-1", question: "Q", rule_text: "R", evaluation_time: "2026-01-01T00:00:00Z" };
+  const policy = { models: ["A", "B"], mismatch_policy: "split_immediate" };
+
+  const { canonical } = compileCanonicalPackage({
+    eventSpec,
+    evidenceRecords: [],
+    policy,
+    chainlinkFeed: { price: 123.45, updatedAt: "2026-01-01T00:00:00Z", roundId: "1" },
+  });
+
+  assert.ok(canonical.oracle_mandatory_sources.some((s) => s.source_id === "chainlink-price-feed"));
+});

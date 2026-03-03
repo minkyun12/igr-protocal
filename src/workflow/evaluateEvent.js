@@ -48,7 +48,10 @@ function isDualFailure(outputA, outputB) {
   return hasFlag(outputA) && hasFlag(outputB);
 }
 
+const ENABLE_CHAINLINK_FETCH = process.env.ENABLE_CHAINLINK_FETCH === "1";
+
 async function getRerunChainlinkFeed() {
+  if (!ENABLE_CHAINLINK_FETCH) return null;
   try {
     const live = await fetchChainlinkPrice();
     if (live && live.price != null) return live;
@@ -64,11 +67,13 @@ export async function evaluateEvent({ eventSpec, evidenceRecords, policy, chainl
   const governanceResolved = await loadGovernancePolicy(eventSpec, policy);
   const effectivePolicy = governanceResolved.policy;
 
+  const initialFeed = chainlinkFeed || (await getRerunChainlinkFeed());
+
   const { canonical, packageHash } = compileCanonicalPackage({
     eventSpec,
     evidenceRecords,
     policy: effectivePolicy,
-    chainlinkFeed,
+    chainlinkFeed: initialFeed,
   });
   const [modelA, modelB] = canonical.models;
 
