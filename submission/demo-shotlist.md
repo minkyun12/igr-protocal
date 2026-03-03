@@ -1,8 +1,8 @@
-# Demo Video Shotlist v2
+# Demo Video Shotlist
 
 | Scene | Time | Duration | Type | Content |
 |-------|------|----------|------|---------|
-| 1 | 0:00–0:30 | 30s | Title card | "PoRE — Proof of Resolution Engine" + problem statement ($7M Ukraine, $237M Zelenskyy) |
+| 1 | 0:00–0:30 | 30s | Title card | "IGR | Input-Governed Resolution" + problem statement ($7M Ukraine, $237M Zelenskyy) |
 | 2 | 0:30–1:15 | 45s | Info card | Architecture: 3-step process (evidence collection, AI deliberation, 8 policy gates) |
 | 3 | 1:15–1:45 | 30s | Terminal | Ukraine deal replay — 5 sources, weighted analysis 0.217, all checkpoints HOLD_FOR_REVIEW |
 | 4 | 1:45–2:15 | 30s | Terminal | Zelenskyy suit replay — photo vs interpretation conflict, weighted avg 0.718, disagreement 0.344, HOLD |

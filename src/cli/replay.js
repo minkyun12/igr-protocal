@@ -9,10 +9,10 @@ const args = Object.fromEntries(
   })
 );
 
-const caseDir = args.case ? path.resolve(args.case) : path.resolve("data/replay/case-a");
-const policyPath = args.policy ? path.resolve(args.policy) : path.resolve("configs/policy.v1.json");
-const outputDir = args.out ? path.resolve(args.out) : path.resolve("artifacts/reports");
+const caseDir = args.case ? path.resolve(args.case) : path.resolve("simulation/input/replay/case-a");
+const policyPath = args.policy ? path.resolve(args.policy) : path.resolve("configs/policy.json");
+const outputDir = args.out ? path.resolve(args.out) : path.resolve("simulation/output/reports");
 const checkpoint = typeof args.checkpoint === "string" ? args.checkpoint : undefined;
 
 const results = await replayCase({ caseDir, policyPath, outputDir, checkpoint });
-console.log(JSON.stringify({ ok: true, caseDir, results }, null, 2));
+console.log(JSON.stringify({ ok: true, caseDir, policyPath, results }, null, 2));

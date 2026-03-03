@@ -9,8 +9,8 @@ const args = Object.fromEntries(
   })
 );
 
-const reportsDir = args.reports ? path.resolve(args.reports) : path.resolve("artifacts/reports");
-const outDir = args.out ? path.resolve(args.out) : path.resolve("artifacts/replay-package");
+const reportsDir = args.reports ? path.resolve(args.reports) : path.resolve("simulation/output/reports");
+const outDir = args.out ? path.resolve(args.out) : path.resolve("simulation/output/replay-package");
 
 const summary = await buildReplayPackage({ reportsDir, outputDir: outDir });
 console.log(JSON.stringify({ ok: true, reportsDir, outDir, packageHash: summary.package_hash, reportCount: summary.report_count }, null, 2));

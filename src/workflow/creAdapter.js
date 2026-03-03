@@ -8,7 +8,7 @@ const exec = promisify(execCb);
 /**
  * CRE adapter abstraction.
  * - mode=sim: local simulated orchestration
- * - mode=real: reads Chainlink Price Feed + records on-chain via PoreRegistry
+ * - mode=real: reads Chainlink Price Feed + records on-chain via IgrRegistry
  */
 export async function runCreWorkflow({ mode = process.env.CRE_MODE || "sim", payload }) {
   if (mode === "sim") {

@@ -1,0 +1,105 @@
+[1/2] whoami
+Initializing...
+Fetching account details...
+
+Account Details
+╭──────────────────────────────────────────╮
+│ Email:             shane021212@gmail.com │
+│ Organization ID:   org_QDtmZGqsxtkbOBMD  │
+│ Organization Name: My Org                │
+│ Deploy Access:     Not enabled           │
+╰──────────────────────────────────────────╯
+
+[2/2] simulate (target=staging-settings)
+Initializing...
+{"level":"debug","client":"GraphQL","time":"2026-03-03T19:30:01+09:00","message":">> variables: map[]"}
+{"level":"debug","client":"GraphQL","time":"2026-03-03T19:30:01+09:00","message":">> query: \nquery GetOrganizationDetails  {\n\tgetOrganization {\n\t\torganizationId\n\t}\n}"}
+{"level":"debug","client":"GraphQL","time":"2026-03-03T19:30:01+09:00","message":">> headers: map[Accept:[application/json; charset=utf-8] Authorization:[[REDACTED]] Content-Type:[application/json; charset=utf-8] User-Agent:[cre-cli]]"}
+{"level":"debug","client":"GraphQL","time":"2026-03-03T19:30:01+09:00","message":"<< {\"data\":{\"getOrganization\":{\"organizationId\":\"org_QDtmZGqsxtkbOBMD\"}}}"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"Not able to load configuration from .env file, skipping this optional step.\nCLI tool will read and verify individual environment variables (they MUST be exported).\nIf you want to use .env file, please check that you are fetching the .env file from the correct location.\nNote that if .env location is not provided via CLI flag, default is .env file located in the current working directory where the CLI tool runs.\nIf .env file doesn't exist, it has to be created first (check example.env for more information).\nIf the .env file is present, please check that it follows the correct format: https://dotenvx.com/docs/env-file"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"Target:  staging-settings"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"setting \"logging.seth-config-path\" not found in target \"staging-settings\""}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for ethereum-mainnet; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for ethereum-testnet-sepolia-base-1; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for ethereum-mainnet-base-1; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for avalanche-testnet-fuji; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for avalanche-mainnet; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for polygon-testnet-amoy; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for polygon-mainnet; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for binance_smart_chain-testnet; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for binance_smart_chain-mainnet; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for ethereum-testnet-sepolia-arbitrum-1; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for ethereum-mainnet-arbitrum-1; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for ethereum-testnet-sepolia-optimism-1; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for ethereum-mainnet-optimism-1; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for private-testnet-andesite; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for ethereum-mainnet-zksync-1; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for ethereum-testnet-sepolia-zksync-1; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for jovay-testnet; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for ethereum-testnet-sepolia-worldchain-1; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for ethereum-mainnet-worldchain-1; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for plasma-testnet; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for ethereum-testnet-sepolia-linea-1; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for ink-testnet-sepolia; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for hyperliquid-testnet; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for apechain-testnet-curtis; skipping"}
+{"level":"debug","time":"2026-03-03T19:30:01+09:00","message":"RPC not provided for arc-testnet; skipping"}
+Checking RPC connectivity...
+Compiling workflow...
+{"level":"debug","time":"2026-03-03T19:30:03+09:00","message":"Workflow compiled"}
+✓ Workflow compiled
+! Secret "MODEL_A_API_KEY" uses itself as the env var name — this is fragile and may cause confusion. Consider using a distinct env var name (e.g. "CRE_MODEL_A_API_KEY").
+! Secret "MODEL_B_API_KEY" uses itself as the env var name — this is fragile and may cause confusion. Consider using a distinct env var name (e.g. "CRE_MODEL_B_API_KEY").
+! Secret "CRE_ETH_PRIVATE_KEY" uses itself as the env var name — this is fragile and may cause confusion. Consider using a distinct env var name (e.g. "CRE_CRE_ETH_PRIVATE_KEY").
+2026-03-03T19:30:03Z [SIMULATION] Simulator Initialized
+
+2026-03-03T19:30:03Z [SIMULATION] Running trigger trigger=cron-trigger@1.0.0
+2026-03-03T19:30:03Z [WORKFLOW] WorkflowExecutionStarted
+  TriggerID: 2026-03-03T10:30:03Z
+  WorkflowOwner: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  WorkflowName: igr-settlement-staging
+  Version: 2.0.0
+  WorkflowID: 1111111111111111111111111111111111111111111111111111111111111111
+  WorkflowExecutionID: ba08b6c8fdab2911ab20e649f1456bf45018cc982a222768ee987bcdfcf2e3ba
+  DonID: 1
+  DonF: 0
+  DonN: 1
+  P2PID: 12D3KooW9pNAk8aiBuGVQtWRdbkLmo5qVL3e2h5UxbN2Nz9ttwiw
+  Trigger: <nil>
+
+✓ Workflow Simulation Result:
+{
+  "mode": "simulation",
+  "note": "CRE simulate smoke path is active",
+  "status": "ok",
+  "timestamp": "2026-03-03T10:30:03.656Z",
+  "workflow": "igr-settlement"
+}
+
+2026-03-03T19:30:03Z [SIMULATION] Execution finished signal received
+2026-03-03T19:30:03Z [SIMULATION] Skipping WorkflowEngineV2
+2026-03-03T19:30:03Z [WORKFLOW] WorkflowExecutionFinished - Status: SUCCESS
+  WorkflowOwner: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  WorkflowName: igr-settlement-staging
+  Version: 2.0.0
+  WorkflowID: 1111111111111111111111111111111111111111111111111111111111111111
+  WorkflowExecutionID: ba08b6c8fdab2911ab20e649f1456bf45018cc982a222768ee987bcdfcf2e3ba
+  DonID: 1
+  DonF: 0
+  DonN: 1
+  P2PID: 12D3KooW9pNAk8aiBuGVQtWRdbkLmo5qVL3e2h5UxbN2Nz9ttwiw
+  Trigger: <nil>
+{"level":"debug","claims":{"aud":["https://api.cre.chain.link/","https://cre-production.eu.auth0.com/userinfo"],"azp":"vMqPqJ3ApbeN8jNeA42Dn4UxbkfhQQkW","exp":1772534646,"https://api.cre.chain.link/email":"shane021212@gmail.com","https://api.cre.chain.link/email_verified":true,"https://api.cre.chain.link/organization_roles":"ROOT","https://api.cre.chain.link/organization_status":"GATED","iat":1772533746,"iss":"https://login.chain.link/","org_id":"org_QDtmZGqsxtkbOBMD","scope":"openid profile email offline_access","sub":"auth0|69a6b4558d762aaeba3573ba"},"time":"2026-03-03T19:30:03+09:00","message":"JWT claims decoded"}
+{"level":"debug","claim_key":"https://api.cre.chain.link/organization_status","organization_status":"GATED","time":"2026-03-03T19:30:03+09:00","message":"checking organization status claim"}
+{"level":"debug","organization_status":"GATED","has_access":false,"time":"2026-03-03T19:30:03+09:00","message":"deployment access status retrieved"}
+
+╭──────────────────────────────────────────────────────╮
+│ Simulation complete! Ready to deploy your workflow?  │
+│                                                      │
+│ Run cre account access to request deployment access. │
+╰──────────────────────────────────────────────────────╯
+{"level":"debug","time":"2026-03-03T19:30:03+09:00","message":"Current version parsed as: 1.2.0"}
+{"level":"debug","time":"2026-03-03T19:30:03+09:00","message":"Loading cache from /Users/macmini/.cre/update.json"}
+{"level":"debug","time":"2026-03-03T19:30:03+09:00","message":"Cache loaded. Last check: 2026-03-03 18:31:49.633479 +0900 KST, Latest version: v1.2.0"}
+{"level":"debug","time":"2026-03-03T19:30:03+09:00","message":"Using cached latest version: v1.2.0"}
+{"level":"debug","time":"2026-03-03T19:30:03+09:00","message":"Current version 1.2.0 is up-to-date."}

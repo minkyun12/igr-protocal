@@ -17,10 +17,10 @@ async function score() {
   let demoClarity = 0;    // max 20
   let reproducibility = 0;// max 10
 
-  const testsExist = await exists(path.resolve("tests/pore.test.js"));
-  const artifactsA = await exists(path.resolve("artifacts/reports/case-a-T+1h.report.json"));
-  const artifactsB = await exists(path.resolve("artifacts/reports/case-b-T+1h.report.json"));
-  const playbook = await exists(path.resolve("docs/08_PORE_MASTER_PLAYBOOK.md"));
+  const testsExist = await exists(path.resolve("tests/igr.test.js"));
+  const artifactsA = await exists(path.resolve("simulation/output/reports/case-a-T+1h.report.json"));
+  const artifactsB = await exists(path.resolve("simulation/output/reports/case-b-T+1h.report.json"));
+  const playbook = await exists(path.resolve("docs/08_IGR_MASTER_PLAYBOOK.md"));
   const submissionGuide = await exists(path.resolve("docs/12_SUBMISSION_PACKAGE_GUIDE.md"));
   const runbook = await exists(path.resolve("docs/10_LLM_HANDOFF_RUNBOOK.md"));
   const realCreAdapter = await exists(path.resolve("src/workflow/creAdapter.js"));

@@ -1,4 +1,4 @@
-# PoRE Demo Script (4 minutes)
+# IGR Demo Script (4 minutes)
 
 ## 0:00–0:30 — The Problem
 
@@ -6,13 +6,13 @@
 
 "In March 2025, a $7 million Polymarket market was forced to resolve YES on a Ukraine mineral deal — despite zero government confirmation. In July 2025, $237 million in bets on Zelenskyy wearing a suit were resolved NO — despite photographic evidence from multiple agencies."
 
-"This is the problem PoRE solves."
+"This is the problem IGR solves."
 
 ---
 
-## 0:30–1:15 — What PoRE Does
+## 0:30–1:15 — What IGR Does
 
-"PoRE — Proof of Resolution Engine — is a policy-gated resolution system that refuses to auto-resolve when evidence is ambiguous or conflicting."
+"IGR | Input-Governed Resolution is a policy-gated resolution system that refuses to auto-resolve when evidence is ambiguous or conflicting."
 
 "Here's how it works:"
 
@@ -30,25 +30,25 @@
 
 ### Ukraine mineral deal replay
 
-[Terminal: `npm run replay -- --case=data/replay/case-ukraine-deal --policy=configs/policy.v1.json --out=artifacts/reports`]
+[Terminal: `npm run replay -- --case=simulation/input/replay/case-ukraine-deal --policy=configs/policy.v1.json --out=simulation/output/reports`]
 
 "Let's replay the Ukraine deal case. Five sources: US State Department says no deal. Ukraine Foreign Ministry says reports are inaccurate. Reuters and AP confirm no signed agreement. Only the Polymarket price — manipulated by whale voting — says YES."
 
-"PoRE's weighted analysis: 0.217 — heavily NO. Official sources dominate because they have quality score 0.95 versus the market's 0.20."
+"IGR's weighted analysis: 0.217 — heavily NO. Official sources dominate because they have quality score 0.95 versus the market's 0.20."
 
 "Result: HOLD_FOR_REVIEW. Reason codes: deviation too high, low confidence, conflict score high."
 
-"In reality, Polymarket auto-resolved YES. Users lost $7 million. PoRE would have blocked this."
+"In reality, Polymarket auto-resolved YES. Users lost $7 million. IGR would have blocked this."
 
 ### Zelenskyy suit replay
 
-[Terminal: `npm run replay -- --case=data/replay/case-zelenskyy-suit --policy=configs/policy.v1.json --out=artifacts/reports`]
+[Terminal: `npm run replay -- --case=simulation/input/replay/case-zelenskyy-suit --policy=configs/policy.v1.json --out=simulation/output/reports`]
 
 "Now the suit case. Reuters, AP, and Getty all have photos showing formal attire. But BBC's analysis says a blazer isn't technically a suit. And the Polymarket resolution — driven by whale votes — says NO."
 
-"PoRE sees the conflict: photo evidence says YES, but there's significant interpretive disagreement. Weighted average 0.718 — YES-leaning, but the disagreement score is 0.344."
+"IGR sees the conflict: photo evidence says YES, but there's significant interpretive disagreement. Weighted average 0.718 — YES-leaning, but the disagreement score is 0.344."
 
-"Result: HOLD_FOR_REVIEW. PoRE recognizes this is human-judgment territory."
+"Result: HOLD_FOR_REVIEW. IGR recognizes this is human-judgment territory."
 
 ---
 
@@ -56,11 +56,11 @@
 
 [Terminal: `npm run live -- --scenario=edge`]
 
-"PoRE also works with numeric markets using real on-chain data."
+"IGR also works with numeric markets using real on-chain data."
 
 "Here we're reading live BTC price from four sources — Chainlink mainnet oracle, Binance, Coinbase, and CoinGecko. The threshold is set at current price — so source disagreement of even $50–$200 matters."
 
-"You can see each policy rule being evaluated. When all pass, PoRE recommends auto-resolve. When they don't, it holds."
+"You can see each policy rule being evaluated. When all pass, IGR recommends auto-resolve. When they don't, it holds."
 
 ---
 
@@ -70,7 +70,7 @@
 
 "A government press release should outweigh a token-weighted vote. Photo evidence from Reuters should outweigh an anonymous Twitter poll."
 
-"PoRE enforces this with quality-weighted analysis and deterministic policy gates. Every decision produces an auditable report with integrity hashes."
+"IGR enforces this with quality-weighted analysis and deterministic policy gates. Every decision produces an auditable report with integrity hashes."
 
 "It's not about replacing human judgment. It's about preventing whales from replacing it first."
 
@@ -78,7 +78,7 @@
 
 ## 3:45–4:00 — Close
 
-"PoRE — Proof of Resolution Engine. Safe, auditable resolution for prediction markets."
+"IGR | Input-Governed Resolution. Safe, auditable resolution for prediction markets."
 
 "All code, replay cases, and reports are reproducible with `npm test` and `npm run replay`."
 

@@ -1,6 +1,14 @@
 node_modules/
 .env
+
+# Generated artifacts
+simulation/output/reports/*
+!simulation/output/reports/.gitkeep
+simulation/output/replay-package/*
+!simulation/output/replay-package/.gitkeep
 artifacts/tmp_frames/
+
+# Local media work files
 submission/demo-video.silent-draft.mp4
 submission/demo-audio.aiff
 whitepaper/page_*.png

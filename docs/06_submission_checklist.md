@@ -20,7 +20,7 @@
 - [x] 데모 영상 파일
 - [ ] 제출 폼/README용 외부 데모 영상 링크
 - [x] 사용 기술/아티팩트 명세
-- [x] On-chain 아키텍처 (Chainlink Price Feed + PoreRegistry.sol)
+- [x] On-chain 아키텍처 (Chainlink Price Feed + IgrRegistry.sol)
 
 ## 3) 기술 검증
 
@@ -57,11 +57,11 @@
 ```bash
 npm install
 npm test
-npm run replay -- --case=data/replay/case-ukraine-deal --policy=configs/policy.v1.json --out=artifacts/reports
-npm run replay -- --case=data/replay/case-zelenskyy-suit --policy=configs/policy.v1.json --out=artifacts/reports
-npm run replay -- --case=data/replay/case-a --policy=configs/policy.v1.json --out=artifacts/reports
-npm run replay -- --case=data/replay/case-b --policy=configs/policy.v1.json --out=artifacts/reports
-npm run replay:package -- --reports=artifacts/reports --out=artifacts/replay-package
+npm run replay -- --case=simulation/input/replay/case-ukraine-deal --policy=configs/policy.v1.json --out=simulation/output/reports
+npm run replay -- --case=simulation/input/replay/case-zelenskyy-suit --policy=configs/policy.v1.json --out=simulation/output/reports
+npm run replay -- --case=simulation/input/replay/case-a --policy=configs/policy.v1.json --out=simulation/output/reports
+npm run replay -- --case=simulation/input/replay/case-b --policy=configs/policy.v1.json --out=simulation/output/reports
+npm run replay:package -- --reports=simulation/output/reports --out=simulation/output/replay-package
 npm run live
 npm run score
 ```

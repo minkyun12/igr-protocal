@@ -1,0 +1,24 @@
+{
+  "event_id": "zelenskyy-suit-before-july",
+  "market_id": "pm-zelenskyy-suit-2025",
+  "question": "Will Zelenskyy wear a suit before July?",
+  "rule_text": "This market will resolve to 'Yes' if Ukrainian President Volodymyr Zelenskyy is publicly photographed or filmed wearing a formal suit (defined as a matching jacket and trousers ensemble, typically with a collared shirt) at any official or public event before July 1, 2025, 11:59 PM ET. Otherwise this market will resolve to 'No'. Resolution will be based on verified photographic or video evidence from credible international news agencies (e.g., Reuters, AP, AFP, Getty Images). Military uniforms, casual attire, or non-matching separates do not qualify.",
+  "resolution_source": [
+    "reuters-photo-wire",
+    "associated-press-photo",
+    "afp-photo-wire",
+    "getty-images"
+  ],
+  "market_end_time": "2025-06-30T23:59:59-04:00",
+  "evaluation_time": "2025-07-06T12:00:00Z",
+  "numeric_rule": null,
+  "event_type": "binary_subjective",
+  "market_metadata": {
+    "platform": "Polymarket",
+    "url": "https://polymarket.com/event/zelensky-suit-before-july",
+    "volume_usd": 237000000,
+    "created_at": "2025-01-15T00:00:00Z",
+    "actual_resolution": "NO",
+    "controversy": "Zelenskyy photographed at NATO summit in The Hague (June 27, 2025) wearing dark blazer + matching trousers. Reuters, AP, and Getty all published photos. Debate: blazer+trousers vs 'matching suit.' Professional tailors consulted — some said yes, some said ambiguous. Two UMA whales controlling >50% voting power resolved NO. $237M in volume affected."
+  }
+}

@@ -1,65 +1,75 @@
-# PoRE — Proof-of-Resolution Engine
+# IGR | Input-Governed Resolution
+
+**Token-Governed AI Input Configuration for Deterministic Automatic Resolution**
+
+## One-Pager (Submission v2 Sync)
 
 ## Problem
 
-Prediction market resolution is broken when outcomes are subjective.
+Binary market settlement is fragile when governance votes directly on the final outcome bit (`YES/NO`).
+Under concentrated token power, evidence can be bypassed at the last step.
 
-In March 2025, a single UMA whale holding 5M tokens (25% of voting power) forced a $7M Polymarket market to resolve YES — despite zero confirmation from US or Ukrainian governments. In July 2025, $237M in bets on whether Zelenskyy wore a suit were resolved NO, overriding photo evidence from Reuters, AP, and Getty — because 2 whale voters decided a blazer isn't a suit.
+## Core Thesis
 
-These aren't bugs. They're structural failures: **concentrated oracle voting power can override evidence.**
+Shift governance from **outcome voting** to **input configuration voting**.
 
-## Solution
+Governance can modify only three surfaces:
+1. model pair (exactly 2 adjudicators)
+2. optional evidence sources
+3. advisory prompts
 
-PoRE is a policy-gated resolution engine that **refuses to auto-resolve when evidence is ambiguous, conflicting, or manipulated.**
+Protocol locks remain non-governable:
+- Rule Lock (canonical rule-text priority)
+- Oracle Lock (mandatory Chainlink evidence inclusion)
+- Schema Lock (strict JSON output contract)
+- Domain Lock (`YES/NO` only)
+- Policy Lock (deterministic branch semantics)
 
-Instead of letting a few token holders decide, PoRE:
-1. **Collects evidence from multiple sources** with quality scores (official > news > market)
-2. **Runs AI deliberation** — proposer makes a call, challenger pressure-tests it
-3. **Applies 8 policy gates** — any failure = HOLD_FOR_REVIEW
-4. **Produces an auditable report** with integrity hashes
+## Deterministic Settlement
 
-## Key insight
+- `YES/YES` or `NO/NO` -> finalize matched outcome
+- `YES/NO` ->
+  - `split_immediate` (instant 50/50), or
+  - `rerun_once_then_split` (single delayed rerun, then 50/50 if mismatch persists)
 
-> High-quality official sources (government statements, wire services) should outweigh low-quality market signals — especially when market signals may be manipulated.
+Terminal guarantee: bounded execution path with **8 calls max total (4 settlement-relevant)**.
+No discretionary human arbitration is required.
 
-## Results on real cases
+## Why It Matters
 
-| Case | What happened | Polymarket result | PoRE result |
-|---|---|---|---|
-| Ukraine mineral deal | No gov confirmation, whale voted YES | ❌ YES ($7M loss) | ✅ **HOLD** |
-| Zelenskyy suit | Photo evidence, interpretation dispute | ❌ NO ($237M) | ✅ **HOLD** |
+- **Liveness:** no dead-end settlement state
+- **Auditability:** package/output/decision hashes are replayable
+- **Governance hardening:** token power cannot directly override final verdict bits
+- **Operational clarity:** two-model baseline with explicit mismatch handling
 
-In both cases, PoRE would have **prevented the controversial resolution** and escalated to human review.
+## Implementation Snapshot
 
-## Protocol vision: Decentralized Source Curation
+- Canonical input package compiler
+- Dual-model strict JSON adjudication contract
+- Deterministic branch executor + mismatch policies
+- CRE orchestration path (Log Trigger -> EVM Read -> HTTP x2 -> EVM Write)
+- On-chain commitment via `KeystoneForwarder -> IgrRegistry.onReport(metadata, report)`
+- Governance contract (`GovernanceRegistry`) with MVP unit-weight voting and ERC-20Votes migration plan
 
-Beyond the current engine, PoRE proposes a novel resolution protocol: **token holders vote on evidence validity, not outcomes.** An AI policy engine then evaluates the curated evidence deterministically.
+## Judge-Facing Mapping
 
-- Manipulation shifts from a 1-bit problem (flip YES/NO) to an N-dimensional constraint satisfaction problem (subvert entire evidence ecosystem)
-- Whitelisted sources (government, on-chain oracles) cannot be voted out
-- Quality ceilings prevent low-tier sources from dominating regardless of vote count
-- Full game-theoretic analysis in the [PoRE Whitepaper](../whitepaper/PoRE_Whitepaper_v1.md)
+- **Technical execution:** deterministic machine-checkable workflow + bounded termination
+- **Blockchain fit:** on-chain settlement commitments + governance lock events
+- **CRE fit:** capability-based workflow and forwarder-mediated delivery path
+- **Originality:** governance target shift (outcome -> inputs)
 
-## Technical highlights
-
-- **Quality-weighted source analysis**: Official sources (q=0.95) dominate over manipulated market prices (q=0.20)
-- **8 deterministic policy gates**: source count, type diversity, deviation, freshness, confidence, conflict, timing, rule-text
-- **Chainlink Price Feed integration**: Live on-chain data for numeric markets
-- **PoreRegistry.sol**: On-chain decision recording
-- **Full audit trail**: SHA-256 hashes for policy, event, evidence, and decision
-
-## Track fit
-
-- **Prediction Markets**: Resolution safety layer against whale manipulation
-- **CRE & AI**: Proposer/challenger + CRE orchestration
-- **Risk & Compliance**: Policy-gated approval with audit trail
-
-## Reproducibility
+## Repro (minimal)
 
 ```bash
-npm test                    # 9/9 passing
-npm run live                # Live Chainlink evaluation
-npm run replay -- --case=data/replay/case-ukraine-deal  # Replay real controversy
+cd /Users/macmini/workspace/igr-protocol
+npm test
+npm run replay -- --case=simulation/input/replay/case-a --policy=configs/policy.v1.json --out=simulation/output/reports
+npm run replay -- --case=simulation/input/replay/case-b --policy=configs/policy.v1.json --out=simulation/output/reports
+npm run replay:package -- --reports=simulation/output/reports --out=simulation/output/replay-package
 ```
 
-Zero external dependencies beyond `ethers`. Node 20+ required.
+## Docs Map
+
+- Whitepaper v2 (concept/spec): `whitepaper/v2/input-governed-resolution.md`
+- Submission spec (judge/demo): `submission/hackathon-spec.md`
+- One-pager (this file): `submission/one-pager.md`

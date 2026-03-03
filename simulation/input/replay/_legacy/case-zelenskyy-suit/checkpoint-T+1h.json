@@ -1,0 +1,61 @@
+{
+  "label": "T+1h",
+  "evaluation_time": "2025-07-06T13:00:00Z",
+  "evidence_records": [
+    {
+      "evidence_id": "zel-8",
+      "event_id": "zelenskyy-suit-before-july",
+      "source_id": "reuters-photo-wire",
+      "source_type": "photo_evidence",
+      "timestamp": "2025-06-27T14:00:00Z",
+      "normalized_value": 0.85,
+      "raw_value": "Reuters photo wire: Zelenskyy at NATO summit in The Hague, June 27, 2025. Dark navy blazer, white collared shirt, matching dark navy trousers. Multiple angles published. Caption: 'Zelenskyy attends NATO leaders meeting.'",
+      "quality_score": 0.95,
+      "notes": "Named resolution source per market rules. Clear formal attire. Question: does blazer = suit jacket?"
+    },
+    {
+      "evidence_id": "zel-9",
+      "event_id": "zelenskyy-suit-before-july",
+      "source_id": "associated-press-photo",
+      "source_type": "photo_evidence",
+      "timestamp": "2025-06-27T15:00:00Z",
+      "normalized_value": 0.80,
+      "raw_value": "AP photo: 'Ukrainian President Zelenskyy arrives at The Hague in formal attire, a notable departure from his wartime military-green look.' Full-length photo shows matching dark ensemble.",
+      "quality_score": 0.95,
+      "notes": "Named resolution source per market rules. AP uses term 'formal attire' not 'suit.'"
+    },
+    {
+      "evidence_id": "zel-10",
+      "event_id": "zelenskyy-suit-before-july",
+      "source_id": "getty-images",
+      "source_type": "photo_evidence",
+      "timestamp": "2025-06-27T16:00:00Z",
+      "normalized_value": 0.90,
+      "raw_value": "Getty Images editorial: High-resolution photos (3 angles). Professional fashion consultant quoted in metadata: 'The fabric on the jacket and trousers appears to be the same material and color — consistent with a two-piece suit.'",
+      "quality_score": 0.95,
+      "notes": "Named resolution source per market rules. Expert analysis suggests matching suit."
+    },
+    {
+      "evidence_id": "zel-11",
+      "event_id": "zelenskyy-suit-before-july",
+      "source_id": "bbc-news-analysis",
+      "source_type": "news",
+      "timestamp": "2025-07-01T09:00:00Z",
+      "normalized_value": 0.40,
+      "raw_value": "BBC World: 'Whether Zelenskyy's attire qualifies as a suit depends on interpretation. A blazer is not technically a suit jacket in fashion terminology — suits traditionally have matching fabric cut from the same bolt. The photos are inconclusive on this detail.'",
+      "quality_score": 0.85,
+      "notes": "Not a named resolution source. Raises legitimate definitional ambiguity."
+    },
+    {
+      "evidence_id": "zel-12",
+      "event_id": "zelenskyy-suit-before-july",
+      "source_id": "polymarket-uma-resolution",
+      "source_type": "market",
+      "timestamp": "2025-07-06T12:00:00Z",
+      "normalized_value": 0.00,
+      "raw_value": "Polymarket resolved NO. UMA governance vote: 2 whales controlling >50% of voting power voted NO. Final vote was near-unanimous (95%+) due to UMA's follow-the-majority incentive structure.",
+      "quality_score": 0.15,
+      "notes": "NOT a resolution source. Market outcome driven by concentrated token voting, not evidence assessment."
+    }
+  ]
+}
