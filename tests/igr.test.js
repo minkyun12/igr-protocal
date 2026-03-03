@@ -17,7 +17,7 @@ test("case-a produces deterministic terminal branch", async () => {
   const outDir = path.join(root, "simulation/output/reports/test-a");
   const results = await replayCase({ caseDir, policyPath, outputDir: outDir, checkpoint: "T+1h" });
   assert.equal(results.length, 1);
-  assert.ok(["FINAL_MATCH", "FINAL_MISMATCH_SPLIT", "FINAL_RERUN_MATCH", "FINAL_RERUN_SPLIT"].includes(results[0].final_state));
+  assert.ok(["FINAL_MATCH", "FINAL_MISMATCH"].includes(results[0].final_state));
 });
 
 test("case-b subjective case settles to deterministic terminal state", async () => {

@@ -5,7 +5,10 @@
   "type": "module",
   "description": "IGR | Input-Governed Resolution",
   "scripts": {
-    "test": "node --test",
+    "test": "npm run test:core",
+    "test:all": "node --test",
+    "test:core": "node --test tests/*.test.js",
+    "test:integration": "MODEL_MODE=llm node --test tests/integration/*.test.js",
     "replay": "node src/cli/replay.js",
     "replay:package": "node src/cli/replay-package.js",
     "evaluate": "node src/cli/evaluate.js",

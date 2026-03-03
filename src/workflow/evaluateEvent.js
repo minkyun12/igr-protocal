@@ -3,6 +3,7 @@ import { compileCanonicalPackage } from "../protocol/compilePackage.js";
 import { runAdjudicator, runAdjudicatorAsync, validateModelOutput } from "../protocol/modelAdapters.js";
 import { settleDeterministically } from "../protocol/settle.js";
 import { fetchChainlinkPrice } from "../evidence/chainlinkFeed.js";
+import { loadGovernancePolicy } from "./governanceConfig.js";
 
 /**
  * Whitepaper §8, §7.1 — full pipeline execution.
@@ -60,10 +61,13 @@ async function getRerunChainlinkFeed() {
 export async function evaluateEvent({ eventSpec, evidenceRecords, policy, chainlinkFeed }) {
   const startedAt = Date.now();
 
+  const governanceResolved = await loadGovernancePolicy(eventSpec, policy);
+  const effectivePolicy = governanceResolved.policy;
+
   const { canonical, packageHash } = compileCanonicalPackage({
     eventSpec,
     evidenceRecords,
-    policy,
+    policy: effectivePolicy,
     chainlinkFeed,
   });
   const [modelA, modelB] = canonical.models;
@@ -98,7 +102,7 @@ export async function evaluateEvent({ eventSpec, evidenceRecords, policy, chainl
     const rerunCompiled = compileCanonicalPackage({
       eventSpec: rerunEventSpec,
       evidenceRecords,
-      policy,
+      policy: effectivePolicy,
       chainlinkFeed: refreshedFeed,
     });
 
@@ -126,6 +130,7 @@ export async function evaluateEvent({ eventSpec, evidenceRecords, policy, chainl
   return {
     run_id: `${eventSpec.event_id}-${new Date().toISOString()}`,
     protocol: "input-governed-resolution",
+    policy_source: governanceResolved.source,
     event_spec: eventSpec,
     canonical_input_package: canonical,
     model_outputs: {

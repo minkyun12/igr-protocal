@@ -30,7 +30,8 @@ Token governance configures **inputs** (model pair, optional sources, advisory p
 
 ```bash
 npm install
-npm test
+npm run test:core
+# optional: npm run test:integration
 ```
 
 Replay real-world cases:
