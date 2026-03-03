@@ -1,0 +1,17 @@
+# CRE workflow settings (target map format expected by CRE CLI)
+
+staging-settings:
+  user-workflow:
+    workflow-name: "igr-settlement-staging"
+  workflow-artifacts:
+    workflow-path: "."
+    config-path: "./config.staging.json"
+    secrets-path: "../secrets.yaml"
+
+production-settings:
+  user-workflow:
+    workflow-name: "igr-settlement-production"
+  workflow-artifacts:
+    workflow-path: "."
+    config-path: "./config.staging.json"
+    secrets-path: "../secrets.yaml"

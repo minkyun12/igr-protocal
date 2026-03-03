@@ -131,13 +131,13 @@ FAQ 원문: "Projects are evaluated based on:"
 
 ---
 
-## F. PoRE 타겟 트랙 및 적합성
+## F. IGR 타겟 트랙 및 적합성
 
 ### Primary: Prediction Markets ($16K)
 
 공식 설명: "systems that enable automated, verifiable settlement of prediction markets based on events, outcomes, or data signals"
 
-- PoRE = AI-powered prediction market settlement engine ✅
+- IGR = AI-powered prediction market settlement engine ✅
 - Event-driven market resolution using offchain data ✅
 - 공식 예시 "AI-powered prediction market settlement"과 **정확히 일치**
 
@@ -145,17 +145,17 @@ FAQ 원문: "Projects are evaluated based on:"
 
 공식 설명: "AI into Web3 workflows to assist with decision-making, automation, or execution"
 
-- PoRE = AI-in-the-loop (proposer/challenger) + CRE orchestration ✅
+- IGR = AI-in-the-loop (proposer/challenger) + CRE orchestration ✅
 
 ### Tertiary: Risk & Compliance ($16K)
 
 공식 설명: "monitoring, safeguards, and automated controls"
 
-- PoRE = 정책 기반 안전장치, 8개 게이트 자동 감시 ✅
+- IGR = 정책 기반 안전장치, 8개 게이트 자동 감시 ✅
 
 ---
 
-## G. PoRE 현재 상태 vs 요구사항 갭 분석
+## G. IGR 현재 상태 vs 요구사항 갭 분석
 
 | 요구사항 | 현재 상태 | 갭 | 우선순위 |
 |----------|-----------|-----|----------|
@@ -171,14 +171,14 @@ FAQ 원문: "Projects are evaluated based on:"
 
 ```
 1. [필수] CRE CLI 설치 + CRE 워크플로우 구현
-   - PoRE 파이프라인을 CRE 워크플로우로 래핑
+   - IGR 파이프라인을 CRE 워크플로우로 래핑
    - `cre simulate` 성공 로그 확보
    
 2. [필수] GitHub push (레포 생성 대기 중)
 
 3. [권장] 데모 영상 v3 — CRE 시뮬레이션 장면 포함
 
-4. [권장] Sepolia 배포 — PoreRegistry.sol
+4. [권장] Sepolia 배포 — IgrRegistry.sol
 
 5. [선택] arXiv 백서 업로드
 ```

@@ -1,0 +1,132 @@
+[
+  {
+    "inputs": [
+      { "internalType": "address", "name": "_authorizedForwarder", "type": "address" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "previousForwarder", "type": "address" },
+      { "indexed": true, "internalType": "address", "name": "newForwarder", "type": "address" }
+    ],
+    "name": "ForwarderUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "previousOwner", "type": "address" },
+      { "indexed": true, "internalType": "address", "name": "newOwner", "type": "address" }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "bytes32", "name": "key", "type": "bytes32" },
+      { "indexed": false, "internalType": "string", "name": "eventId", "type": "string" },
+      { "indexed": false, "internalType": "string", "name": "finalState", "type": "string" },
+      { "indexed": false, "internalType": "bytes32", "name": "decisionHash", "type": "bytes32" }
+    ],
+    "name": "ResolutionRecorded",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "authorizedForwarder",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "key", "type": "bytes32" }
+    ],
+    "name": "getResolution",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "string", "name": "eventId", "type": "string" },
+          { "internalType": "string", "name": "decision", "type": "string" },
+          { "internalType": "string", "name": "finalState", "type": "string" },
+          { "internalType": "string", "name": "reasonCodes", "type": "string" },
+          { "internalType": "bytes32", "name": "decisionHash", "type": "bytes32" },
+          { "internalType": "uint256", "name": "timestamp", "type": "uint256" }
+        ],
+        "internalType": "struct IgrRegistry.Resolution",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes", "name": "metadata", "type": "bytes" },
+      { "internalType": "bytes", "name": "report", "type": "bytes" }
+    ],
+    "name": "onReport",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "eventId", "type": "string" },
+      { "internalType": "string", "name": "decision", "type": "string" },
+      { "internalType": "string", "name": "finalState", "type": "string" },
+      { "internalType": "string", "name": "reasonCodes", "type": "string" },
+      { "internalType": "bytes32", "name": "decisionHash", "type": "bytes32" }
+    ],
+    "name": "record",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "", "type": "bytes32" }
+    ],
+    "name": "resolutions",
+    "outputs": [
+      { "internalType": "string", "name": "eventId", "type": "string" },
+      { "internalType": "string", "name": "decision", "type": "string" },
+      { "internalType": "string", "name": "finalState", "type": "string" },
+      { "internalType": "string", "name": "reasonCodes", "type": "string" },
+      { "internalType": "bytes32", "name": "decisionHash", "type": "bytes32" },
+      { "internalType": "uint256", "name": "timestamp", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "newForwarder", "type": "address" }
+    ],
+    "name": "setAuthorizedForwarder",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "newOwner", "type": "address" }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

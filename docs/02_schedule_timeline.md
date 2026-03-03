@@ -8,13 +8,13 @@
 - **Feb 6**: Hackathon Start
 - **Feb 9–19**: 트랙별 워크숍
 - **Feb 18, 20, 24, 26, 27**: Office Hours
-- **Mar 1, 11:59 PM ET**: Submission Deadline
-- **Mar 20 (TBC)**: Closing Ceremony & Winners
+- **Mar 8, 11:59 PM ET**: Submission Deadline *(기존 Mar 1에서 연장)*
+- **Mar 27 (TBC)**: Closing Ceremony & Winners
 
 ## 한국시간 변환 (KST)
 
 - Start: Feb 6 12:00 PM ET → **Feb 7 02:00 KST**
-- Deadline: Mar 1 11:59 PM ET → **Mar 2 13:59 KST**
+- Deadline: Mar 8 11:59 PM ET → **Mar 9 13:59 KST**
 
 > 주의: 3월 1일은 미국 DST 전(EST)이라 +14시간 계산입니다.
 

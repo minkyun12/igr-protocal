@@ -1,0 +1,13 @@
+{
+  "name": "igr-settlement-workflow",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "echo 'Build handled by CRE CLI'",
+    "simulate": "cre workflow simulate igr-settlement"
+  },
+  "dependencies": {
+    "@chainlink/cre-sdk": "^1.0.1"
+  }
+}

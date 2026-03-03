@@ -1,0 +1,10 @@
+{
+  "marketContract": "${MARKET_CONTRACT_ADDRESS}",
+  "governanceRegistry": "${GOVERNANCE_REGISTRY_ADDRESS}",
+  "priceFeed": "${CHAINLINK_PRICE_FEED_ADDRESS}",
+  "igrRegistry": "${IGR_REGISTRY_ADDRESS}",
+  "forwarder": "${FORWARDER_ADDRESS}",
+  "modelAEndpoint": "${MODEL_A_ENDPOINT}",
+  "modelBEndpoint": "${MODEL_B_ENDPOINT}",
+  "chainId": 11155111
+}

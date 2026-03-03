@@ -1,11 +1,1 @@
-{
-  "policy_version": "v1",
-  "min_sources": 3,
-  "min_source_types": 1,
-  "max_cross_source_deviation_bps": 30,
-  "max_evidence_age_minutes": 90,
-  "min_ai_confidence": 0.75,
-  "max_conflict_score": 0.25,
-  "allow_too_early": false,
-  "require_rule_text_match": true
-}
+policy.json

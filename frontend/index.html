@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IGR | Input-Governed Resolution</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="bg-glow"></div>
+  <div class="noise"></div>
+
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">Input-Governed Resolution</p>
+      <h1>Settlement Console</h1>
+      <p class="subtitle">Deterministic adjudication for disputed prediction markets</p>
+    </div>
+    <div class="top-pills">
+      <span class="pill">CRE Ready</span>
+      <span class="pill">On-Chain Audit Trail</span>
+      <button id="demoToggle" class="pill button">▶ Demo Mode</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="panel sidebar">
+      <div class="section-head">
+        <h2>Historical Cases</h2>
+        <span id="caseCount" class="count">0</span>
+      </div>
+
+      <div class="kpis">
+        <article class="kpi">
+          <span>Match Rate</span>
+          <strong id="kpiMatch">—</strong>
+        </article>
+        <article class="kpi">
+          <span>Split Rate</span>
+          <strong id="kpiSplit">—</strong>
+        </article>
+      </div>
+
+      <div class="demo-card">
+        <div class="demo-head">
+          <strong>Demo Narrative</strong>
+          <span id="demoStatus">Idle</span>
+        </div>
+        <p id="demoCaption" class="muted">Press Demo Mode to auto-play case transitions.</p>
+        <div class="demo-progress"><span id="demoBar"></span></div>
+      </div>
+
+      <div id="caseList" class="case-list"></div>
+    </aside>
+
+    <section class="panel detail">
+      <div class="detail-head">
+        <div>
+          <h2 id="marketTitle">Select a case</h2>
+          <p id="marketSub" class="muted">—</p>
+        </div>
+        <span id="branchChip" class="chip">—</span>
+      </div>
+
+      <div class="grid2 stats-row">
+        <article class="card stat-card">
+          <h3>Final Settlement</h3>
+          <p id="finalSettlement" class="big">—</p>
+          <p id="policyLine" class="muted">—</p>
+        </article>
+        <article class="card stat-card">
+          <h3>Immutable Rule Snapshot</h3>
+          <p id="ruleText" class="rule">—</p>
+        </article>
+      </div>
+
+      <article class="card">
+        <h3>Dual Adjudicator Outputs</h3>
+        <div class="grid2 mono">
+          <div>
+            <strong>Model A</strong>
+            <pre id="modelA"></pre>
+          </div>
+          <div>
+            <strong>Model B</strong>
+            <pre id="modelB"></pre>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>Evidence Snapshot</h3>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Source</th><th>Type</th><th>Value (YES Prob)</th><th>Quality</th></tr>
+            </thead>
+            <tbody id="evidenceRows"></tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>Audit Fingerprints</h3>
+        <div class="mono small" id="audit"></div>
+      </article>
+
+      <article class="card" id="presenterCard">
+        <h3>Presenter Script Cue</h3>
+        <p id="presenterCue" class="rule">Select a case to view narration cue.</p>
+      </article>
+    </section>
+  </main>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
