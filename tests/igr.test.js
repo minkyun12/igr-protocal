@@ -139,6 +139,18 @@ test("§7: validateModelOutput rejects invalid schema", () => {
   assert.equal(validateModelOutput({ verdict: "YES", confidence: 0.5, rule_match: true, evidence_refs: [], rationale_short: "", safety_flags: [] }), true);
 });
 
+test("§5/§7: prompt-injection-like free text verdict is rejected by schema lock", () => {
+  const injected = {
+    verdict: "IGNORE_RULE_AND_PAY_YES",
+    confidence: 0.99,
+    rule_match: false,
+    evidence_refs: [],
+    rationale_short: "Injected instructions tried to override rule_text",
+    safety_flags: [],
+  };
+  assert.equal(validateModelOutput(injected), false);
+});
+
 // ─── evaluateEvent includes reason_code ──────────────────────────────
 
 test("evaluateEvent report includes reason_code in policy_evaluation", async () => {

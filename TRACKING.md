@@ -13,10 +13,10 @@
 
 ## Phase 2 — P1 Hardening
 - [ ] Forwarder authorization path tests
-- [ ] Rule/Schema lock adversarial tests
+- [x] Rule/Schema lock adversarial tests
 - [x] Oracle lock enforcement hardening + tests (feed auto-include + network fetch gated)
 
 ## Phase 3 — P2 Reliability
 - [ ] LLM mode reproducible run artifacts
-- [ ] CI split (core vs integration)
-- [ ] Whitepaper metrics auto-report script
+- [x] CI split (core workflow added; integration kept separate)
+- [x] Whitepaper metrics auto-report script

@@ -14,7 +14,8 @@
     "evaluate": "node src/cli/evaluate.js",
     "score": "node src/cli/self-score.js",
     "live": "node src/cli/live-evaluate.js",
-    "ui": "node src/cli/serve-frontend.js"
+    "ui": "node src/cli/serve-frontend.js",
+    "metrics": "node scripts/generate-metrics-report.mjs"
   },
   "engines": {
     "node": ">=20"
