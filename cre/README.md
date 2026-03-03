@@ -6,7 +6,7 @@ This directory contains the Chainlink Runtime Environment (CRE) scaffold for the
 
 - `project.yaml`
 - `secrets.yaml`
-- `.env.example`
+- `../.env.example` (repository root)
 - `igr-settlement/`
   - `workflow.yaml`
   - `config.staging.json`
