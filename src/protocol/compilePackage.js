@@ -10,25 +10,40 @@ import { sha256Hex } from "../utils/hash.js";
  *  - Chainlink feed auto-included (Oracle Lock §5)
  */
 
-// Oracle Lock source types — always mandatory regardless of governance votes
-const ORACLE_MANDATORY_TYPES = new Set(["official", "onchain_oracle", "chainlink_data_feed"]);
+// Oracle Lock source types — Chainlink class is mandatory and non-governable.
+const ORACLE_MANDATORY_TYPES = new Set(["chainlink_data_feed"]);
 
 function normalizeSource(record) {
+  const rawType = record.source_type || record.type;
+  const sourceId = String(record.source_id || "").toLowerCase();
+  const isChainlinkSource = sourceId.includes("chainlink");
+  const type =
+    isChainlinkSource && (rawType === "price" || rawType === "onchain_oracle" || rawType === "chainlink_data_feed")
+      ? "chainlink_data_feed"
+      : rawType;
   return {
     id: record.evidence_id || record.id,
     source_id: record.source_id,
-    type: record.source_type || record.type,
+    type,
     timestamp: record.timestamp,
-    uri: record.uri || null,
-    hash: sha256Hex({
-      source_id: record.source_id,
-      raw_value: record.raw_value,
-      normalized_value: record.normalized_value,
-      timestamp: record.timestamp,
-    }),
+    uri: record.uri || record.url || null,
+    mime_type: record.mime_type || null,
+    media_type: record.media_type || (typeof type === "string" && ["image", "video", "audio"].includes(type) ? type : null),
+    extracted_text: record.extracted_text || record.ocr_text || null,
+    content_summary: record.content_summary || null,
     normalized_value: record.normalized_value,
     quality_score: record.quality_score ?? null,
     raw_value: record.raw_value ?? null,
+    hash: sha256Hex({
+      source_id: record.source_id,
+      type,
+      uri: record.uri || record.url || null,
+      raw_value: record.raw_value,
+      normalized_value: record.normalized_value,
+      extracted_text: record.extracted_text || record.ocr_text || null,
+      content_summary: record.content_summary || null,
+      timestamp: record.timestamp,
+    }),
   };
 }
 
@@ -67,8 +82,54 @@ function normalizePrompts(votedPrompts) {
   return normalized.map((p) => p.text);
 }
 
+function normalizeGovernanceOptionalSource(entry, idx) {
+  if (!entry) return null;
+
+  if (typeof entry === "string") {
+    const ts = new Date().toISOString();
+    return {
+      id: `gov-src-${idx}`,
+      source_id: `gov-source-${idx}`,
+      type: "governance_optional_source",
+      timestamp: ts,
+      uri: entry,
+      hash: sha256Hex({ uri: entry, idx, timestamp: ts }),
+      normalized_value: null,
+      quality_score: null,
+      raw_value: null,
+    };
+  }
+
+  if (typeof entry === "object") {
+    const ts = entry.timestamp || new Date().toISOString();
+    const uri = entry.uri || entry.url || null;
+    const type = entry.type || "governance_optional_source";
+    const id = entry.id || `gov-src-${idx}`;
+    const sourceId = entry.source_id || `gov-source-${idx}`;
+    return {
+      id,
+      source_id: sourceId,
+      type,
+      timestamp: ts,
+      uri,
+      hash: entry.hash || sha256Hex({ uri, id, sourceId, type, timestamp: ts }),
+      normalized_value: entry.normalized_value ?? null,
+      quality_score: entry.quality_score ?? null,
+      raw_value: entry.raw_value ?? null,
+    };
+  }
+
+  return null;
+}
+
 export function compileCanonicalPackage({ eventSpec, evidenceRecords, policy, chainlinkFeed }) {
   const normalized = evidenceRecords.map(normalizeSource);
+
+  const governanceOptional = Array.isArray(policy.optional_sources)
+    ? policy.optional_sources.map(normalizeGovernanceOptionalSource).filter(Boolean)
+    : [];
+
+  normalized.push(...governanceOptional);
 
   // §6.1: Sources ordered by id
   normalized.sort((a, b) => (a.id > b.id ? 1 : a.id < b.id ? -1 : 0));
