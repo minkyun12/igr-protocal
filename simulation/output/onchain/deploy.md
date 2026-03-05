@@ -1,62 +1,23 @@
 # On-Chain Deployment Evidence
 
-Status: **pending secrets** (RPC + deployer key not provided in environment)
+Status: **deployed**
 
-## Current blocker
-- `RPC_URL` (or `SEPOLIA_RPC_URL`) is missing
-- `PRIVATE_KEY` is missing
-
-Checked via:
-```bash
-node -e "const keys=['PRIVATE_KEY','RPC_URL','RECORDER_RPC_URL','SEPOLIA_RPC_URL']; for (const k of keys) console.log(k, process.env[k] ? 'SET':'MISSING')"
-```
-
-## Prepared deploy script
-A deploy script is ready:
-- `scripts/deploy-sepolia.mjs`
-
-It compiles and deploys:
-- `IgrRegistry.sol`
-- `GovernanceRegistry.sol`
-
-## Run command (once env is set)
-```bash
-cd /Users/macmini/workspace/igr-protocol
-export SEPOLIA_RPC_URL="https://..."
-export PRIVATE_KEY="0x..."
-node scripts/deploy-sepolia.mjs | tee simulation/output/onchain/deploy-output.json
-```
-
-## Output fields (auto-generated)
-- deployer
-- igrRegistry.address / txHash / gasUsed / blockNumber
-- governanceRegistry.address / txHash / gasUsed / blockNumber
-
-## Next steps after deploy
-1. Copy values into this file under final evidence section.
-2. Add Sepolia explorer links for tx hashes.
-3. If needed, call `setAuthorizedForwarder()` and log tx hash.
-4. Execute one `onReport(bytes,bytes)` write and capture event `ResolutionRecorded` tx hash.
-
----
-
-## Final evidence section (fill after deployment)
-
-### Network
+## Network
 - Chain: Sepolia
-- Date:
+- Date: 2026-03-05T11:32:54.375Z
+- Deployer: 0xFD264411bFdab771c6AB656Cc4B89804555d891E
 
-### IgrRegistry
-- Address:
-- Deploy tx hash:
-- Gas used:
+## IgrRegistry
+- Address: 0x96b229A6d5932C8e8d922E9D93A4CcCf556d7824
+- Deploy tx hash: 0x59efc4cae3da22fba30fe072c48ae784e2b78184035a9602f1e5bc3d2d24af68
+- Gas used: 1606707
+- Block number: 10389230
 
-### GovernanceRegistry
-- Address:
-- Deploy tx hash:
-- Gas used:
+## GovernanceRegistry
+- Address: 0xC86586160b857C2EaD1c1c402dAea30558954c89
+- Deploy tx hash: 0x209c63d260583bf348392bd551b6ba7b95aa079bf7b1339398764d05587f4f26
+- Gas used: 3395011
+- Block number: 10389231
 
-### Settlement write proof
-- Tx hash:
-- Gas used:
-- Event: `ResolutionRecorded`
+## Raw artifact
+- `simulation/output/onchain/deploy-output.json`

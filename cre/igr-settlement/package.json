@@ -8,6 +8,7 @@
     "simulate": "cre workflow simulate igr-settlement"
   },
   "dependencies": {
-    "@chainlink/cre-sdk": "^1.0.1"
+    "@chainlink/cre-sdk": "^1.0.1",
+    "ethers": "^6.16.0"
   }
 }

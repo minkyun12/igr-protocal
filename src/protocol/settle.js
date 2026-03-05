@@ -16,11 +16,7 @@ function isDualFailure(outputs) {
 }
 
 function isValid(output) {
-  return (
-    output &&
-    ["YES", "NO"].includes(output.verdict) &&
-    !(output.safety_flags && output.safety_flags.includes("SCHEMA_PERSISTENT_FAILURE"))
-  );
+  return output && ["YES", "NO"].includes(output.verdict);
 }
 
 export function settleDeterministically({ firstRun, rerun }) {

@@ -12,3 +12,8 @@ artifacts/tmp_frames/
 submission/demo-video.silent-draft.mp4
 submission/demo-audio.aiff
 whitepaper/page_*.png
+
+# CRE/local generated
+cre/igr-settlement/.cre_build_tmp.js
+simulation/output/e2e-bundle/*
+!simulation/output/e2e-bundle/.gitkeep

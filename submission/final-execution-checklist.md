@@ -1,6 +1,6 @@
 # IGR Submission Final Execution Checklist
 
-Last updated: 2026-03-02 (KST)
+Last updated: 2026-03-04 (KST)
 
 ## A. Already prepared (assistant-complete)
 - [x] Project rename unified to `igr-protocol`
@@ -10,7 +10,17 @@ Last updated: 2026-03-02 (KST)
   - [x] Appendix D `Determinism` → `Settlement determinism`
   - [x] Extra blank lines after §18/§19 removed
 - [x] Submission docs present (`one-pager`, `hackathon-spec`, `README`)
-- [x] Tests passing (`npm test`)
+- [x] Core tests passing (`npm run test:core`)
+- [x] Integration smoke test added (`tests/integration/smoke.test.js`)
+- [x] Governance optional sources wired into canonical package build path
+- [x] Governance lock schema extended: `mismatchPolicy` + `rerunDelayHours` now lock per market and propagate into runtime policy
+- [x] CRE `onReport(bytes,bytes)` payload upgraded to ABI-encoded report (ethers AbiCoder)
+- [x] CRE workflow keeps `record(...)` fallback for scaffold/runtime compatibility
+- [x] `STRICT_FORWARDER_MODE=1` support added (disables fallback on `onReport` failure)
+- [x] `onReport` ABI payload round-trip tests added (`tests/creReportEncoding.test.js`)
+- [x] Repro bundle exporter added (`npm run artifacts:repro`) for Section 19 artifact set
+- [x] Frontend modular refactor completed (`frontend/modules/**` 도입, `app.js` 599→105 LOC)
+- [x] Frontend architecture doc synced to current module topology (`frontend/ARCHITECTURE.md`)
 
 ## B. Manual-required (user action needed)
 
@@ -22,13 +32,15 @@ Last updated: 2026-03-02 (KST)
 
 Status note:
 - CRE local simulation now succeeds and logs `WorkflowExecutionFinished - Status: SUCCESS`.
-- Current `cre/igr-settlement/main.ts` is a simulation-safe cron smoke path for runtime stability.
+- `cre/igr-settlement/main.ts` now attempts production path first (`onReport(bytes,bytes)` with ABI-encoded report payload), then falls back to `record(...)` for simulation/runtime compatibility.
+- Simulation-safe cron trigger path is still available when `simulationSafe` is enabled.
 
 ### 2) Sepolia deployment proof
 - [ ] Deploy `IgrRegistry.sol` (script ready: `scripts/deploy-sepolia.mjs`)
 - [ ] Deploy `GovernanceRegistry.sol`
 - [ ] Capture contract addresses + tx hashes
 - [ ] Record measured gas (not estimate only)
+- [x] Deployment evidence auto-writer added: `simulation/output/onchain/deploy-output.json` + `simulation/output/onchain/deploy.md`
 
 Current blocker:
 - missing `SEPOLIA_RPC_URL` + `PRIVATE_KEY` env vars on this runtime
@@ -47,6 +59,11 @@ Create/update these files after CRE + Sepolia:
 - `simulation/output/cre-sim/decision.json`
 - `simulation/output/cre-sim/hashes.txt`
 - `simulation/output/onchain/deploy.md`
+
+Automation notes:
+- Repro bundle generation: `npm run artifacts:repro -- simulation/output/cre-sim simulation/input/replay/case-a checkpoint-T+1h.json`
+- Optional real CRE log copy: add 4th arg as source simulate.log path
+- Deploy evidence generation happens automatically when `node scripts/deploy-sepolia.mjs` succeeds
 
 ## D. Final gate
 - [ ] `npm test` passes on final commit

@@ -40,7 +40,7 @@ test("evaluateEvent returns canonical package + settlement", async () => {
     numeric_rule: { operator: ">=", threshold: 100 }
   };
   const evidenceRecords = [
-    { evidence_id: "e1", event_id: "demo-main", source_id: "s1", source_type: "onchain_oracle", timestamp: "2026-03-01T01:00:00Z", normalized_value: 101, quality_score: 0.9 },
+    { evidence_id: "e1", event_id: "demo-main", source_id: "chainlink", source_type: "price", timestamp: "2026-03-01T01:00:00Z", normalized_value: 101, quality_score: 0.9 },
     { evidence_id: "e2", event_id: "demo-main", source_id: "s2", source_type: "cex_spot", timestamp: "2026-03-01T01:00:00Z", normalized_value: 99, quality_score: 0.7 },
     { evidence_id: "e3", event_id: "demo-main", source_id: "s3", source_type: "aggregator", timestamp: "2026-03-01T01:00:00Z", normalized_value: 100, quality_score: 0.6 }
   ];
@@ -83,6 +83,28 @@ test("§7.1: dual failure on initial → forced split_immediate", () => {
   assert.equal(result.rerun_used, false);
 });
 
+test("§7.1: one persistent failure + other NO -> FINAL_MATCH NO", () => {
+  const persistentFailNo = {
+    verdict: "NO", confidence: 0, rule_match: false,
+    evidence_refs: [], rationale_short: "fallback",
+    safety_flags: ["SCHEMA_PERSISTENT_FAILURE", "TIMEOUT_OR_TRANSPORT_FAILURE"],
+  };
+  const normalNo = {
+    verdict: "NO", confidence: 0.8, rule_match: true,
+    evidence_refs: ["e1"], rationale_short: "normal no",
+    safety_flags: [],
+  };
+
+  const result = settleDeterministically({
+    firstRun: { policy: "rerun_once_then_split", outputs: [persistentFailNo, normalNo] },
+    rerun: { outputs: [persistentFailNo, normalNo] },
+  });
+
+  assert.equal(result.branch_code, "FINAL_MATCH");
+  assert.equal(result.final_settlement, "NO");
+  assert.equal(result.reason_code, "MATCH_INITIAL");
+});
+
 // ─── §8 Branch codes match whitepaper ────────────────────────────────
 
 test("§8.1: match branch returns FINAL_MATCH with reason", () => {
@@ -114,15 +136,16 @@ test("§6.1: sources sorted by id, oracle types in mandatory", () => {
   const eventSpec = { market_id: "test", question: "Q?", rule_text: "R", evaluation_time: "2026-01-01T00:00:00Z" };
   const records = [
     { evidence_id: "z-src", source_id: "z", source_type: "news", timestamp: "t", normalized_value: 1 },
-    { evidence_id: "a-src", source_id: "a", source_type: "onchain_oracle", timestamp: "t", normalized_value: 1 },
+    { evidence_id: "a-src", source_id: "chainlink", source_type: "price", timestamp: "t", normalized_value: 1 },
     { evidence_id: "m-src", source_id: "m", source_type: "price", timestamp: "t", normalized_value: 1 },
   ];
   const policy = { models: ["A", "B"], mismatch_policy: "split_immediate" };
   const { canonical } = compileCanonicalPackage({ eventSpec, evidenceRecords: records, policy });
 
-  // Oracle mandatory: onchain_oracle type
+  // Oracle mandatory: chainlink_data_feed type only
   assert.equal(canonical.oracle_mandatory_sources.length, 1);
   assert.equal(canonical.oracle_mandatory_sources[0].id, "a-src");
+  assert.equal(canonical.oracle_mandatory_sources[0].type, "chainlink_data_feed");
   // Voted sources sorted by id
   assert.equal(canonical.voted_sources[0].id, "m-src");
   assert.equal(canonical.voted_sources[1].id, "z-src");
@@ -161,7 +184,7 @@ test("evaluateEvent report includes reason_code in policy_evaluation", async () 
     numeric_rule: { operator: ">=", threshold: 100 },
   };
   const records = [
-    { evidence_id: "e1", event_id: "reason-test", source_id: "s1", source_type: "onchain_oracle", timestamp: "2026-01-01T01:00:00Z", normalized_value: 101, quality_score: 0.9 },
+    { evidence_id: "e1", event_id: "reason-test", source_id: "chainlink", source_type: "price", timestamp: "2026-01-01T01:00:00Z", normalized_value: 101, quality_score: 0.9 },
   ];
   const report = await evaluateEvent({ eventSpec, evidenceRecords: records, policy });
   assert.ok(report.settlement.reason_code);

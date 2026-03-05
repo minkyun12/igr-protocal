@@ -7,5 +7,11 @@
     "Return strict JSON only."
   ],
   "mismatch_policy": "rerun_once_then_split",
-  "rerun_delay_hours": 12
+  "rerun_delay_hours": 12,
+  "require_oracle_mandatory": true,
+  "require_cross_vendor": true,
+  "model_vendors": {
+    "adjudicatorA": "openai",
+    "adjudicatorB": "anthropic"
+  }
 }

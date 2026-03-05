@@ -1,4 +1,6 @@
-import { readFile } from 'node:fs/promises';
+import { readFile, mkdir, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import solc from 'solc';
 import { ethers } from 'ethers';
 
@@ -30,6 +32,10 @@ function compile(fileName, contractName) {
   });
 }
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ROOT = path.resolve(__dirname, '..');
+const ONCHAIN_OUT_DIR = path.join(ROOT, 'simulation/output/onchain');
+
 const provider = new ethers.JsonRpcProvider(RPC_URL);
 const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
 
@@ -46,8 +52,9 @@ const GovFactory = new ethers.ContractFactory(govCompiled.abi, govCompiled.bytec
 const gov = await GovFactory.deploy();
 const govReceipt = await gov.deploymentTransaction().wait();
 
-console.log(JSON.stringify({
+const result = {
   network: 'sepolia',
+  deployedAt: new Date().toISOString(),
   deployer: wallet.address,
   igrRegistry: {
     address: await igr.getAddress(),
@@ -61,4 +68,15 @@ console.log(JSON.stringify({
     gasUsed: govReceipt.gasUsed.toString(),
     blockNumber: govReceipt.blockNumber
   }
-}, null, 2));
+};
+
+await mkdir(ONCHAIN_OUT_DIR, { recursive: true });
+await writeFile(path.join(ONCHAIN_OUT_DIR, 'deploy-output.json'), `${JSON.stringify(result, null, 2)}\n`, 'utf8');
+
+const deployMd = `# On-Chain Deployment Evidence\n\nStatus: **deployed**\n\n## Network\n- Chain: Sepolia\n- Date: ${result.deployedAt}\n- Deployer: ${result.deployer}\n\n## IgrRegistry\n- Address: ${result.igrRegistry.address}\n- Deploy tx hash: ${result.igrRegistry.txHash}\n- Gas used: ${result.igrRegistry.gasUsed}\n- Block number: ${result.igrRegistry.blockNumber}\n\n## GovernanceRegistry\n- Address: ${result.governanceRegistry.address}\n- Deploy tx hash: ${result.governanceRegistry.txHash}\n- Gas used: ${result.governanceRegistry.gasUsed}\n- Block number: ${result.governanceRegistry.blockNumber}\n\n## Raw artifact\n- \`simulation/output/onchain/deploy-output.json\`\n`;
+
+await writeFile(path.join(ONCHAIN_OUT_DIR, 'deploy.md'), deployMd, 'utf8');
+
+console.log(JSON.stringify(result, null, 2));
+console.error(`wrote: ${path.join(ONCHAIN_OUT_DIR, 'deploy-output.json')}`);
+console.error(`wrote: ${path.join(ONCHAIN_OUT_DIR, 'deploy.md')}`);

@@ -1,30 +1,32 @@
-# CRE Simulation Artifacts (Pending Login)
+# CRE Simulation Artifacts (Current Status)
 
-Current blocker: CRE CLI authentication required.
+Status: **local simulation artifacts generated successfully**.
 
-Observed error:
-- `authentication required: you are not logged in, run cre login and try again`
+This directory contains a reproducibility bundle produced from the simulation-safe workflow path.
 
-## Run sequence (after login)
+## Scope clarity
 
-```bash
-cd /Users/macmini/workspace/igr-protocol/cre
-~/.cre/bin/cre login
-~/.cre/bin/cre whoami
-bash run-sim.sh
-```
+- ✅ Completed without extra secrets: local simulation bundle generation and hash verification artifacts
+- ⛔ Requires credentials/secrets: CRE account login for org-bound validation/deployment, Sepolia on-chain write proof, external LLM API replay
 
-## Expected outputs in this directory
+## Artifact files in this directory
 
-- `simulate.log` (full CLI output)
+- `simulate.log` (CLI run output)
 - `input-package.json` (canonical package snapshot)
 - `model-output-a.json`
 - `model-output-b.json`
 - `decision.json`
 - `hashes.txt` (`package_hash`, `decision_hash`, output hashes)
+- `simulation-summary.md`
 
-## Verification checklist
+## Optional credential-dependent validation
 
-- Workflow simulate command exits 0
-- Report payload decodable for `IgrRegistry.onReport(bytes,bytes)`
-- `decision_hash` recompute matches `decision.json`
+```bash
+cd /Users/macmini/workspace/igr-protocol/cre
+~/.cre/bin/cre login
+~/.cre/bin/cre whoami
+~/.cre/bin/cre workflow validate igr-settlement
+~/.cre/bin/cre workflow simulate igr-settlement --config igr-settlement/config.staging.json
+```
+
+Use these only when CRE credentials are available.

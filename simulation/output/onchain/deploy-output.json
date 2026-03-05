@@ -1,0 +1,17 @@
+{
+  "network": "sepolia",
+  "deployedAt": "2026-03-05T11:32:54.375Z",
+  "deployer": "0xFD264411bFdab771c6AB656Cc4B89804555d891E",
+  "igrRegistry": {
+    "address": "0x96b229A6d5932C8e8d922E9D93A4CcCf556d7824",
+    "txHash": "0x59efc4cae3da22fba30fe072c48ae784e2b78184035a9602f1e5bc3d2d24af68",
+    "gasUsed": "1606707",
+    "blockNumber": 10389230
+  },
+  "governanceRegistry": {
+    "address": "0xC86586160b857C2EaD1c1c402dAea30558954c89",
+    "txHash": "0x209c63d260583bf348392bd551b6ba7b95aa079bf7b1339398764d05587f4f26",
+    "gasUsed": "3395011",
+    "blockNumber": 10389231
+  }
+}
