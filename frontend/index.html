@@ -3,117 +3,240 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IGR | Input-Governed Resolution</title>
+  <title>IGR Market Console</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <div class="bg-glow"></div>
-  <div class="noise"></div>
-
   <header class="topbar">
     <div>
-      <p class="eyebrow">Input-Governed Resolution</p>
-      <h1>Settlement Console</h1>
-      <p class="subtitle">Deterministic adjudication for disputed prediction markets</p>
+      <p class="eyebrow">IGR • Input-Governed Resolution</p>
+      <h1>Markets & Resolution Desk</h1>
+      <p class="sub">UMA-style market workflow UI for deterministic adjudication</p>
     </div>
-    <div class="top-pills">
-      <span class="pill">CRE Ready</span>
-      <span class="pill">On-Chain Audit Trail</span>
-      <button id="demoToggle" class="pill button">▶ Demo Mode</button>
+    <div class="top-actions">
+      <button id="themeToggle" class="theme-switch" aria-label="Toggle theme" aria-pressed="false">
+        <span class="switch-track"><span class="switch-thumb" id="themeThumb">☀</span></span>
+        <span id="themeLabel">Light</span>
+      </button>
+      <span id="dataMode" class="state-pill match">DATA: MOCK</span>
+      <button id="refreshBtn" class="ghost">Refresh</button>
+      <button class="ghost">Export Report</button>
+      <button class="ghost">Open Governance</button>
+      <button id="demoToggle" class="primary">▶ Demo</button>
     </div>
   </header>
 
-  <main class="layout">
-    <aside class="panel sidebar">
-      <div class="section-head">
-        <h2>Historical Cases</h2>
-        <span id="caseCount" class="count">0</span>
+  <section class="trust-strip panel" aria-label="Protocol trust state">
+    <span id="trustLock" class="state-pill match">LOCK: UNKNOWN</span>
+    <span id="trustOracle" class="state-pill match">ORACLE: UNKNOWN</span>
+    <span id="trustRerunMode" class="state-pill mismatch">RERUN: UNKNOWN</span>
+    <span id="trustFreshness" class="state-pill">FRESHNESS: --</span>
+  </section>
+
+
+  <section class="global-kpis panel">
+    <article><span>Active Markets</span><strong id="gActive">0</strong></article>
+    <article><span>Resolved Match</span><strong id="gMatch">0</strong></article>
+    <article><span>Disputed / Split Path</span><strong id="gDispute">0</strong></article>
+    <article><span>Avg Confidence Δ</span><strong id="gSpread">0%</strong></article>
+  </section>
+
+  <main class="app-grid">
+    <section class="panel market-panel">
+      <div class="panel-head">
+        <h2>Markets</h2>
+        <span id="marketCount" class="mono badge">0</span>
       </div>
 
-      <div class="kpis">
-        <article class="kpi">
-          <span>Match Rate</span>
-          <strong id="kpiMatch">—</strong>
-        </article>
-        <article class="kpi">
-          <span>Split Rate</span>
-          <strong id="kpiSplit">—</strong>
-        </article>
+      <div class="toolbar">
+        <input id="searchInput" type="text" placeholder="Search market or case..." />
+        <select id="statusFilter">
+          <option value="all">All States</option>
+          <option value="FINAL_MATCH">FINAL_MATCH</option>
+          <option value="FINAL_MISMATCH">FINAL_MISMATCH</option>
+        </select>
       </div>
 
-      <div class="demo-card">
-        <div class="demo-head">
-          <strong>Demo Narrative</strong>
-          <span id="demoStatus">Idle</span>
-        </div>
-        <p id="demoCaption" class="muted">Press Demo Mode to auto-play case transitions.</p>
-        <div class="demo-progress"><span id="demoBar"></span></div>
+      <div class="market-table-wrap">
+        <table class="market-table" id="marketTable">
+          <thead>
+            <tr>
+              <th>Market</th>
+              <th>State</th>
+              <th>Settlement</th>
+              <th>Confidence Δ</th>
+              <th>Evidence</th>
+            </tr>
+          </thead>
+          <tbody id="marketRows"></tbody>
+        </table>
       </div>
+    </section>
 
-      <div id="caseList" class="case-list"></div>
-    </aside>
-
-    <section class="panel detail">
+    <section class="panel detail-panel">
       <div class="detail-head">
         <div>
-          <h2 id="marketTitle">Select a case</h2>
-          <p id="marketSub" class="muted">—</p>
+          <h2 id="detailTitle">Select market</h2>
+          <p id="detailSub" class="muted">—</p>
         </div>
-        <span id="branchChip" class="chip">—</span>
+        <span id="stateChip" class="chip">—</span>
       </div>
 
-      <div class="grid2 stats-row">
-        <article class="card stat-card">
-          <h3>Final Settlement</h3>
-          <p id="finalSettlement" class="big">—</p>
-          <p id="policyLine" class="muted">—</p>
+      <div class="kpi-row">
+        <article class="kpi">
+          <span>Final Settlement</span>
+          <strong id="kpiSettlement">—</strong>
         </article>
-        <article class="card stat-card">
-          <h3>Immutable Rule Snapshot</h3>
+        <article class="kpi">
+          <span>Policy</span>
+          <strong id="kpiPolicy">—</strong>
+        </article>
+        <article class="kpi">
+          <span>Confidence Spread</span>
+          <strong id="kpiSpread">—</strong>
+        </article>
+      </div>
+
+      <div class="grid2">
+        <article class="card">
+          <h3>Market Signal Chart (Mock)</h3>
+          <svg id="signalChart" class="signal-chart" viewBox="0 0 600 160" preserveAspectRatio="none"></svg>
+        </article>
+        <article class="card">
+          <h3>Orderbook Depth (Mock)</h3>
+          <svg id="depthChart" class="signal-chart" viewBox="0 0 600 160" preserveAspectRatio="none"></svg>
+        </article>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="Detail tabs">
+        <button class="tab active" role="tab" aria-selected="true" aria-controls="tab-adjudication" id="tab-btn-adjudication" data-tab="adjudication">Adjudication</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="tab-evidence" id="tab-btn-evidence" data-tab="evidence">Evidence Feed</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="tab-actions" id="tab-btn-actions" data-tab="actions">Propose/Dispute</button>
+        <button class="tab" role="tab" aria-selected="false" aria-controls="tab-audit" id="tab-btn-audit" data-tab="audit">Audit</button>
+      </div>
+
+      <div id="tab-adjudication" class="tab-panel active" role="tabpanel" aria-labelledby="tab-btn-adjudication" tabindex="0">
+        <div class="grid2">
+          <article class="card">
+            <h3>Model A</h3>
+            <pre id="modelA"></pre>
+          </article>
+          <article class="card">
+            <h3>Model B</h3>
+            <pre id="modelB"></pre>
+          </article>
+        </div>
+        <article class="card">
+          <h3>Canonical Rule</h3>
           <p id="ruleText" class="rule">—</p>
         </article>
       </div>
 
-      <article class="card">
-        <h3>Dual Adjudicator Outputs</h3>
-        <div class="grid2 mono">
-          <div>
-            <strong>Model A</strong>
-            <pre id="modelA"></pre>
-          </div>
-          <div>
-            <strong>Model B</strong>
-            <pre id="modelB"></pre>
-          </div>
-        </div>
-      </article>
-
-      <article class="card">
-        <h3>Evidence Snapshot</h3>
-        <div class="table-wrap">
-          <table>
+      <div id="tab-evidence" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-evidence" tabindex="0">
+        <article class="card no-pad">
+          <table class="evidence-table">
             <thead>
-              <tr><th>Source</th><th>Type</th><th>Value (YES Prob)</th><th>Quality</th></tr>
+              <tr>
+                <th>Source</th>
+                <th>Type</th>
+                <th>Signal</th>
+                <th>Quality</th>
+                <th>Notes</th>
+              </tr>
             </thead>
             <tbody id="evidenceRows"></tbody>
           </table>
+        </article>
+      </div>
+
+      <div id="tab-actions" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-actions" tabindex="0">
+        <div class="grid2">
+          <article class="card">
+            <h3>Propose Outcome</h3>
+            <p class="muted">Mock workflow UI for UMA-like flow.</p>
+            <div class="action-row">
+              <button id="proposeYesBtn" class="primary small">Propose YES</button>
+              <button id="proposeNoBtn" class="primary small alt">Propose NO</button>
+            </div>
+          </article>
+          <article class="card">
+            <h3>Dispute / Escalate</h3>
+            <p class="muted">Challenge current outcome and trigger rerun/escalation.</p>
+            <div class="action-row">
+              <button id="openDispute" class="ghost small">Dispute Outcome</button>
+              <button id="escalateBtn" class="ghost small">Escalate</button>
+            </div>
+          </article>
         </div>
-      </article>
 
-      <article class="card">
-        <h3>Audit Fingerprints</h3>
-        <div class="mono small" id="audit"></div>
-      </article>
+        <article class="card">
+          <h3>Token-holder Governance (Demo)</h3>
+          <p class="muted">Evidence submission + proposal vote/lock flow (no-token mock mode).</p>
+          <div class="action-row">
+            <button id="addEvidenceBtn" class="ghost small">Add Evidence</button>
+            <button id="voteYesBtn" class="primary small">Vote YES</button>
+            <button id="voteNoBtn" class="primary small alt">Vote NO</button>
+            <button id="lockConfigBtn" class="ghost small">Lock Config</button>
+          </div>
+        </article>
 
-      <article class="card" id="presenterCard">
-        <h3>Presenter Script Cue</h3>
-        <p id="presenterCue" class="rule">Select a case to view narration cue.</p>
-      </article>
+        <article class="card">
+          <h3>Governance Proposal History</h3>
+          <table class="evidence-table">
+            <thead><tr><th>Proposal</th><th>Change</th><th>Status</th><th>Quorum</th><th>ETA</th><th>Config Hash</th></tr></thead>
+            <tbody id="govRows"></tbody>
+          </table>
+        </article>
+
+        <article class="card">
+          <h3>Presenter Cue</h3>
+          <p id="presenterCue" class="rule">—</p>
+        </article>
+      </div>
+
+      <div id="tab-audit" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-audit" tabindex="0">
+        <article class="card">
+          <h3>Audit Fingerprints</h3>
+          <pre id="auditBox"></pre>
+        </article>
+        <article class="card">
+          <h3>Dispute State Machine</h3>
+          <div id="stateFlow" class="flow"></div>
+        </article>
+        <article class="card">
+          <h3>Evidence Timeline</h3>
+          <div id="timeline" class="timeline"></div>
+        </article>
+      </div>
     </section>
   </main>
+
+  <div id="disputeModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="disputeTitle">
+    <div class="modal-card" tabindex="-1">
+      <h3 id="disputeTitle">Open Dispute</h3>
+      <p class="muted">Submit a dispute note for the currently selected market.</p>
+      <textarea id="disputeText" placeholder="Why should this outcome be challenged?"></textarea>
+      <div class="action-row">
+        <button id="closeDispute" class="ghost small">Cancel</button>
+        <button id="submitDispute" class="primary small">Submit Dispute</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="proposalModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="proposalTitle">
+    <div class="modal-card" tabindex="-1">
+      <h3 id="proposalTitle">Proposal Detail</h3>
+      <pre id="proposalDetail"></pre>
+      <div class="action-row">
+        <button id="closeProposal" class="ghost small">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" aria-live="polite"></div>
 
   <script type="module" src="./app.js"></script>
 </body>

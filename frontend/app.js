@@ -1,167 +1,105 @@
-const res = await fetch('./cases.json');
-const cases = await res.json();
+import { spreadOf, isMismatch, stateClass, shortQ } from './modules/utils/format.js';
+import { showToast as showToastUI } from './modules/utils/dom.js';
+import { updateTrustStrip } from './modules/render/trust.js';
+import { renderGlobalKpis } from './modules/render/kpis.js';
+import { renderTable as renderTableView } from './modules/render/table.js';
+import { renderGovHistory } from './modules/render/governance.js';
+import { renderTimeline, renderSignalChart, renderStateFlow } from './modules/render/charts.js';
+import { renderDetailCore, cue } from './modules/render/detail.js';
+import { loadCases, postJSON } from './modules/api.js';
+import { setupTabs } from './modules/features/tabs.js';
+import { setupDemo } from './modules/features/demo.js';
+import { setupTheme } from './modules/features/theme.js';
+import { setupDisputeModal } from './modules/features/modals.js';
+import { setupActionButtons } from './modules/features/actions.js';
+import { bindElements } from './modules/elements.js';
+import { createState, activeCase, setCases } from './modules/state.js';
 
-const listEl = document.getElementById('caseList');
-const countEl = document.getElementById('caseCount');
-const demoToggle = document.getElementById('demoToggle');
-const demoStatus = document.getElementById('demoStatus');
-const demoCaption = document.getElementById('demoCaption');
-const demoBar = document.getElementById('demoBar');
-const presenterCue = document.getElementById('presenterCue');
+const boot = await loadCases();
+const el = bindElements();
+const state = createState(boot.cases);
 
-let demoRunning = false;
-let demoTimer = null;
-let demoTick = null;
-let activeIdx = 0;
+const showToast = (m, level = 'success') => showToastUI(el.toast, m, level);
+const getActive = () => activeCase(state);
 
-function short(hash = '') {
-  return hash ? `${hash.slice(0, 18)}…` : '-';
+function paintDataMode(mode) {
+  if (!el.dataMode) return;
+  el.dataMode.textContent = `DATA: ${mode}`;
+  el.dataMode.classList.remove('match', 'mismatch');
+  el.dataMode.classList.add(mode === 'LIVE' ? 'match' : 'mismatch');
 }
 
-function pct(n) {
-  return `${(n * 100).toFixed(0)}%`;
+async function refreshGovernanceView() {
+  const c = getActive();
+  if (c) await renderGovHistory(el, c);
 }
 
-function isSplit(branch = '') {
-  return branch.includes('SPLIT') || branch.includes('MISMATCH');
+function renderDetail(c) {
+  if (!renderDetailCore(el, c, { stateClass, spreadOf })) return;
+  renderGovHistory(el, c);
+  renderTimeline(el, c);
+  renderSignalChart(el, c);
+  renderStateFlow(el, c, { isMismatch });
+  el.presenterCue.textContent = cue(c, { isMismatch });
+  updateTrustStrip(el, c);
 }
 
-function fillKPIs(items) {
-  const total = items.length || 1;
-  const splitCount = items.filter((c) => isSplit(c.settlement?.branch_code)).length;
-  const matchCount = total - splitCount;
-
-  document.getElementById('kpiMatch').textContent = `${pct(matchCount / total)}`;
-  document.getElementById('kpiSplit').textContent = `${pct(splitCount / total)}`;
-  countEl.textContent = `${items.length}`;
+function renderTable() {
+  renderTableView(el, state.filtered, state.activeCaseId, {
+    stateClass,
+    spreadOf,
+    shortQ,
+    onSelect: (id) => {
+      state.activeCaseId = id;
+      renderTable();
+      renderDetail(getActive());
+    },
+  });
 }
 
-function cueFor(c) {
-  const settlement = c.settlement.final_settlement;
-  const branch = c.settlement.branch_code;
-  if (isSplit(branch)) {
-    return `This case demonstrates IGR safety behavior: disagreement remains unresolved, so the protocol exits with neutral split settlement.`;
+async function applyFilter() {
+  const q = el.searchInput.value.trim().toLowerCase();
+  const stateFilter = el.statusFilter.value;
+
+  state.filtered = state.allCases.filter((c) => {
+    const inText = c.case_id.toLowerCase().includes(q)
+      || c.market.market_id.toLowerCase().includes(q)
+      || c.market.question.toLowerCase().includes(q);
+    const inState = stateFilter === 'all' ? true : c.settlement.branch_code === stateFilter;
+    return inText && inState;
+  });
+
+  if (!state.filtered.some((c) => c.case_id === state.activeCaseId)) {
+    state.activeCaseId = state.filtered[0]?.case_id;
   }
-  return `Both adjudicators converged to ${settlement}. This is the deterministic fast path with no discretionary override.`;
+
+  await renderGlobalKpis(el, state.filtered, { isMismatch, spreadOf });
+  renderTable();
+  renderDetail(getActive());
 }
 
-function renderCase(c, idx = 0) {
-  activeIdx = idx;
+setupTheme(el);
+paintDataMode(boot.mode);
 
-  const branch = c.settlement.branch_code;
-  const settlement = c.settlement.final_settlement;
-
-  document.getElementById('marketTitle').textContent = c.market.question;
-  document.getElementById('marketSub').textContent = `${c.case_id} · ${c.market.market_id}`;
-
-  const chip = document.getElementById('branchChip');
-  chip.textContent = branch;
-  chip.classList.remove('match', 'split');
-  chip.classList.add(isSplit(branch) ? 'split' : 'match');
-
-  document.getElementById('ruleText').textContent = c.market.rule_text;
-  document.getElementById('finalSettlement').textContent = settlement;
-  document.getElementById('policyLine').textContent = `Policy: ${c.policy.mismatch_policy} · rerun ${c.policy.rerun_delay_hours}h`;
-
-  document.getElementById('modelA').textContent = JSON.stringify(c.model_outputs.first_run.adjudicatorA, null, 2);
-  document.getElementById('modelB').textContent = JSON.stringify(c.model_outputs.first_run.adjudicatorB, null, 2);
-
-  const rows = c.evidence.map((e) => {
-    const yesProb = Number(e.normalized_value);
-    const quality = e.quality_score == null ? '-' : Number(e.quality_score).toFixed(2);
-    return `
-      <tr>
-        <td>${e.source_id}</td>
-        <td>${e.source_type}</td>
-        <td>${Number.isFinite(yesProb) ? yesProb.toFixed(2) : '-'}</td>
-        <td>${quality}</td>
-      </tr>
-    `;
-  }).join('');
-
-  document.getElementById('evidenceRows').innerHTML = rows;
-
-  document.getElementById('audit').textContent =
-`package_hash     ${short(c.audit.package_hash)}
-policy_hash      ${short(c.audit.policy_hash)}
-model_pair_hash  ${short(c.audit.model_pair_hash)}
-decision_hash    ${short(c.audit.decision_hash)}`;
-
-  presenterCue.textContent = cueFor(c);
-}
-
-function createCaseItem(c, idx) {
-  const item = document.createElement('button');
-  item.className = 'case-item';
-  item.innerHTML = `
-    <strong>${c.case_id}</strong><br>
-    <small>${c.settlement.branch_code} · ${c.settlement.final_settlement}</small>
-  `;
-
-  item.onclick = () => {
-    [...listEl.children].forEach((el) => el.classList.remove('active'));
-    item.classList.add('active');
-    renderCase(c, idx);
-  };
-
-  listEl.appendChild(item);
-  if (idx === 0) item.click();
-}
-
-function setActiveByIndex(idx) {
-  const item = listEl.children[idx];
-  if (!item) return;
-  [...listEl.children].forEach((el) => el.classList.remove('active'));
-  item.classList.add('active');
-  renderCase(cases[idx], idx);
-}
-
-function stopDemo() {
-  demoRunning = false;
-  demoToggle.classList.remove('active');
-  demoToggle.textContent = '▶ Demo Mode';
-  demoStatus.textContent = 'Idle';
-  demoCaption.textContent = 'Press Demo Mode to auto-play case transitions.';
-  demoBar.style.width = '0%';
-  if (demoTimer) clearTimeout(demoTimer);
-  if (demoTick) clearInterval(demoTick);
-}
-
-function startDemo() {
-  demoRunning = true;
-  demoToggle.classList.add('active');
-  demoToggle.textContent = '■ Stop Demo';
-  demoStatus.textContent = 'Running';
-
-  const durationMs = 5000;
-
-  const runStep = () => {
-    if (!demoRunning) return;
-
-    activeIdx = (activeIdx + 1) % cases.length;
-    setActiveByIndex(activeIdx);
-    demoCaption.textContent = `Now presenting ${cases[activeIdx].case_id} (${cases[activeIdx].settlement.branch_code})`;
-
-    let elapsed = 0;
-    demoBar.style.width = '0%';
-    if (demoTick) clearInterval(demoTick);
-    demoTick = setInterval(() => {
-      elapsed += 100;
-      const p = Math.min((elapsed / durationMs) * 100, 100);
-      demoBar.style.width = `${p}%`;
-    }, 100);
-
-    if (demoTimer) clearTimeout(demoTimer);
-    demoTimer = setTimeout(runStep, durationMs);
-  };
-
-  runStep();
-}
-
-demoToggle.addEventListener('click', () => {
-  if (demoRunning) stopDemo();
-  else startDemo();
+el.searchInput.addEventListener('input', applyFilter);
+el.statusFilter.addEventListener('change', applyFilter);
+el.refreshBtn?.addEventListener('click', async () => {
+  const fresh = await loadCases();
+  setCases(state, fresh.cases);
+  paintDataMode(fresh.mode);
+  await applyFilter();
 });
 
-fillKPIs(cases);
-cases.forEach(createCaseItem);
+setupTabs();
+setupDemo({
+  el,
+  getFiltered: () => state.filtered,
+  getActiveCaseId: () => state.activeCaseId,
+  setActiveCaseId: (id) => { state.activeCaseId = id; },
+  renderTable,
+  renderDetail,
+});
+setupDisputeModal({ el, postJSON, showToast, getActive });
+setupActionButtons({ el, postJSON, showToast, getActive, refreshGovernanceView });
+
+applyFilter();
