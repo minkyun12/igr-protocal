@@ -3,11 +3,15 @@
 **Token-Governed AI Input Configuration for Deterministic Automatic Resolution**
 
 Deterministic automatic settlement protocol for binary prediction markets.
-Token governance configures **inputs** (model pair, optional sources, advisory prompts), while protocol locks keep settlement finite and auditable.
+Token governance configures **inputs** (model pair, optional sources, advisory prompts) and pre-lock settlement profile (`mismatchPolicy`, `rerunDelayHours`). Once `lockForMarket()` executes, the full config is immutable for that market, and protocol locks keep settlement finite and auditable.
 
 **Documents**
-- Whitepaper (concept/spec): [`whitepaper/v2/input-governed-resolution.md`](whitepaper/v2/input-governed-resolution.md)
+- Whitepaper (concept/spec): [`whitepaper/input-governed-resolution.md`](whitepaper/input-governed-resolution.md)
 - Hackathon submission spec: [`submission/hackathon-spec.md`](submission/hackathon-spec.md)
+- One-pager: [`submission/one-pager.md`](submission/one-pager.md)
+- Claim-evidence map: [`submission/claim-evidence-map.md`](submission/claim-evidence-map.md)
+- Final review one-pager: [`submission/final-review-onepager.md`](submission/final-review-onepager.md)
+- Evidence snapshot (judge-friendly): [`submission/evidence-snapshot/README.md`](submission/evidence-snapshot/README.md)
 
 ---
 
@@ -15,14 +19,25 @@ Token governance configures **inputs** (model pair, optional sources, advisory p
 
 - Two-model adjudication (`adjudicatorA`, `adjudicatorB`)
 - Strict JSON output contract + deterministic one-time retry
-- Settlement branches:
+
+**State vs Reason convention (important):**
+- `settlement.branch_code` is the **terminal state** (`FINAL_MATCH` or `FINAL_MISMATCH`).
+- `settlement.reason_code` is the **branch reason** (`MATCH_INITIAL`, `SPLIT_IMMEDIATE`, `RERUN_MATCH`, `RERUN_SPLIT`, `DUAL_FAILURE_INITIAL`, `DUAL_FAILURE_RERUN`).
+- `final_settlement` is the **payout outcome** (`YES`, `NO`, `SPLIT_50_50`).
+- Settlement terminal states:
   - `FINAL_MATCH`
-  - `FINAL_MISMATCH_SPLIT`
-  - `FINAL_RERUN_MATCH`
-  - `FINAL_RERUN_SPLIT`
+  - `FINAL_MISMATCH`
+- Branch reason codes (audit-level):
+  - `MATCH_INITIAL`
+  - `SPLIT_IMMEDIATE`
+  - `RERUN_MATCH`
+  - `RERUN_SPLIT`
+  - `DUAL_FAILURE_INITIAL`
+  - `DUAL_FAILURE_RERUN`
 - Final outcomes are terminal only: `YES | NO | SPLIT_50_50`
 - Hash-based audit trail:
   - `package_hash`, `policy_hash`, `model_pair_hash`, `model_output_hashes`, `decision_hash`
+- Evidence format supports numeric/text/multimodal metadata (`uri`, `mime_type`, `extracted_text`, `content_summary`, `signal_score`, `verdict_hint`)
 
 ---
 
@@ -30,7 +45,8 @@ Token governance configures **inputs** (model pair, optional sources, advisory p
 
 ```bash
 npm install
-npm run test:core
+npm run test:all
+npm run check:contracts
 # optional: npm run test:integration
 ```
 
@@ -92,6 +108,7 @@ Frontend files:
 - `frontend/styles.css`
 - `frontend/app.js`
 - `frontend/cases.json`
+- `frontend/ARCHITECTURE.md` (full frontend architecture and API mapping)
 
 ---
 

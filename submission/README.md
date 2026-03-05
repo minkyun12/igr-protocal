@@ -2,8 +2,8 @@
 
 ## Required files status
 
-- ✅ `whitepaper/v2/input-governed-resolution.md`
-- ✅ `whitepaper/v2/input-governed-resolution.pdf`
+- ✅ `whitepaper/input-governed-resolution.md`
+- ✅ `whitepaper/input-governed-resolution.pdf`
 - ✅ `submission/hackathon-spec.md` (v2 기준 심사 매핑/데모 플로우)
 - ✅ `submission/one-pager.md` (v2 핵심 논지 요약)
 - ✅ `submission/demo-script.md`
@@ -16,10 +16,11 @@
 
 ```bash
 cd /Users/macmini/workspace/igr-protocol
-npm test
-npm run replay -- --case=simulation/input/replay/case-a --policy=configs/policy.v1.json --out=simulation/output/reports
-npm run replay -- --case=simulation/input/replay/case-b --policy=configs/policy.v1.json --out=simulation/output/reports
+npm run test:core
+npm run replay -- --case=simulation/input/replay/case-a --policy=configs/policy.json --out=simulation/output/reports
+npm run replay -- --case=simulation/input/replay/case-b --policy=configs/policy.json --out=simulation/output/reports
 npm run replay:package -- --reports=simulation/output/reports --out=simulation/output/replay-package
+npm run artifacts:repro -- simulation/output/cre-sim simulation/input/replay/case-a checkpoint-T+1h.json
 ```
 
 ## CRE validation commands (post-login)
@@ -34,7 +35,8 @@ bash run-sim.sh
 Latest status:
 - ✅ local simulation success confirmed (`simulation/output/cre-sim/simulate.log`)
 - log contains `WorkflowExecutionFinished - Status: SUCCESS`
-- current CRE workflow entrypoint is configured as a simulation-safe cron smoke path for local runtime stability
+- CRE workflow now attempts `onReport(bytes,bytes)` first with ABI-encoded payload; fallback `record(...)` is retained for scaffold compatibility
+- `STRICT_FORWARDER_MODE=1` disables fallback and enforces forwarder-only write behavior
 
 ## Key artifacts to include in public submission
 
@@ -42,7 +44,9 @@ Latest status:
 - `simulation/output/reports/*.manifest.json`
 - `simulation/output/replay-package/replay-package.summary.json`
 - `simulation/output/replay-package/replay-package.summary.md`
-- `simulation/output/cre-sim/*` (if simulation logs are captured)
+- `simulation/output/cre-sim/*` (includes reproducibility bundle: `simulate.log`, `input-package.json`, `model-output-a.json`, `model-output-b.json`, `decision.json`, `hashes.txt`)
+- `simulation/output/onchain/deploy-output.json`
+- `simulation/output/onchain/deploy.md`
 
 ## Demo objective
 

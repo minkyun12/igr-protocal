@@ -9,21 +9,29 @@ This document is submission-oriented. It aligns implementation scope, demo flow,
 ## 1) Submission Scope
 
 ### Implemented in repository
-- Input-governed settlement architecture (model pair / source set / advisory prompts)
+- Input-governed settlement architecture (model pair / source set / advisory prompts) + market-locked settlement profile (`mismatchPolicy`, `rerunDelayHours`)
 - Deterministic dual-model settlement branching
 - Mismatch policy profiles:
   - `split_immediate`
   - `rerun_once_then_split`
+- Rerun execution mode profile:
+  - `simulation_fast` (default, no realtime sleep)
+  - `realtime` (actual delay wait before rerun)
 - Replayable artifacts with hash traceability
 - On-chain recording path via `KeystoneForwarder -> IgrRegistry.onReport(metadata, report)`
 - `GovernanceRegistry` reference implementation (unit-weight voting MVP)
 - CRE workflow scaffold (`igr-settlement`) with Log Trigger -> EVM Read -> HTTP x2 -> EVM Write pipeline
+- Forwarder-first write path hardened (`onReport` required by default; debug `record` fallback opt-in via env)
 
 ### Intentionally out of scope for this submission
 - Full tokenomics launch design
 - 3-of-N committee expansion beyond two-model baseline
 - Production-grade anti-sybil governance protection
 - Decentralized model hosting
+- Credential-dependent proofs not executable in no-secret mode:
+  - Sepolia deployment + on-chain settlement tx evidence (`SEPOLIA_RPC_URL`, `PRIVATE_KEY`)
+  - CRE org-bound validation/deployment (CRE login/session)
+  - External LLM API reproducibility runs (`MODEL_A_API_KEY` / `MODEL_B_API_KEY` or provider keys)
 
 ## 2) Judge Criteria Mapping
 
@@ -57,10 +65,11 @@ This document is submission-oriented. It aligns implementation scope, demo flow,
 
 ```bash
 cd /Users/macmini/workspace/igr-protocol
-npm test
-npm run replay -- --case=simulation/input/replay/case-a --policy=configs/policy.v1.json --out=simulation/output/reports
-npm run replay -- --case=simulation/input/replay/case-b --policy=configs/policy.v1.json --out=simulation/output/reports
+npm run test:core
+npm run replay -- --case=simulation/input/replay/case-a --policy=configs/policy.json --out=simulation/output/reports
+npm run replay -- --case=simulation/input/replay/case-b --policy=configs/policy.json --out=simulation/output/reports
 npm run replay:package -- --reports=simulation/output/reports --out=simulation/output/replay-package
+npm run artifacts:repro -- simulation/output/cre-sim simulation/input/replay/case-a checkpoint-T+1h.json
 ```
 
 For CRE-oriented validation (post-login):
@@ -76,16 +85,22 @@ Expected:
 - tests pass
 - replay reports generated
 - replay package summary generated with hash trace
-- CRE simulation emits decodable report payload (when environment is configured)
+- reproducibility bundle exported (`simulate.log`, `input-package.json`, `model-output-a.json`, `model-output-b.json`, `decision.json`, `hashes.txt`)
+- CRE simulation emits decodable report payload (local simulation-safe path complete; org-bound validation requires credentials)
 
 ## 5) Submission Artifacts
 
-- Whitepaper v2: `whitepaper/v2/input-governed-resolution.md`
-- Whitepaper v2 PDF: `whitepaper/v2/input-governed-resolution.pdf`
+- Whitepaper v2: `whitepaper/input-governed-resolution.md`
+- Whitepaper v2 PDF: `whitepaper/input-governed-resolution.pdf`
 - Hackathon spec (this file): `submission/hackathon-spec.md`
 - One-pager: `submission/one-pager.md`
 - Demo media: `submission/demo-video.mp4`
 - Replay outputs: `simulation/output/reports/*`, `simulation/output/replay-package/*`
+- Repro bundle outputs: `simulation/output/cre-sim/*`
+- Claim-evidence map: `submission/claim-evidence-map.md`
+- Final review one-pager: `submission/final-review-onepager.md`
+- Evidence snapshot (judge-friendly bundle): `submission/evidence-snapshot/*`
+- Deployment evidence outputs: `simulation/output/onchain/deploy-output.json`, `simulation/output/onchain/deploy.md` (credential-dependent)
 
 ## 6) Key Differentiators
 

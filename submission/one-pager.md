@@ -4,6 +4,15 @@
 
 ## One-Pager (Submission v2 Sync)
 
+## Canonical Document Policy
+
+To minimize duplication during judging:
+- **Scope/claims/boundaries (canonical):** `submission/hackathon-spec.md`
+- **Claim-to-proof mapping (canonical):** `submission/claim-evidence-map.md`
+- **Final status snapshot (canonical):** `submission/final-review-onepager.md`
+
+This one-pager is a concise overview; when wording differs, canonical docs above take precedence.
+
 ## Problem
 
 Binary market settlement is fragile when governance votes directly on the final outcome bit (`YES/NO`).
@@ -58,18 +67,20 @@ No discretionary human arbitration is required.
 - **CRE fit:** capability-based workflow and forwarder-mediated delivery path
 - **Originality:** governance target shift (outcome -> inputs)
 
-## Repro (minimal)
+## Repro (minimal, no-secret mode)
 
 ```bash
 cd /Users/macmini/workspace/igr-protocol
-npm test
-npm run replay -- --case=simulation/input/replay/case-a --policy=configs/policy.v1.json --out=simulation/output/reports
-npm run replay -- --case=simulation/input/replay/case-b --policy=configs/policy.v1.json --out=simulation/output/reports
+npm run test:core
+npm run replay -- --case=simulation/input/replay/case-a --policy=configs/policy.json --out=simulation/output/reports
+npm run replay -- --case=simulation/input/replay/case-b --policy=configs/policy.json --out=simulation/output/reports
 npm run replay:package -- --reports=simulation/output/reports --out=simulation/output/replay-package
 ```
 
 ## Docs Map
 
-- Whitepaper v2 (concept/spec): `whitepaper/v2/input-governed-resolution.md`
+- Whitepaper v2 (concept/spec): `whitepaper/input-governed-resolution.md`
 - Submission spec (judge/demo): `submission/hackathon-spec.md`
+- Claim-evidence map (judge verification): `submission/claim-evidence-map.md`
+- Final review one-pager (submission status): `submission/final-review-onepager.md`
 - One-pager (this file): `submission/one-pager.md`
