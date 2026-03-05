@@ -1,6 +1,6 @@
 # Frontend Architecture — IGR Markets & Resolution Desk
 
-현재 프론트엔드는 단일 파일에서 모듈형 구조로 리팩토링 완료되었습니다.
+The frontend has been refactored from a single-file implementation into a modular structure.
 
 ## 1) Scope
 
@@ -8,7 +8,7 @@ Frontend path:
 - `frontend/index.html`
 - `frontend/styles.css`
 - `frontend/app.js` (bootstrap/orchestration only)
-- `frontend/modules/**` (feature/render/api/state 분리)
+- `frontend/modules/**` (feature/render/api/state split)
 
 Local server + mock API path:
 - `src/cli/serve-frontend.js`
@@ -34,10 +34,10 @@ Header badge:
 
 ## 3.1 Entry Layer
 - `app.js`
-  - state 생성
+  - state initialization
   - element binding
   - filter/render orchestration
-  - feature setup 호출
+  - feature setup calls
 
 ## 3.2 State + DOM Binding
 - `modules/state.js`
@@ -156,10 +156,10 @@ Write (mock persistence in memory):
 
 ## 9) Current Gaps
 
-1. Backend persistence is process-memory mock (restart 시 초기화)
-2. 차트는 synthetic render (실시간 피드 아님)
-3. dispute state machine은 로컬 계산 기반
-4. governance history는 mock+seeded 혼합
+1. Backend persistence is process-memory mock (resets on restart)
+2. Charts are synthetic renders (not a live market feed)
+3. The dispute state machine is locally derived
+4. Governance history is a mock+seeded hybrid
 
 ---
 

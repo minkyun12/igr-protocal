@@ -19,7 +19,7 @@ Last updated: 2026-03-04 (KST)
 - [x] `STRICT_FORWARDER_MODE=1` support added (disables fallback on `onReport` failure)
 - [x] `onReport` ABI payload round-trip tests added (`tests/creReportEncoding.test.js`)
 - [x] Repro bundle exporter added (`npm run artifacts:repro`) for Section 19 artifact set
-- [x] Frontend modular refactor completed (`frontend/modules/**` 도입, `app.js` 599→105 LOC)
+- [x] Frontend modular refactor completed (`frontend/modules/**` introduced, `app.js` 599→105 LOC)
 - [x] Frontend architecture doc synced to current module topology (`frontend/ARCHITECTURE.md`)
 
 ## B. Manual-required (user action needed)

@@ -5,13 +5,16 @@
 Deterministic automatic settlement protocol for binary prediction markets.
 Token governance configures **inputs** (model pair, optional sources, advisory prompts) and pre-lock settlement profile (`mismatchPolicy`, `rerunDelayHours`). Once `lockForMarket()` executes, the full config is immutable for that market, and protocol locks keep settlement finite and auditable.
 
-**Documents**
-- Whitepaper (concept/spec): [`whitepaper/input-governed-resolution.md`](whitepaper/input-governed-resolution.md)
-- Hackathon submission spec: [`submission/hackathon-spec.md`](submission/hackathon-spec.md)
-- One-pager: [`submission/one-pager.md`](submission/one-pager.md)
+**Start Here**
+1. Whitepaper (protocol concept/spec): [`whitepaper/input-governed-resolution.md`](whitepaper/input-governed-resolution.md)
+2. Interface boundaries (contracts/runtime/frontend): [`INTERFACES.md`](INTERFACES.md)
+3. Hackathon submission spec: [`submission/hackathon-spec.md`](submission/hackathon-spec.md)
+4. One-pager: [`submission/one-pager.md`](submission/one-pager.md)
+5. Evidence snapshot (judge-friendly): [`submission/evidence-snapshot/README.md`](submission/evidence-snapshot/README.md)
+
+**Additional submission docs**
 - Claim-evidence map: [`submission/claim-evidence-map.md`](submission/claim-evidence-map.md)
 - Final review one-pager: [`submission/final-review-onepager.md`](submission/final-review-onepager.md)
-- Evidence snapshot (judge-friendly): [`submission/evidence-snapshot/README.md`](submission/evidence-snapshot/README.md)
 
 ---
 
@@ -45,8 +48,7 @@ Token governance configures **inputs** (model pair, optional sources, advisory p
 
 ```bash
 npm install
-npm run test:all
-npm run check:contracts
+npm run verify
 # optional: npm run test:integration
 ```
 
@@ -118,12 +120,16 @@ Frontend files:
 
 ## Repository Layout
 
+- `contracts/*` — on-chain registries and lock rules
+- `cre/*` — CRE workflow scaffold/runtime entry
 - `src/protocol/*` — canonical package compiler, model adapters, deterministic settlement
-- `src/workflow/evaluateEvent.js` — execution pipeline
-- `configs/policy.json` — mismatch policy / rerun policy
-- `simulation/input/replay/*` — historical replay fixtures
+- `src/workflow/*` — execution pipeline and on-chain/runtime adapters
 - `frontend/*` — case-driven demo UI
-- `submission/*` — hackathon submission assets
+- `configs/policy.json` — baseline mismatch/rerun policy
+- `simulation/input/replay/*` — replay fixtures
+- `simulation/output/*` — active generated outputs (`.gitkeep` retained)
+- `submission/*` — submission-facing assets
+- `archive/*` — legacy/non-essential artifacts
 
 ---
 

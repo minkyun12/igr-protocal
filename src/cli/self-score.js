@@ -47,7 +47,7 @@ async function score() {
 
   let total = Math.min(100, technical + trackFit + demoClarity + reproducibility);
 
-  // 현실적인 상한: 제출 필수 자산이 없으면 점수 캡
+  // Practical cap: clamp total score if required submission assets are missing
   if (!onePager) total = Math.min(total, 74);
   if (!demoScript) total = Math.min(total, 78);
   if (!demoVideo) total = Math.min(total, 72);

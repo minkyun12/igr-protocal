@@ -4,13 +4,13 @@
 
 - ✅ `whitepaper/input-governed-resolution.md`
 - ✅ `whitepaper/input-governed-resolution.pdf`
-- ✅ `submission/hackathon-spec.md` (v2 기준 심사 매핑/데모 플로우)
-- ✅ `submission/one-pager.md` (v2 핵심 논지 요약)
-- ✅ `submission/demo-script.md`
-- ✅ `submission/demo-video.mp4` (최종본, Korean narration + burned captions)
-- ✅ `submission/demo-audio.m4a` (최종 나레이션 오디오)
-- ✅ `submission/demo-captions.srt` (영상 자막)
-- ✅ `submission/demo-shotlist.md` (타임라인별 화면 구성)
+- ✅ `submission/hackathon-spec.md` (v2 judging criteria mapping and demo flow)
+- ✅ `submission/one-pager.md` (v2 thesis summary)
+- ✅ `archive/submission-media/demo-script.md`
+- ✅ `archive/submission-media/demo-video.mp4` (final cut, Korean narration + burned captions)
+- ✅ `archive/submission-media/demo-audio.m4a` (final narration track)
+- ✅ `archive/submission-media/demo-captions.srt` (subtitle file)
+- ✅ `archive/submission-media/demo-shotlist.md` (timeline shot composition)
 
 ## Repro commands for judges
 
@@ -33,20 +33,20 @@ bash run-sim.sh
 ```
 
 Latest status:
-- ✅ local simulation success confirmed (`simulation/output/cre-sim/simulate.log`)
+- ✅ local simulation success confirmed (`archive/simulation-output/cre-sim/simulate.log`)
 - log contains `WorkflowExecutionFinished - Status: SUCCESS`
 - CRE workflow now attempts `onReport(bytes,bytes)` first with ABI-encoded payload; fallback `record(...)` is retained for scaffold compatibility
 - `STRICT_FORWARDER_MODE=1` disables fallback and enforces forwarder-only write behavior
 
 ## Key artifacts to include in public submission
 
-- `simulation/output/reports/*.report.json`
-- `simulation/output/reports/*.manifest.json`
-- `simulation/output/replay-package/replay-package.summary.json`
-- `simulation/output/replay-package/replay-package.summary.md`
-- `simulation/output/cre-sim/*` (includes reproducibility bundle: `simulate.log`, `input-package.json`, `model-output-a.json`, `model-output-b.json`, `decision.json`, `hashes.txt`)
-- `simulation/output/onchain/deploy-output.json`
-- `simulation/output/onchain/deploy.md`
+- `archive/simulation-output/reports/**/*.report.json`
+- `archive/simulation-output/reports/**/*.manifest.json`
+- `archive/simulation-output/replay-package/**/replay-package.summary.json`
+- `archive/simulation-output/replay-package/**/replay-package.summary.md`
+- `archive/simulation-output/cre-sim/*` (reproducibility bundle: `simulate.log`, `input-package.json`, `model-output-a.json`, `model-output-b.json`, `decision.json`, `hashes.txt`)
+- `archive/simulation-output/onchain/deploy-output.json`
+- `archive/simulation-output/onchain/deploy.md`
 
 ## Demo objective
 
@@ -57,6 +57,6 @@ Show deterministic terminal settlement with explicit governance boundaries:
 
 ## Media notes
 
-- `submission/demo-video.mp4`: 3분 45초, 내레이션 포함, 자막 burn-in 완료
-- `submission/demo-audio.m4a`: 영상과 동일한 한국어 나레이션 트랙
-- 데모 내용은 `simulation/output/reports/*` 및 `simulation/output/replay-package/*`의 실제 값만 인용
+- `archive/submission-media/demo-video.mp4`: 3m 45s, narration included, burned captions
+- `archive/submission-media/demo-audio.m4a`: narration track used in the final video
+- Demo claims only cite values from archived replay artifacts (`archive/simulation-output/reports/*`, `archive/simulation-output/replay-package/*`)
