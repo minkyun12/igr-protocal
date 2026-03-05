@@ -17,7 +17,10 @@
     "ui": "node src/cli/serve-frontend.js",
     "metrics": "node scripts/generate-metrics-report.mjs",
     "verify:forwarder": "node scripts/verify-forwarder-guards.mjs",
-    "artifacts:llm": "node scripts/run-llm-artifact-bundle.mjs"
+    "artifacts:llm": "node scripts/run-llm-artifact-bundle.mjs",
+    "artifacts:repro": "node scripts/export-repro-bundle.mjs",
+    "artifacts:e2e": "node scripts/build-e2e-evidence-bundle.mjs",
+    "check:contracts": "node scripts/check-contracts.mjs"
   },
   "engines": {
     "node": ">=20"

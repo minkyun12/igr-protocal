@@ -2,6 +2,7 @@ import { sha256Hex } from "../utils/hash.js";
 import { compileCanonicalPackage } from "../protocol/compilePackage.js";
 import { runAdjudicator, runAdjudicatorAsync, validateModelOutput } from "../protocol/modelAdapters.js";
 import { settleDeterministically } from "../protocol/settle.js";
+import { validateCanonicalGuards } from "../protocol/guards.js";
 import { fetchChainlinkPrice } from "../evidence/chainlinkFeed.js";
 import { loadGovernancePolicy } from "./governanceConfig.js";
 
@@ -13,33 +14,53 @@ import { loadGovernancePolicy } from "./governanceConfig.js";
  * Max 8 API calls total, 4 settlement-relevant.
  */
 
-const USE_LLM = (process.env.MODEL_MODE || "sim") === "llm";
+function useLlmMode() {
+  return (process.env.MODEL_MODE || "sim") === "llm";
+}
+
+function hasTransportFailureFlag(output) {
+  return Boolean(
+    output?.safety_flags?.includes("MODEL_TIMEOUT") ||
+    output?.safety_flags?.includes("LLM_CALL_FAILED")
+  );
+}
+
+function toPersistentFailureFallback(reason = "SCHEMA_OR_TIMEOUT_PERSISTENT_FAILURE") {
+  return {
+    verdict: "NO",
+    confidence: 0,
+    rule_match: false,
+    evidence_refs: [],
+    rationale_short: "Persistent schema/timeout failure fallback",
+    safety_flags: ["SCHEMA_PERSISTENT_FAILURE", reason],
+  };
+}
 
 async function runWithSingleRetry({ modelId, canonicalPackage, eventSpec, mode }) {
   const call = async () => {
-    if (USE_LLM) {
+    if (useLlmMode()) {
       return runAdjudicatorAsync({ modelId, canonicalPackage, eventSpec, mode });
     }
     return runAdjudicator({ modelId, canonicalPackage, eventSpec, mode });
   };
 
   const first = await call();
-  if (validateModelOutput(first)) return { output: first, retried: false };
+  const firstUsable = validateModelOutput(first) && !hasTransportFailureFlag(first);
+  if (firstUsable) return { output: first, retried: false, persistent_failure: false };
 
   const retry = await call();
-  if (validateModelOutput(retry)) return { output: retry, retried: true };
+  const retryUsable = validateModelOutput(retry) && !hasTransportFailureFlag(retry);
+  if (retryUsable) return { output: retry, retried: true, persistent_failure: false };
 
-  // §7.1: Persistent schema failure → synthetic fallback
+  // §7.1: Persistent invalid schema OR timeout → synthetic NO for branch purposes
+  const reason = hasTransportFailureFlag(first) || hasTransportFailureFlag(retry)
+    ? "TIMEOUT_OR_TRANSPORT_FAILURE"
+    : "SCHEMA_FAILURE";
+
   return {
-    output: {
-      verdict: "NO",
-      confidence: 0,
-      rule_match: false,
-      evidence_refs: [],
-      rationale_short: "Persistent schema failure fallback",
-      safety_flags: ["SCHEMA_PERSISTENT_FAILURE"],
-    },
+    output: toPersistentFailureFallback(reason),
     retried: true,
+    persistent_failure: true,
   };
 }
 
@@ -49,6 +70,10 @@ function isDualFailure(outputA, outputB) {
 }
 
 const ENABLE_CHAINLINK_FETCH = process.env.ENABLE_CHAINLINK_FETCH === "1";
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 async function getRerunChainlinkFeed() {
   if (!ENABLE_CHAINLINK_FETCH) return null;
@@ -75,6 +100,8 @@ export async function evaluateEvent({ eventSpec, evidenceRecords, policy, chainl
     policy: effectivePolicy,
     chainlinkFeed: initialFeed,
   });
+
+  validateCanonicalGuards({ canonical, policy: effectivePolicy });
   const [modelA, modelB] = canonical.models;
 
   // Phase 1: Initial adjudication
@@ -93,9 +120,16 @@ export async function evaluateEvent({ eventSpec, evidenceRecords, policy, chainl
     firstA.output.verdict !== firstB.output.verdict &&
     !isDualFailure(firstA.output, firstB.output);
 
+  const rerunExecutionMode = effectivePolicy.rerun_execution_mode || process.env.RERUN_EXECUTION_MODE || "simulation_fast";
+  const rerunDelayMs = Math.max(0, Number(canonical.rerun_delay_hours || 0) * 60 * 60 * 1000);
+
   if (needsRerun) {
+    if (rerunExecutionMode === "realtime" && rerunDelayMs > 0) {
+      await sleep(rerunDelayMs);
+    }
+
     const rerunTime = new Date(
-      new Date(canonical.package_created_at).getTime() + canonical.rerun_delay_hours * 60 * 60 * 1000
+      new Date(canonical.package_created_at).getTime() + rerunDelayMs
     ).toISOString();
 
     const rerunEventSpec = {
@@ -110,6 +144,8 @@ export async function evaluateEvent({ eventSpec, evidenceRecords, policy, chainl
       policy: effectivePolicy,
       chainlinkFeed: refreshedFeed,
     });
+
+    validateCanonicalGuards({ canonical: rerunCompiled.canonical, policy: effectivePolicy });
 
     const rerunA = await runWithSingleRetry({ modelId: modelA, canonicalPackage: rerunCompiled.canonical, eventSpec: rerunEventSpec, mode: "rerun" });
     const rerunB = await runWithSingleRetry({ modelId: modelB, canonicalPackage: rerunCompiled.canonical, eventSpec: rerunEventSpec, mode: "rerun" });
@@ -143,6 +179,7 @@ export async function evaluateEvent({ eventSpec, evidenceRecords, policy, chainl
         [modelA]: firstA.output,
         [modelB]: firstB.output,
         retries: { [modelA]: firstA.retried, [modelB]: firstB.retried },
+        persistent_failures: { [modelA]: firstA.persistent_failure, [modelB]: firstB.persistent_failure },
       },
       rerun: needsRerun
         ? {
@@ -156,6 +193,7 @@ export async function evaluateEvent({ eventSpec, evidenceRecords, policy, chainl
       final_state: settlement.branch_code,
       final_settlement: settlement.final_settlement,
       reason_codes: [settlement.reason_code, "DETERMINISTIC_BRANCH_EXECUTED"],
+      rerun_execution_mode: rerunExecutionMode,
     },
     audit,
     started_at: new Date(startedAt).toISOString(),

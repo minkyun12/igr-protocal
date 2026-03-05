@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 
 const GOVERNANCE_ABI = [
-  "function getLockedConfig(uint256 marketId) external view returns ((string[2] modelPair,string[] optionalSources,string[] advisoryPrompts,bytes32 configHash,bool locked))"
+  "function getLockedConfig(uint256 marketId) external view returns ((string[2] modelPair,string[] optionalSources,string[] advisoryPrompts,string mismatchPolicy,uint256 rerunDelayHours,bytes32 configHash,bool locked))"
 ];
 
 function parseMarketId(marketId) {
@@ -27,13 +27,25 @@ export async function loadGovernancePolicy(eventSpec, fallbackPolicy) {
     const models = Array.isArray(cfg.modelPair) ? cfg.modelPair.filter(Boolean) : [];
     const votedPrompts = Array.isArray(cfg.advisoryPrompts) ? cfg.advisoryPrompts : [];
 
+    const optionalSources = Array.isArray(cfg.optionalSources) ? cfg.optionalSources : [];
+
+    const onchainMismatch = typeof cfg.mismatchPolicy === "string" ? cfg.mismatchPolicy : "";
+    const onchainDelay = Number(cfg.rerunDelayHours);
+
     const merged = {
       ...fallbackPolicy,
       models: models.length === 2 ? models : fallbackPolicy.models,
       voted_prompts: votedPrompts.length ? votedPrompts : fallbackPolicy.voted_prompts,
+      optional_sources: optionalSources.length ? optionalSources : fallbackPolicy.optional_sources,
+      mismatch_policy:
+        onchainMismatch === "split_immediate" || onchainMismatch === "rerun_once_then_split"
+          ? onchainMismatch
+          : fallbackPolicy.mismatch_policy,
+      rerun_delay_hours: Number.isFinite(onchainDelay) ? onchainDelay : fallbackPolicy.rerun_delay_hours,
       governance_config_hash: cfg.configHash || null,
     };
 
+    // locked config is authoritative for settlement policy parameters
     return { policy: merged, source: "onchain-locked-config" };
   } catch {
     return { policy: fallbackPolicy, source: "local-fallback" };

@@ -14,4 +14,5 @@ jobs:
         with:
           node-version: 20
       - run: npm ci
-      - run: npm run test:core
+      - run: npm run test:all
+      - run: npm run check:contracts
