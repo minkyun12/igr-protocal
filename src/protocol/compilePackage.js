@@ -103,7 +103,8 @@ function normalizeGovernanceOptionalSource(entry, idx) {
   if (typeof entry === "object") {
     const ts = entry.timestamp || new Date().toISOString();
     const uri = entry.uri || entry.url || null;
-    const type = entry.type || "governance_optional_source";
+    // Governance optional sources must never impersonate oracle-mandatory classes.
+    const type = "governance_optional_source";
     const id = entry.id || `gov-src-${idx}`;
     const sourceId = entry.source_id || `gov-source-${idx}`;
     return {
