@@ -1,0 +1,85 @@
+{
+  "generated_at": "2026-03-04T18:13:34.088Z",
+  "reports_dir": "/Users/macmini/workspace/igr-protocol/simulation/output/reports/audit",
+  "report_count": 6,
+  "manifest_count": 2,
+  "state_counts": {
+    "FINAL_MATCH": 4,
+    "FINAL_MISMATCH": 2
+  },
+  "package_hash": "6d29b97e58fbe905c58d528635eda6552fe3a40eab5db3851d60df7b295fcf71",
+  "reports": [
+    {
+      "file": "case-a-T+1h.report.json",
+      "case_id": "case-a",
+      "checkpoint": "T+1h",
+      "final_state": "FINAL_MATCH",
+      "reason_codes": [
+        "MATCH_INITIAL",
+        "DETERMINISTIC_BRANCH_EXECUTED"
+      ],
+      "decision_hash": "2e905766523a1d49a4ba48973d30fcf1538da6f7ac7a6220ba792dc0057196b2",
+      "file_hash": "8fde027e85bc37c720ff841b430123de42081fffc736cdfd1903946e27145f02"
+    },
+    {
+      "file": "case-a-T-1h.report.json",
+      "case_id": "case-a",
+      "checkpoint": "T-1h",
+      "final_state": "FINAL_MATCH",
+      "reason_codes": [
+        "MATCH_INITIAL",
+        "DETERMINISTIC_BRANCH_EXECUTED"
+      ],
+      "decision_hash": "489bfec4ace8cdcfe8fe685f2b2efef493cc8b2e4db82b925da5a41eb175c0e1",
+      "file_hash": "6b2f46457e5e91e15e6b83740a1913227ee1e4a2797f833f5c41f25ea28ac3ce"
+    },
+    {
+      "file": "case-a-T-24h.report.json",
+      "case_id": "case-a",
+      "checkpoint": "T-24h",
+      "final_state": "FINAL_MATCH",
+      "reason_codes": [
+        "MATCH_INITIAL",
+        "DETERMINISTIC_BRANCH_EXECUTED"
+      ],
+      "decision_hash": "a9a893a4e2af828cadfc7581558645e68ba83fefa0bb97b74bc69249aecc42f5",
+      "file_hash": "3d3f50c79ca35de03a47fef02c3711251fa5bf75cd7fe2f41fc37fb7b0581446"
+    },
+    {
+      "file": "case-b-T+1h.report.json",
+      "case_id": "case-b",
+      "checkpoint": "T+1h",
+      "final_state": "FINAL_MISMATCH",
+      "reason_codes": [
+        "RERUN_SPLIT",
+        "DETERMINISTIC_BRANCH_EXECUTED"
+      ],
+      "decision_hash": "95cf6cd09cee16aa33d03adda2576e942f29b83ad451fad69a97ca92f7f02e10",
+      "file_hash": "372f8fdcced7514a3ca710613013aae11249af7b8d94ed2093f55c0cf4c2d0e1"
+    },
+    {
+      "file": "case-b-T-1h.report.json",
+      "case_id": "case-b",
+      "checkpoint": "T-1h",
+      "final_state": "FINAL_MISMATCH",
+      "reason_codes": [
+        "RERUN_SPLIT",
+        "DETERMINISTIC_BRANCH_EXECUTED"
+      ],
+      "decision_hash": "ae385469f5c540de5b9b0aed485ae47f497fef4b73c450f96b195485ecc17fff",
+      "file_hash": "323dc812dc7be779d6dafd2d8bae6005a61ffe7779b46349c50d518c5d55fb51"
+    },
+    {
+      "file": "case-b-T-24h.report.json",
+      "case_id": "case-b",
+      "checkpoint": "T-24h",
+      "final_state": "FINAL_MATCH",
+      "reason_codes": [
+        "MATCH_INITIAL",
+        "DETERMINISTIC_BRANCH_EXECUTED"
+      ],
+      "decision_hash": "1f0a0485698764736cfcbcfd17b8e5bc17db96cceeedd358b02abd1318f8539a",
+      "file_hash": "56d4dea6190339d7e3b765535d629139bd80902fb9e0f730dcf45395af3d298a"
+    }
+  ]
+}

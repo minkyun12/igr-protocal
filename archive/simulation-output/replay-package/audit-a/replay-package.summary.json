@@ -1,0 +1,48 @@
+{
+  "generated_at": "2026-03-04T09:36:38.518Z",
+  "reports_dir": "/Users/macmini/workspace/igr-protocol/simulation/output/reports/audit-a",
+  "report_count": 3,
+  "manifest_count": 1,
+  "state_counts": {
+    "FINAL_MATCH": 3
+  },
+  "package_hash": "f84b155a42f50588ba336198ae8befc461300479b8043e104b78756f0abd1381",
+  "reports": [
+    {
+      "file": "case-a-T+1h.report.json",
+      "case_id": "case-a",
+      "checkpoint": "T+1h",
+      "final_state": "FINAL_MATCH",
+      "reason_codes": [
+        "MATCH_INITIAL",
+        "DETERMINISTIC_BRANCH_EXECUTED"
+      ],
+      "decision_hash": "3c7aec32ecec32ce7b0e3cef5db06c383f32ee2a2ba5ddebfa75b8e7ce4b9848",
+      "file_hash": "362195c48537645383d943797919a0ecc9fb5214c6e02b264567553bba12bdc9"
+    },
+    {
+      "file": "case-a-T-1h.report.json",
+      "case_id": "case-a",
+      "checkpoint": "T-1h",
+      "final_state": "FINAL_MATCH",
+      "reason_codes": [
+        "MATCH_INITIAL",
+        "DETERMINISTIC_BRANCH_EXECUTED"
+      ],
+      "decision_hash": "ca41f7a1ee39e61cc0abedaba753fca05c9424411de667f1d47128c71216a583",
+      "file_hash": "653152081d2db3ba816fa947ddc46996e390891090eaa203c163b4323eb93148"
+    },
+    {
+      "file": "case-a-T-24h.report.json",
+      "case_id": "case-a",
+      "checkpoint": "T-24h",
+      "final_state": "FINAL_MATCH",
+      "reason_codes": [
+        "MATCH_INITIAL",
+        "DETERMINISTIC_BRANCH_EXECUTED"
+      ],
+      "decision_hash": "326a785ebf89b97ace507845a3716b835541ec9a41d9d4c3d80cef4dee530061",
+      "file_hash": "84450f5b0f4e165a881f30eddd024cc87c8174b021bb89ebb0978e249c3bca78"
+    }
+  ]
+}

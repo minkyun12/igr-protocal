@@ -90,6 +90,10 @@ cd cre
 cre workflow simulate igr-settlement
 ```
 
+Note:
+- `cre/secrets.yaml` maps environment variable names only.
+- No secret values are committed in this repository.
+
 ## Frontend Demo (Professional Case Console)
 
 Historical-case dashboard (Polymarket-style analyst UI):

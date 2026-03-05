@@ -1,0 +1,12 @@
+{
+  "verdict": "YES",
+  "confidence": 0.8,
+  "rule_match": true,
+  "evidence_refs": [
+    "a9",
+    "a7",
+    "a8"
+  ],
+  "rationale_short": "A: >=100000, median=100245.0000, mean=100245.0000",
+  "safety_flags": []
+}

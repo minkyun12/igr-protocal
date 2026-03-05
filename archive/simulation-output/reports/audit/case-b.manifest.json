@@ -1,0 +1,31 @@
+{
+  "case_id": "case-b",
+  "policy_path": "/Users/macmini/workspace/igr-protocol/configs/policy.json",
+  "generated_at": "2026-03-04T18:13:34.005Z",
+  "checkpoint_count": 3,
+  "state_counts": {
+    "FINAL_MISMATCH": 2,
+    "FINAL_MATCH": 1
+  },
+  "report_bundle_hash": "e58269d72c9aef5d396f97d9a564fd686c3af106fca3afcb50b37fef1a1f1ffe",
+  "reports": [
+    {
+      "checkpoint": "T+1h",
+      "final_state": "FINAL_MISMATCH",
+      "decision_hash": "95cf6cd09cee16aa33d03adda2576e942f29b83ad451fad69a97ca92f7f02e10",
+      "report_path": "/Users/macmini/workspace/igr-protocol/simulation/output/reports/audit/case-b-T+1h.report.json"
+    },
+    {
+      "checkpoint": "T-1h",
+      "final_state": "FINAL_MISMATCH",
+      "decision_hash": "ae385469f5c540de5b9b0aed485ae47f497fef4b73c450f96b195485ecc17fff",
+      "report_path": "/Users/macmini/workspace/igr-protocol/simulation/output/reports/audit/case-b-T-1h.report.json"
+    },
+    {
+      "checkpoint": "T-24h",
+      "final_state": "FINAL_MATCH",
+      "decision_hash": "1f0a0485698764736cfcbcfd17b8e5bc17db96cceeedd358b02abd1318f8539a",
+      "report_path": "/Users/macmini/workspace/igr-protocol/simulation/output/reports/audit/case-b-T-24h.report.json"
+    }
+  ]
+}
