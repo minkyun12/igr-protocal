@@ -94,9 +94,9 @@ Expected:
 - Whitepaper v2 PDF: `whitepaper/input-governed-resolution.pdf`
 - Hackathon spec (this file): `submission/hackathon-spec.md`
 - One-pager: `submission/one-pager.md`
-- Demo media: `submission/demo-video.mp4`
-- Replay outputs: `simulation/output/reports/*`, `simulation/output/replay-package/*`
-- Repro bundle outputs: `simulation/output/cre-sim/*`
+- Demo media: `archive/submission-media/demo-video.mp4`
+- Replay outputs: `archive/simulation-output/reports/*` (active local test outputs may also appear under `simulation/output/reports/*`)
+- Repro bundle outputs: `archive/simulation-output/cre-sim/*` (active local test outputs may also appear under `simulation/output/cre-sim/*`)
 - Claim-evidence map: `submission/claim-evidence-map.md`
 - Final review one-pager: `submission/final-review-onepager.md`
 - Evidence snapshot (judge-friendly bundle): `submission/evidence-snapshot/*`

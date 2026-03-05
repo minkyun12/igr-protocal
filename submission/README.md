@@ -9,7 +9,7 @@
 - ✅ `archive/submission-media/demo-script.md`
 - ✅ `archive/submission-media/demo-video.mp4` (final cut, Korean narration + burned captions)
 - ✅ `archive/submission-media/demo-audio.m4a` (final narration track)
-- ✅ `archive/submission-media/demo-captions.srt` (subtitle file)
+- ℹ️ `archive/submission-media/demo-captions.srt` (subtitle file, optional when using burned captions)
 - ✅ `archive/submission-media/demo-shotlist.md` (timeline shot composition)
 
 ## Repro commands for judges
