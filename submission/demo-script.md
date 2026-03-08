@@ -91,6 +91,10 @@ Now I run the Chainlink CRE workflow simulation directly through CLI.
 **Run**
 ```bash
 cd cre
+set -a && source ../.env && set +a
+MODEL_A_API_KEY="${OPENAI_API_KEY:-dummy}" \
+MODEL_B_API_KEY="${ANTHROPIC_API_KEY:-dummy}" \
+CRE_ETH_PRIVATE_KEY="${PRIVATE_KEY#0x}" \
 ~/.cre/bin/cre workflow simulate ./igr-settlement -T simulation-settings --non-interactive --trigger-index 0
 cd ..
 ```

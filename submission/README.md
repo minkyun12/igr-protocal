@@ -31,11 +31,18 @@ npm run replay -- --case=simulation/input/replay/case-will-zelenskyy-wear-a-suit
 ```bash
 cd /Users/macmini/workspace/igr-protocol/cre
 ~/.cre/bin/cre version
+set -a && source ../.env && set +a
 
 # simulation-safe
+MODEL_A_API_KEY="${OPENAI_API_KEY:-dummy}" \
+MODEL_B_API_KEY="${ANTHROPIC_API_KEY:-dummy}" \
+CRE_ETH_PRIVATE_KEY="${PRIVATE_KEY#0x}" \
 ~/.cre/bin/cre workflow simulate ./igr-settlement -T simulation-settings --non-interactive --trigger-index 0
 
 # staging trigger path (requires tx hash/log index)
+MODEL_A_API_KEY="${OPENAI_API_KEY:-dummy}" \
+MODEL_B_API_KEY="${ANTHROPIC_API_KEY:-dummy}" \
+CRE_ETH_PRIVATE_KEY="${PRIVATE_KEY#0x}" \
 ~/.cre/bin/cre workflow simulate ./igr-settlement -T staging-settings --non-interactive --trigger-index 0 --evm-tx-hash <TX_HASH> --evm-event-index <LOG_INDEX>
 ```
 
