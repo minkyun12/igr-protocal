@@ -101,7 +101,7 @@ Note:
 
 ## Frontend Demo (Professional Case Console)
 
-Historical-case dashboard (Polymarket-style analyst UI):
+Case dashboard (Polymarket-style analyst UI):
 
 ```bash
 npm run ui
@@ -132,11 +132,7 @@ Frontend files:
 - `simulation/input/replay/*` — replay fixtures
 - `simulation/output/*` — active generated outputs (`.gitkeep` retained)
 - `submission/*` — submission-facing assets
-- `archive/*` — legacy/non-essential artifacts
 
 ---
 
-## Note on Legacy Engine
-
-Previous HOLD/REJECT-oriented logic is deprecated for the current protocol direction.
 Current implementation prioritizes deterministic terminal settlement aligned with the whitepaper.
