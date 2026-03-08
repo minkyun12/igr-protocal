@@ -1,0 +1,15 @@
+{
+  "verdict": "NO",
+  "confidence": 0.9,
+  "rule_match": true,
+  "evidence_refs": [
+    "ukr-8",
+    "ukr-9",
+    "ukr-10",
+    "ukr-11",
+    "ukr-12",
+    "ukr-cl-tplus1h"
+  ],
+  "rationale_short": "No official announcement of a deal involving Ukrainian rare earth elements between the US and Ukraine has been made by the governments of the US and Ukraine by March 31, 2025.",
+  "safety_flags": []
+}

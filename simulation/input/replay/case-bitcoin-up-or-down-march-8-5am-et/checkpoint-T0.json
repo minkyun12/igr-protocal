@@ -1,0 +1,26 @@
+{
+  "label": "T0",
+  "evaluation_time": "2025-03-08T11:00:00Z",
+  "evidence_records": [
+    {
+      "evidence_id": "btc-5am-et-binance-1h",
+      "event_id": "bitcoin-up-or-down-march-8-5am-et",
+      "source_id": "binance-btcusdt-1h",
+      "source_type": "price",
+      "timestamp": "2025-03-08T11:00:00Z",
+      "normalized_value": 86123.19,
+      "raw_value": {
+        "open": 85943.29,
+        "close": 86123.19,
+        "high": 86264.00,
+        "low": 85943.28,
+        "open_time": "2025-03-08T10:00:00Z",
+        "close_time": "2025-03-08T10:59:59.999Z",
+        "binance_symbol": "BTCUSDT",
+        "interval": "1h"
+      },
+      "quality_score": 0.99,
+      "notes": "Single-source settlement assumption: Binance-only market rule. close(86123.19) >= open(85943.29) => UP"
+    }
+  ]
+}

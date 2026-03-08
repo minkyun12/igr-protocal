@@ -1,0 +1,14 @@
+{
+  "policy_name": "polymarket-binary-single-source-binance",
+  "models": ["adjudicatorA", "adjudicatorB"],
+  "voted_prompts": [],
+  "optional_sources": [],
+  "mismatch_policy": "split_immediate",
+  "rerun_delay_hours": 0,
+  "require_oracle_mandatory": false,
+  "require_cross_vendor": true,
+  "model_vendors": {
+    "adjudicatorA": "openai",
+    "adjudicatorB": "anthropic"
+  }
+}

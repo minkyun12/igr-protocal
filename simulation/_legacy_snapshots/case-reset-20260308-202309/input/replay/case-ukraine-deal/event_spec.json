@@ -1,0 +1,23 @@
+{
+  "event_id": "ukraine-mineral-deal",
+  "market_id": "pm-ukraine-mineral-deal-2025",
+  "question": "Ukraine agrees to Trump mineral deal before April?",
+  "rule_text": "This market will resolve to 'Yes' if the United States and Ukraine agree to any deal between February 2 and March 31, 2025, 11:59 PM ET, that explicitly involves Ukrainian rare earth elements. Otherwise this market will resolve to 'No'. This includes, but is not limited to, agreements related to the exchange of Ukrainian rare earths for U.S. aid (military or civilian), partnerships involving rare earth metals, future rights to rare earth resources, mining rights, or any other form of cooperation related to rare earth elements. An announcement of a deal will qualify regardless of if/when the deal is enacted. The resolution source for this market will be official information from the governments of the US and Ukraine.",
+  "resolution_source": [
+    "us-government-official",
+    "ukraine-government-official"
+  ],
+  "market_end_time": "2025-03-31T23:59:59-04:00",
+  "evaluation_time": "2025-03-25T12:00:00Z",
+  "numeric_rule": null,
+  "event_type": "binary_subjective",
+  "market_metadata": {
+    "platform": "Polymarket",
+    "url": "https://polymarket.com/event/ukraine-agrees-to-give-trump-rare-earth-metals-before-april",
+    "volume_usd": 7079947,
+    "created_at": "2025-02-03T15:15:00-05:00",
+    "resolver": "0x6A9D222616C90FcA5754cd1333cFD9b7fb6a4F74",
+    "actual_resolution": "YES",
+    "controversy": "UMA whale with 5M tokens (25% voting power) forced YES despite no official government confirmation from either the US or Ukraine. Polymarket acknowledged this as 'unprecedented' but could not issue refunds."
+  }
+}

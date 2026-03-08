@@ -1,62 +1,56 @@
-# Submission Asset Index (v2 Synced)
+# Submission Asset Index (Current)
 
 ## Required files status
 
 - ✅ `whitepaper/input-governed-resolution.md`
 - ✅ `whitepaper/input-governed-resolution.pdf`
-- ✅ `submission/hackathon-spec.md` (v2 judging criteria mapping and demo flow)
-- ✅ `submission/one-pager.md` (v2 thesis summary)
-- ✅ `archive/submission-media/demo-script.md`
-- ✅ `archive/submission-media/demo-video.mp4` (final cut, Korean narration + burned captions)
-- ✅ `archive/submission-media/demo-audio.m4a` (final narration track)
-- ℹ️ `archive/submission-media/demo-captions.srt` (subtitle file, optional when using burned captions)
-- ✅ `archive/submission-media/demo-shotlist.md` (timeline shot composition)
+- ✅ `submission/hackathon-spec.md`
+- ✅ `submission/one-pager.md`
+- ✅ `submission/claim-evidence-map.md`
+- ✅ `submission/final-review-onepager.md`
 
-## Repro commands for judges
+## Repro commands for judges (active cases)
 
 ```bash
 cd /Users/macmini/workspace/igr-protocol
-npm run test:core
-npm run replay -- --case=simulation/input/replay/case-a --policy=configs/policy.json --out=simulation/output/reports
-npm run replay -- --case=simulation/input/replay/case-b --policy=configs/policy.json --out=simulation/output/reports
-npm run replay:package -- --reports=simulation/output/reports --out=simulation/output/replay-package
-npm run artifacts:repro -- simulation/output/cre-sim simulation/input/replay/case-a checkpoint-T+1h.json
+npm run test:all
+
+npm run replay -- --case=simulation/input/replay/case-bitcoin-up-or-down-march-8-5am-et \
+  --policy=simulation/input/replay/case-bitcoin-up-or-down-march-8-5am-et/policy.assumption.json \
+  --out=simulation/output/reports/case-bitcoin-up-or-down-march-8-5am-et \
+  --checkpoint=T0
+
+npm run replay -- --case=simulation/input/replay/case-will-zelenskyy-wear-a-suit-before-july \
+  --policy=simulation/input/replay/case-will-zelenskyy-wear-a-suit-before-july/policy.assumption.json \
+  --out=simulation/output/reports/case-will-zelenskyy-wear-a-suit-before-july \
+  --checkpoint=T0
 ```
 
-## CRE validation commands (post-login)
+## CRE validation commands
 
 ```bash
 cd /Users/macmini/workspace/igr-protocol/cre
-~/.cre/bin/cre login
-~/.cre/bin/cre whoami
-bash run-sim.sh
+~/.cre/bin/cre version
+
+# simulation-safe
+~/.cre/bin/cre workflow simulate ./igr-settlement -T simulation-settings --non-interactive --trigger-index 0
+
+# staging trigger path (requires tx hash/log index)
+~/.cre/bin/cre workflow simulate ./igr-settlement -T staging-settings --non-interactive --trigger-index 0 --evm-tx-hash <TX_HASH> --evm-event-index <LOG_INDEX>
 ```
 
-Latest status:
-- ✅ local simulation success confirmed (`archive/simulation-output/cre-sim/simulate.log`)
-- log contains `WorkflowExecutionFinished - Status: SUCCESS`
-- CRE workflow now attempts `onReport(bytes,bytes)` first with ABI-encoded payload; fallback `record(...)` is retained for scaffold compatibility
-- `STRICT_FORWARDER_MODE=1` disables fallback and enforces forwarder-only write behavior
+## On-chain deployment evidence (Sepolia)
 
-## Key artifacts to include in public submission
+- `simulation/output/onchain/deploy-output.json`
+- `simulation/output/onchain/deploy.md`
 
-- `archive/simulation-output/reports/**/*.report.json`
-- `archive/simulation-output/reports/**/*.manifest.json`
-- `archive/simulation-output/replay-package/**/replay-package.summary.json`
-- `archive/simulation-output/replay-package/**/replay-package.summary.md`
-- `archive/simulation-output/cre-sim/*` (reproducibility bundle: `simulate.log`, `input-package.json`, `model-output-a.json`, `model-output-b.json`, `decision.json`, `hashes.txt`)
-- `archive/simulation-output/onchain/deploy-output.json`
-- `archive/simulation-output/onchain/deploy.md`
+Current deployment addresses:
+- `IgrRegistry`: `0xbBD69207E16b97967f5FfCE80eBFba7B5e89e083`
+- `GovernanceRegistry`: `0xFc86A4a14B2b86319E9c6893e8DD31084BD7CEF9`
 
-## Demo objective
+## Important note
 
-Show deterministic terminal settlement with explicit governance boundaries:
-- Match branch -> `YES` or `NO`
-- Mismatch branch -> `SPLIT_50_50` (immediate or rerun-once policy)
-- On-chain commitment path -> `KeystoneForwarder -> IgrRegistry.onReport(metadata, report)`
+Legacy replay snapshots (`case-a/b/c`, old ukraine/zelenskyy fixtures) were moved to:
+- `simulation/_legacy_snapshots/case-reset-20260308-202309/`
 
-## Media notes
-
-- `archive/submission-media/demo-video.mp4`: 3m 45s, narration included, burned captions
-- `archive/submission-media/demo-audio.m4a`: narration track used in the final video
-- Demo claims only cite values from archived replay artifacts (`archive/simulation-output/reports/*`, `archive/simulation-output/replay-package/*`)
+Judge-facing active scenario set is now 2-case single-checkpoint (`T0`) only.

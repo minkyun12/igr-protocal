@@ -71,10 +71,17 @@ No discretionary human arbitration is required.
 
 ```bash
 cd /Users/macmini/workspace/igr-protocol
-npm run test:core
-npm run replay -- --case=simulation/input/replay/case-a --policy=configs/policy.json --out=simulation/output/reports
-npm run replay -- --case=simulation/input/replay/case-b --policy=configs/policy.json --out=simulation/output/reports
-npm run replay:package -- --reports=simulation/output/reports --out=simulation/output/replay-package
+npm run test:all
+
+npm run replay -- --case=simulation/input/replay/case-bitcoin-up-or-down-march-8-5am-et \
+  --policy=simulation/input/replay/case-bitcoin-up-or-down-march-8-5am-et/policy.assumption.json \
+  --out=simulation/output/reports/case-bitcoin-up-or-down-march-8-5am-et \
+  --checkpoint=T0
+
+npm run replay -- --case=simulation/input/replay/case-will-zelenskyy-wear-a-suit-before-july \
+  --policy=simulation/input/replay/case-will-zelenskyy-wear-a-suit-before-july/policy.assumption.json \
+  --out=simulation/output/reports/case-will-zelenskyy-wear-a-suit-before-july \
+  --checkpoint=T0
 ```
 
 ## Docs Map

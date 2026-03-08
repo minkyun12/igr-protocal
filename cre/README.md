@@ -27,7 +27,11 @@ cre version
 
 ```bash
 cd cre
-cre workflow simulate igr-settlement
+# simulation-safe target
+cre workflow simulate ./igr-settlement -T simulation-settings --non-interactive --trigger-index 0
+
+# staging trigger target (requires tx hash + log index)
+cre workflow simulate ./igr-settlement -T staging-settings --non-interactive --trigger-index 0 --evm-tx-hash <TX_HASH> --evm-event-index <LOG_INDEX>
 ```
 
 ## Notes

@@ -1,0 +1,19 @@
+{
+  "event_id": "will-zelenskyy-wear-a-suit-before-july",
+  "market_id": "pm-will-zelenskyy-wear-a-suit-before-july",
+  "question": "Will Zelenskyy wear a suit before July?",
+  "rule_text": "This market will resolve to \"Yes\" if Volodymyr Zelenskyy is photographed or videotaped wearing a suit between May 22 and June 30, 2025 ET. Otherwise, this market will resolve to \"No\". For this market to resolve to \"Yes\" the images or video must be taken and released within this market's timeframe. The images or video must be authentic, not the result of artificial intelligence or video editing. The resolution source will be a consensus of credible reporting.",
+  "resolution_source": [
+    "credible-reporting-consensus"
+  ],
+  "market_end_time": "2025-07-01T03:59:59Z",
+  "evaluation_time": "2025-07-01T04:00:00Z",
+  "numeric_rule": null,
+  "event_type": "binary_subjective",
+  "market_metadata": {
+    "platform": "Polymarket",
+    "url": "https://polymarket.com/event/will-zelenskyy-wear-a-suit-before-july",
+    "input_mode": "multimodal-links",
+    "note": "NYTimes excluded per user request"
+  }
+}

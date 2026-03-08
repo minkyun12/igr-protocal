@@ -11,19 +11,21 @@ import { validateModelOutput } from "../src/protocol/modelAdapters.js";
 
 const root = process.cwd();
 const policyPath = path.join(root, "configs/policy.json");
+const bitcoinCaseDir = path.join(root, "simulation/input/replay/case-bitcoin-up-or-down-march-8-5am-et");
+const bitcoinPolicyPath = path.join(bitcoinCaseDir, "policy.assumption.json");
+const zelenskyyCaseDir = path.join(root, "simulation/input/replay/case-will-zelenskyy-wear-a-suit-before-july");
+const zelenskyyPolicyPath = path.join(zelenskyyCaseDir, "policy.assumption.json");
 
-test("case-a produces deterministic terminal branch", async () => {
-  const caseDir = path.join(root, "simulation/input/replay/case-a");
-  const outDir = path.join(root, "simulation/output/reports/test-a");
-  const results = await replayCase({ caseDir, policyPath, outputDir: outDir, checkpoint: "T+1h" });
+test("bitcoin case produces deterministic terminal branch", async () => {
+  const outDir = path.join(root, "simulation/output/reports/test-bitcoin");
+  const results = await replayCase({ caseDir: bitcoinCaseDir, policyPath: bitcoinPolicyPath, outputDir: outDir, checkpoint: "T0" });
   assert.equal(results.length, 1);
   assert.ok(["FINAL_MATCH", "FINAL_MISMATCH"].includes(results[0].final_state));
 });
 
-test("case-b subjective case settles to deterministic terminal state", async () => {
-  const caseDir = path.join(root, "simulation/input/replay/case-b");
-  const outDir = path.join(root, "simulation/output/reports/test-b");
-  const results = await replayCase({ caseDir, policyPath, outputDir: outDir, checkpoint: "T+1h" });
+test("zelenskyy case settles to deterministic terminal state", async () => {
+  const outDir = path.join(root, "simulation/output/reports/test-zelenskyy");
+  const results = await replayCase({ caseDir: zelenskyyCaseDir, policyPath: zelenskyyPolicyPath, outputDir: outDir, checkpoint: "T0" });
   assert.equal(results.length, 1);
   assert.ok(results[0].decision_hash);
 });
@@ -55,8 +57,8 @@ test("evaluateEvent returns canonical package + settlement", async () => {
 
 test("buildReplayPackage works with reports", async () => {
   const reportsDir = path.join(root, "simulation/output/reports/test-package");
-  await replayCase({ caseDir: path.join(root, "simulation/input/replay/case-a"), policyPath, outputDir: reportsDir });
-  await replayCase({ caseDir: path.join(root, "simulation/input/replay/case-b"), policyPath, outputDir: reportsDir });
+  await replayCase({ caseDir: bitcoinCaseDir, policyPath: bitcoinPolicyPath, outputDir: reportsDir, checkpoint: "T0" });
+  await replayCase({ caseDir: zelenskyyCaseDir, policyPath: zelenskyyPolicyPath, outputDir: reportsDir, checkpoint: "T0" });
 
   const outDir = path.join(root, "simulation/output/replay-package/test");
   const summary = await buildReplayPackage({ reportsDir, outputDir: outDir });

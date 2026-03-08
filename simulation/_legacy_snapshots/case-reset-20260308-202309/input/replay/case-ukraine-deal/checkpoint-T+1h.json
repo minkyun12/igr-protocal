@@ -1,0 +1,72 @@
+{
+  "label": "T+1h",
+  "evaluation_time": "2025-03-25T13:00:00Z",
+  "evidence_records": [
+    {
+      "evidence_id": "ukr-8",
+      "event_id": "ukraine-mineral-deal",
+      "source_id": "us-state-dept",
+      "source_type": "official",
+      "timestamp": "2025-03-25T11:00:00Z",
+      "normalized_value": 0.25,
+      "raw_value": "State Department press briefing: 'We are in active discussions but have not finalized any mineral rights agreement with Ukraine at this time.'",
+      "quality_score": 0.95,
+      "notes": "Primary resolution source per market rules. No confirmation of any deal."
+    },
+    {
+      "evidence_id": "ukr-9",
+      "event_id": "ukraine-mineral-deal",
+      "source_id": "ukraine-foreign-ministry",
+      "source_type": "official",
+      "timestamp": "2025-03-25T10:30:00Z",
+      "normalized_value": 0.1,
+      "raw_value": "Ukraine MFA official statement: 'No agreement regarding rare earth elements has been reached. Any reports suggesting otherwise are inaccurate.'",
+      "quality_score": 0.95,
+      "notes": "Primary resolution source per market rules. Explicit denial."
+    },
+    {
+      "evidence_id": "ukr-10",
+      "event_id": "ukraine-mineral-deal",
+      "source_id": "reuters",
+      "source_type": "news",
+      "timestamp": "2025-03-25T12:30:00Z",
+      "normalized_value": 0.2,
+      "raw_value": "Reuters: 'White House officials reference a framework for cooperation, but no signed agreement exists. Ukraine has not acknowledged any deal involving rare earth minerals.'",
+      "quality_score": 0.9,
+      "notes": "Tier-1 wire service. Reports 'framework' language but no official deal."
+    },
+    {
+      "evidence_id": "ukr-11",
+      "event_id": "ukraine-mineral-deal",
+      "source_id": "associated-press",
+      "source_type": "news",
+      "timestamp": "2025-03-25T12:00:00Z",
+      "normalized_value": 0.15,
+      "raw_value": "AP: 'Ukrainian presidential office says there is no agreement to report regarding rare earth elements. Refers to ongoing consultations only.'",
+      "quality_score": 0.9,
+      "notes": "Tier-1 wire service. Consistent with Ukraine MFA denial."
+    },
+    {
+      "evidence_id": "ukr-12",
+      "event_id": "ukraine-mineral-deal",
+      "source_id": "polymarket-token-price",
+      "source_type": "market",
+      "timestamp": "2025-03-25T12:45:00Z",
+      "normalized_value": 1.0,
+      "raw_value": "Polymarket YES token resolved at $1.00. UMA governance vote: single whale cast 5M tokens (25% of total votes). Price surged from $0.09 to $1.00 in 24h prior to resolution.",
+      "quality_score": 0.2,
+      "notes": "Market signal only. Suspected manipulation — UMA whale concentration. NOT a resolution source per market rules."
+    },
+    {
+      "evidence_id": "ukr-cl-tplus1h",
+      "event_id": "ukraine-mineral-deal",
+      "source_id": "chainlink",
+      "source_type": "chainlink_data_feed",
+      "timestamp": "2025-03-25T13:00:00Z",
+      "normalized_value": 0.0,
+      "raw_value": "Chainlink-compatible official feed proxy: no finalized deal signal.",
+      "quality_score": 0.8,
+      "notes": "Added for oracle-lock compatibility in current protocol."
+    }
+  ]
+}

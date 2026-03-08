@@ -1,0 +1,6 @@
+{
+  "branch_code": "FINAL_MISMATCH",
+  "reason_code": "RERUN_SPLIT",
+  "final_settlement": "SPLIT_50_50",
+  "rerun_used": true
+}

@@ -1,0 +1,12 @@
+{
+  "verdict": "YES",
+  "confidence": 0.9,
+  "rule_match": true,
+  "evidence_refs": [
+    "b9",
+    "b7",
+    "b8"
+  ],
+  "rationale_short": "The highest price from the resolution sources is 100420, which is >= 100000, satisfying the rule text condition.",
+  "safety_flags": []
+}

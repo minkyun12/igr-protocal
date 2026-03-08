@@ -1,25 +1,20 @@
 # Submission Evidence Snapshot
 
-Curated, judge-friendly evidence bundle (representative files only).
+This folder is a **legacy curated snapshot** kept for historical judge references.
 
-## Included files
+## Important
 
-- `case-a-T+1h.report.json`
-- `case-a-T-1h.report.json`
-- `case-a-T-24h.report.json`
-- `replay-package.summary.json`
-- `metrics-summary.json`
-- `simulation-summary.md`
-- `hashes.txt`
+- It contains representative artifacts from prior `case-a` multi-checkpoint runs.
+- The **current active judge scenario set** is now:
+  - `case-bitcoin-up-or-down-march-8-5am-et` (T0)
+  - `case-will-zelenskyy-wear-a-suit-before-july` (T0)
 
-## Source of truth
+Active outputs are under:
+- `simulation/output/reports/case-bitcoin-up-or-down-march-8-5am-et/*`
+- `simulation/output/reports/case-will-zelenskyy-wear-a-suit-before-july/*`
+- `simulation/output/e2e-bundle/*`
+- `simulation/output/onchain/*`
 
-These files are copied snapshots from:
-- `simulation/output/reports/final-a/*`
-- `simulation/output/replay-package/final-a/*`
-- `simulation/output/reports/metrics-summary.json`
-- `simulation/output/cre-sim/*`
-
-For full provenance and mapping, see:
+For canonical mapping, see:
 - `submission/claim-evidence-map.md`
-- `submission/final-review-onepager.md`
+- `submission/verification-log.md`

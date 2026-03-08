@@ -23,6 +23,7 @@ export async function recordOnChain({ eventId, decision, finalState, reasonCodes
   const registryAddress = process.env.IGR_REGISTRY_ADDRESS || process.env.REGISTRY_ADDRESS;
   const rpcUrl = process.env.RECORDER_RPC_URL || process.env.RPC_URL;
   const forwarderAddress = process.env.FORWARDER_ADDRESS || null;
+  const requireAuthorizedForwarder = process.env.REQUIRE_AUTHORIZED_FORWARDER === "1";
 
   if (!privateKey || !registryAddress || !rpcUrl) {
     return {
@@ -36,6 +37,16 @@ export async function recordOnChain({ eventId, decision, finalState, reasonCodes
     const provider = new ethers.JsonRpcProvider(rpcUrl);
     const wallet = new ethers.Wallet(privateKey, provider);
     const contract = new ethers.Contract(registryAddress, abi, wallet);
+
+    if (requireAuthorizedForwarder) {
+      const authorizedForwarder = await contract.authorizedForwarder();
+      if (!authorizedForwarder || wallet.address.toLowerCase() !== String(authorizedForwarder).toLowerCase()) {
+        return {
+          status: "error",
+          error: `REQUIRE_AUTHORIZED_FORWARDER: signer ${wallet.address} is not authorizedForwarder ${authorizedForwarder}`,
+        };
+      }
+    }
 
     const hashBytes = normalizeBytes32(decisionHash);
     const reasonString = Array.isArray(reasonCodes) ? reasonCodes.join(",") : String(reasonCodes ?? "");

@@ -1,177 +1,18 @@
 [
   {
-    "case_id": "case-ukraine-deal",
+    "case_id": "case-bitcoin-up-or-down-march-8-5am-et",
     "market": {
-      "market_id": "pm-ukraine-mineral-deal-2025",
-      "question": "Ukraine agrees to Trump mineral deal before April?",
-      "rule_text": "This market will resolve to 'Yes' if the United States and Ukraine agree to any deal between February 2 and March 31, 2025, 11:59 PM ET, that explicitly involves Ukrainian rare earth elements. Otherwise this market will resolve to 'No'. This includes, but is not limited to, agreements related to the exchange of Ukrainian rare earths for U.S. aid (military or civilian), partnerships involving rare earth metals, future rights to rare earth resources, mining rights, or any other form of cooperation related to rare earth elements. An announcement of a deal will qualify regardless of if/when the deal is enacted. The resolution source for this market will be official information from the governments of the US and Ukraine."
+      "market_id": "pm-bitcoin-up-or-down-march-8-5am-et",
+      "question": "Bitcoin Up or Down - March 8, 5am ET?",
+      "rule_text": "This market will resolve to \"Up\" if the close price is greater than or equal to the open price for the BTC/USDT 1 hour candle that begins on the time and date specified in the title. Otherwise, this market will resolve to \"Down\". The resolution source for this market is Binance BTC/USDT 1H candle data."
     },
     "policy": {
-      "mismatch_policy": "rerun_once_then_split",
-      "rerun_delay_hours": 12
+      "mismatch_policy": "split_immediate",
+      "rerun_delay_hours": 0
     },
     "settlement": {
       "branch_code": "FINAL_MATCH",
-      "final_settlement": "NO",
-      "rerun_used": false
-    },
-    "model_outputs": {
-      "first_run": {
-        "adjudicatorA": {
-          "verdict": "NO",
-          "confidence": 0.4523,
-          "rule_match": true,
-          "evidence_refs": [
-            "ukr-8",
-            "ukr-9",
-            "ukr-10",
-            "ukr-11",
-            "ukr-12"
-          ],
-          "rationale_short": "A: p_yes=0.217, n=5, mode=initial",
-          "safety_flags": []
-        },
-        "adjudicatorB": {
-          "verdict": "NO",
-          "confidence": 0.5067,
-          "rule_match": true,
-          "evidence_refs": [
-            "ukr-8",
-            "ukr-9",
-            "ukr-10",
-            "ukr-11",
-            "ukr-12"
-          ],
-          "rationale_short": "B: p_yes=0.183, n=5, mode=initial",
-          "safety_flags": []
-        },
-        "retries": {
-          "adjudicatorA": false,
-          "adjudicatorB": false
-        }
-      },
-      "rerun": {
-        "adjudicatorA": {
-          "verdict": "NO",
-          "confidence": 0.58,
-          "rule_match": true,
-          "evidence_refs": [
-            "ukr-8",
-            "ukr-9",
-            "ukr-10",
-            "ukr-11",
-            "ukr-12"
-          ],
-          "rationale_short": "A: p_yes=0.175, n=2, mode=rerun",
-          "safety_flags": []
-        },
-        "adjudicatorB": {
-          "verdict": "NO",
-          "confidence": 0.58,
-          "rule_match": true,
-          "evidence_refs": [
-            "ukr-8",
-            "ukr-9",
-            "ukr-10",
-            "ukr-11",
-            "ukr-12"
-          ],
-          "rationale_short": "B: p_yes=0.175, n=2, mode=rerun",
-          "safety_flags": []
-        },
-        "retries": {
-          "adjudicatorA": false,
-          "adjudicatorB": false
-        }
-      }
-    },
-    "evidence": [
-      {
-        "evidence_id": "ukr-8",
-        "event_id": "ukraine-mineral-deal",
-        "source_id": "us-state-dept",
-        "source_type": "official",
-        "timestamp": "2025-03-25T11:00:00Z",
-        "normalized_value": 0.25,
-        "raw_value": "State Department press briefing: 'We are in active discussions but have not finalized any mineral rights agreement with Ukraine at this time.'",
-        "quality_score": 0.95,
-        "notes": "Primary resolution source per market rules. No confirmation of any deal."
-      },
-      {
-        "evidence_id": "ukr-9",
-        "event_id": "ukraine-mineral-deal",
-        "source_id": "ukraine-foreign-ministry",
-        "source_type": "official",
-        "timestamp": "2025-03-25T10:30:00Z",
-        "normalized_value": 0.1,
-        "raw_value": "Ukraine MFA official statement: 'No agreement regarding rare earth elements has been reached. Any reports suggesting otherwise are inaccurate.'",
-        "quality_score": 0.95,
-        "notes": "Primary resolution source per market rules. Explicit denial."
-      },
-      {
-        "evidence_id": "ukr-10",
-        "event_id": "ukraine-mineral-deal",
-        "source_id": "reuters",
-        "source_type": "news",
-        "timestamp": "2025-03-25T12:30:00Z",
-        "normalized_value": 0.2,
-        "raw_value": "Reuters: 'White House officials reference a framework for cooperation, but no signed agreement exists. Ukraine has not acknowledged any deal involving rare earth minerals.'",
-        "quality_score": 0.9,
-        "notes": "Tier-1 wire service. Reports 'framework' language but no official deal."
-      },
-      {
-        "evidence_id": "ukr-11",
-        "event_id": "ukraine-mineral-deal",
-        "source_id": "associated-press",
-        "source_type": "news",
-        "timestamp": "2025-03-25T12:00:00Z",
-        "normalized_value": 0.15,
-        "raw_value": "AP: 'Ukrainian presidential office says there is no agreement to report regarding rare earth elements. Refers to ongoing consultations only.'",
-        "quality_score": 0.9,
-        "notes": "Tier-1 wire service. Consistent with Ukraine MFA denial."
-      },
-      {
-        "evidence_id": "ukr-12",
-        "event_id": "ukraine-mineral-deal",
-        "source_id": "polymarket-token-price",
-        "source_type": "market",
-        "timestamp": "2025-03-25T12:45:00Z",
-        "normalized_value": 1,
-        "raw_value": "Polymarket YES token resolved at $1.00. UMA governance vote: single whale cast 5M tokens (25% of total votes). Price surged from $0.09 to $1.00 in 24h prior to resolution.",
-        "quality_score": 0.2,
-        "notes": "Market signal only. Suspected manipulation — UMA whale concentration. NOT a resolution source per market rules."
-      }
-    ],
-    "audit": {
-      "package_hash": "1923e99aab83117e875ca573c473c45c5e9a935ca122e24b5d9a8d5d559a505f",
-      "policy_hash": "b89d4ff899a7904457872887d0f870a06802dd47273612b502ba5ec9c616ee22",
-      "model_pair_hash": "d1ab1683af3a647dcb64526e3011ae6730178e569090a336a111713f3117aef4",
-      "model_output_hashes": {
-        "first_run": [
-          "b8c22df205d1e898aa05a34b38d85c7b89a502b2a14cfec685af41a0913cba16",
-          "7fb3e49ff97b99723ba98658ab00d3246107782c6facc3b1e5363c3ae9a4e172"
-        ],
-        "rerun": [
-          "2df64e50438585ab71523f001ed3f50b145eb94df5a9962637147a8b30801c83",
-          "77e6733fb5264147d60dfa4d9821a07412bb183d2dd01d3cfd554ff5718fd21e"
-        ]
-      },
-      "decision_hash": "fe3cfdf2925ecb545e8dc0a2854520781c3a9e0ef827fec381a239413f986ad0"
-    }
-  },
-  {
-    "case_id": "case-zelenskyy-suit",
-    "market": {
-      "market_id": "pm-zelenskyy-suit-2025",
-      "question": "Will Zelenskyy wear a suit before July?",
-      "rule_text": "This market will resolve to 'Yes' if Ukrainian President Volodymyr Zelenskyy is publicly photographed or filmed wearing a formal suit (defined as a matching jacket and trousers ensemble, typically with a collared shirt) at any official or public event before July 1, 2025, 11:59 PM ET. Otherwise this market will resolve to 'No'. Resolution will be based on verified photographic or video evidence from credible international news agencies (e.g., Reuters, AP, AFP, Getty Images). Military uniforms, casual attire, or non-matching separates do not qualify."
-    },
-    "policy": {
-      "mismatch_policy": "rerun_once_then_split",
-      "rerun_delay_hours": 12
-    },
-    "settlement": {
-      "branch_code": "FINAL_MATCH",
+      "reason_code": "MATCH_INITIAL",
       "final_settlement": "YES",
       "rerun_used": false
     },
@@ -179,144 +20,125 @@
       "first_run": {
         "adjudicatorA": {
           "verdict": "YES",
-          "confidence": 0.3481,
+          "confidence": 0.8,
           "rule_match": true,
           "evidence_refs": [
-            "zel-8",
-            "zel-9",
-            "zel-10",
-            "zel-11",
-            "zel-12"
+            "btc-5am-et-binance-1h"
           ],
-          "rationale_short": "A: p_yes=0.718, n=5, mode=initial",
+          "rationale_short": "A: >=85943.29, median=86123.1900, mean=86123.1900",
           "safety_flags": []
         },
         "adjudicatorB": {
           "verdict": "YES",
-          "confidence": 0.56,
+          "confidence": 0.8,
           "rule_match": true,
           "evidence_refs": [
-            "zel-8",
-            "zel-9",
-            "zel-10",
-            "zel-11",
-            "zel-12"
+            "btc-5am-et-binance-1h"
           ],
-          "rationale_short": "B: p_yes=0.850, n=5, mode=initial",
+          "rationale_short": "B: >=85943.29, median=86123.1900, mean=86123.1900",
           "safety_flags": []
         },
         "retries": {
+          "adjudicatorA": false,
+          "adjudicatorB": false
+        },
+        "persistent_failures": {
           "adjudicatorA": false,
           "adjudicatorB": false
         }
       },
-      "rerun": {
-        "adjudicatorA": {
-          "verdict": "YES",
-          "confidence": 0.4081,
-          "rule_match": true,
-          "evidence_refs": [
-            "zel-8",
-            "zel-9",
-            "zel-10",
-            "zel-11",
-            "zel-12"
-          ],
-          "rationale_short": "A: p_yes=0.718, n=5, mode=rerun",
-          "safety_flags": []
-        },
-        "adjudicatorB": {
-          "verdict": "YES",
-          "confidence": 0.62,
-          "rule_match": true,
-          "evidence_refs": [
-            "zel-8",
-            "zel-9",
-            "zel-10",
-            "zel-11",
-            "zel-12"
-          ],
-          "rationale_short": "B: p_yes=0.850, n=5, mode=rerun",
-          "safety_flags": []
-        },
-        "retries": {
-          "adjudicatorA": false,
-          "adjudicatorB": false
-        }
-      }
+      "rerun": null
     },
-    "evidence": [
-      {
-        "evidence_id": "zel-8",
-        "event_id": "zelenskyy-suit-before-july",
-        "source_id": "reuters-photo-wire",
-        "source_type": "photo_evidence",
-        "timestamp": "2025-06-27T14:00:00Z",
-        "normalized_value": 0.85,
-        "raw_value": "Reuters photo wire: Zelenskyy at NATO summit in The Hague, June 27, 2025. Dark navy blazer, white collared shirt, matching dark navy trousers. Multiple angles published. Caption: 'Zelenskyy attends NATO leaders meeting.'",
-        "quality_score": 0.95,
-        "notes": "Named resolution source per market rules. Clear formal attire. Question: does blazer = suit jacket?"
-      },
-      {
-        "evidence_id": "zel-9",
-        "event_id": "zelenskyy-suit-before-july",
-        "source_id": "associated-press-photo",
-        "source_type": "photo_evidence",
-        "timestamp": "2025-06-27T15:00:00Z",
-        "normalized_value": 0.8,
-        "raw_value": "AP photo: 'Ukrainian President Zelenskyy arrives at The Hague in formal attire, a notable departure from his wartime military-green look.' Full-length photo shows matching dark ensemble.",
-        "quality_score": 0.95,
-        "notes": "Named resolution source per market rules. AP uses term 'formal attire' not 'suit.'"
-      },
-      {
-        "evidence_id": "zel-10",
-        "event_id": "zelenskyy-suit-before-july",
-        "source_id": "getty-images",
-        "source_type": "photo_evidence",
-        "timestamp": "2025-06-27T16:00:00Z",
-        "normalized_value": 0.9,
-        "raw_value": "Getty Images editorial: High-resolution photos (3 angles). Professional fashion consultant quoted in metadata: 'The fabric on the jacket and trousers appears to be the same material and color — consistent with a two-piece suit.'",
-        "quality_score": 0.95,
-        "notes": "Named resolution source per market rules. Expert analysis suggests matching suit."
-      },
-      {
-        "evidence_id": "zel-11",
-        "event_id": "zelenskyy-suit-before-july",
-        "source_id": "bbc-news-analysis",
-        "source_type": "news",
-        "timestamp": "2025-07-01T09:00:00Z",
-        "normalized_value": 0.4,
-        "raw_value": "BBC World: 'Whether Zelenskyy's attire qualifies as a suit depends on interpretation. A blazer is not technically a suit jacket in fashion terminology — suits traditionally have matching fabric cut from the same bolt. The photos are inconclusive on this detail.'",
-        "quality_score": 0.85,
-        "notes": "Not a named resolution source. Raises legitimate definitional ambiguity."
-      },
-      {
-        "evidence_id": "zel-12",
-        "event_id": "zelenskyy-suit-before-july",
-        "source_id": "polymarket-uma-resolution",
-        "source_type": "market",
-        "timestamp": "2025-07-06T12:00:00Z",
-        "normalized_value": 0,
-        "raw_value": "Polymarket resolved NO. UMA governance vote: 2 whales controlling >50% of voting power voted NO. Final vote was near-unanimous (95%+) due to UMA's follow-the-majority incentive structure.",
-        "quality_score": 0.15,
-        "notes": "NOT a resolution source. Market outcome driven by concentrated token voting, not evidence assessment."
-      }
-    ],
+    "evidence": [],
     "audit": {
-      "package_hash": "9a124bc2d45d376a07e06282934f0e8527455d04377becd7caf14923c30b7758",
-      "policy_hash": "b89d4ff899a7904457872887d0f870a06802dd47273612b502ba5ec9c616ee22",
+      "package_hash": "ed1d6df4ed12260a1e3e8a96dd9fde24e5833e457b122f5b8ddf7084e06837f6",
+      "rerun_package_hash": null,
+      "policy_hash": "24b7eccc749fdfb82bbca0c7fc7b209e765e24a4c1e1a2cd8928826c3705e14f",
       "model_pair_hash": "d1ab1683af3a647dcb64526e3011ae6730178e569090a336a111713f3117aef4",
       "model_output_hashes": {
         "first_run": [
-          "1ad65ee8d33473cd16cedee12e0ec97c295960f73216f37dca0c789dd95ae0ae",
-          "7ca15decf943cfe7d31a25f388dc1f5a888794c61d81d539934d3850c9718de7"
+          "1b9483da6a6bfc803175e5f2a27b1f6920ea2c1297ed5ae9b32ee8e4e3535bf5",
+          "a03770ab9d7f530766801edc9241a39aa2ca16279c493b7dbbf20446513ad602"
         ],
-        "rerun": [
-          "2d08601cce4fbb755f776d7c5bdfa3807d23956aa5baea29b76ccc832c634987",
-          "7781a78e3e2c5f921d29694f9d2581b0bd14d5a52682cb95bfd8a05ddc5e2a36"
-        ]
+        "rerun": null
       },
-      "decision_hash": "da99413e89562c98f2eb4e143939c0536c6983ecd48e94ced3ed46d117b91dc3"
+      "decision_hash": "ded9e3676c014f0359fbaea3b9fd32430dc7f040cda1da52b17c95cdb68e40d9"
+    }
+  },
+  {
+    "case_id": "case-will-zelenskyy-wear-a-suit-before-july",
+    "market": {
+      "market_id": "pm-will-zelenskyy-wear-a-suit-before-july",
+      "question": "Will Zelenskyy wear a suit before July?",
+      "rule_text": "This market will resolve to \"Yes\" if Volodymyr Zelenskyy is photographed or videotaped wearing a suit between May 22 and June 30, 2025 ET. Otherwise, this market will resolve to \"No\". For this market to resolve to \"Yes\" the images or video must be taken and released within this market's timeframe. The images or video must be authentic, not the result of artificial intelligence or video editing. The resolution source will be a consensus of credible reporting."
+    },
+    "policy": {
+      "mismatch_policy": "split_immediate",
+      "rerun_delay_hours": 0
+    },
+    "settlement": {
+      "branch_code": "FINAL_MATCH",
+      "reason_code": "MATCH_INITIAL",
+      "final_settlement": "YES",
+      "rerun_used": false
+    },
+    "model_outputs": {
+      "first_run": {
+        "adjudicatorA": {
+          "verdict": "YES",
+          "confidence": 0.4,
+          "rule_match": true,
+          "evidence_refs": [
+            "zel-img-bbc-20250625",
+            "zel-img-kyivpost-20250625",
+            "zel-img-nypost-20250625",
+            "zel-src-bbc-live-20250625",
+            "zel-src-kyivpost-55194",
+            "zel-src-nypost-20250625"
+          ],
+          "rationale_short": "A: p_yes=0.750, n=6, mode=initial",
+          "safety_flags": []
+        },
+        "adjudicatorB": {
+          "verdict": "YES",
+          "confidence": 0.4,
+          "rule_match": true,
+          "evidence_refs": [
+            "zel-img-bbc-20250625",
+            "zel-img-kyivpost-20250625",
+            "zel-img-nypost-20250625",
+            "zel-src-bbc-live-20250625",
+            "zel-src-kyivpost-55194",
+            "zel-src-nypost-20250625"
+          ],
+          "rationale_short": "B: p_yes=0.750, n=6, mode=initial",
+          "safety_flags": []
+        },
+        "retries": {
+          "adjudicatorA": false,
+          "adjudicatorB": false
+        },
+        "persistent_failures": {
+          "adjudicatorA": false,
+          "adjudicatorB": false
+        }
+      },
+      "rerun": null
+    },
+    "evidence": [],
+    "audit": {
+      "package_hash": "d2d5b5ad50e9e0df3896599b3259879c40737b1be291e3b1716ab4b58202d209",
+      "rerun_package_hash": null,
+      "policy_hash": "24b7eccc749fdfb82bbca0c7fc7b209e765e24a4c1e1a2cd8928826c3705e14f",
+      "model_pair_hash": "d1ab1683af3a647dcb64526e3011ae6730178e569090a336a111713f3117aef4",
+      "model_output_hashes": {
+        "first_run": [
+          "316c2d083e2e6649daaf8cf0296e42a1e445eaab6f211788423f0c4dd524294c",
+          "431bdee41780588f359a28479c35b5b4fa79cc960384da2542ed8d1bbe4ffe1a"
+        ],
+        "rerun": null
+      },
+      "decision_hash": "b40ae9128f7468d1e01a2f68c5fb7e221f4b3ca914028315303eefc448dd60ac"
     }
   }
 ]

@@ -14,8 +14,12 @@ export async function loadGovernancePolicy(eventSpec, fallbackPolicy) {
   const rpcUrl = process.env.GOV_RPC_URL || process.env.RPC_URL || null;
   const governanceAddress = process.env.GOVERNANCE_REGISTRY_ADDRESS || null;
   const numericMarketId = parseMarketId(eventSpec?.market_id);
+  const strictGovernanceLock = process.env.STRICT_GOVERNANCE_LOCK === "1";
 
   if (!rpcUrl || !governanceAddress || numericMarketId == null) {
+    if (strictGovernanceLock) {
+      throw new Error("STRICT_GOVERNANCE_LOCK: missing governance env or invalid numeric market_id");
+    }
     return { policy: fallbackPolicy, source: "local-fallback" };
   }
 
@@ -47,7 +51,10 @@ export async function loadGovernancePolicy(eventSpec, fallbackPolicy) {
 
     // locked config is authoritative for settlement policy parameters
     return { policy: merged, source: "onchain-locked-config" };
-  } catch {
+  } catch (err) {
+    if (strictGovernanceLock) {
+      throw new Error(`STRICT_GOVERNANCE_LOCK: failed to load onchain locked config (${err.message})`);
+    }
     return { policy: fallbackPolicy, source: "local-fallback" };
   }
 }

@@ -1,0 +1,13 @@
+{
+  "marketContract": "0x0000000000000000000000000000000000000001",
+  "governanceRegistry": "0x0000000000000000000000000000000000000001",
+  "priceFeed": "0x0000000000000000000000000000000000000001",
+  "igrRegistry": "0x0000000000000000000000000000000000000001",
+  "forwarder": "0x0000000000000000000000000000000000000001",
+  "modelAEndpoint": "https://api.openai.com/v1/chat/completions",
+  "modelBEndpoint": "https://api.anthropic.com/v1/messages",
+  "chainId": 11155111,
+  "simulationSafe": true,
+  "mismatchPolicy": "split_immediate",
+  "rerunDelayHours": 0
+}

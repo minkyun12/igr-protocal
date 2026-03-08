@@ -1,0 +1,11 @@
+{
+  "verdict": "YES",
+  "confidence": 0.8,
+  "rule_match": true,
+  "evidence_refs": [
+    "b9",
+    "b7"
+  ],
+  "rationale_short": "Two price sources show BTC >= 100000 at resolution time: chainlink data feed at 100420 and price feed at 100010. Third source shows 99350. Majority of evidence supports YES resolution.",
+  "safety_flags": []
+}

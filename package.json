@@ -20,6 +20,7 @@
     "artifacts:llm": "node scripts/run-llm-artifact-bundle.mjs",
     "artifacts:repro": "node scripts/export-repro-bundle.mjs",
     "artifacts:e2e": "node scripts/build-e2e-evidence-bundle.mjs",
+    "demo:govflow": "node scripts/demo-governance-flow.mjs", 
     "check:contracts": "node scripts/check-contracts.mjs",
     "verify": "npm run test:all && npm run check:contracts"
   },

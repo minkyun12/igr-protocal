@@ -86,14 +86,14 @@ function normalizeGovernanceOptionalSource(entry, idx) {
   if (!entry) return null;
 
   if (typeof entry === "string") {
-    const ts = new Date().toISOString();
+    const deterministicHash = sha256Hex({ uri: entry, idx, type: "governance_optional_source" });
     return {
-      id: `gov-src-${idx}`,
-      source_id: `gov-source-${idx}`,
+      id: `gov-src-${deterministicHash.slice(0, 12)}`,
+      source_id: `gov-source-${deterministicHash.slice(0, 12)}`,
       type: "governance_optional_source",
-      timestamp: ts,
+      timestamp: null,
       uri: entry,
-      hash: sha256Hex({ uri: entry, idx, timestamp: ts }),
+      hash: deterministicHash,
       normalized_value: null,
       quality_score: null,
       raw_value: null,
@@ -101,12 +101,13 @@ function normalizeGovernanceOptionalSource(entry, idx) {
   }
 
   if (typeof entry === "object") {
-    const ts = entry.timestamp || new Date().toISOString();
+    const ts = entry.timestamp ?? null;
     const uri = entry.uri || entry.url || null;
     // Governance optional sources must never impersonate oracle-mandatory classes.
     const type = "governance_optional_source";
-    const id = entry.id || `gov-src-${idx}`;
-    const sourceId = entry.source_id || `gov-source-${idx}`;
+    const seedHash = sha256Hex({ uri, idx, type, timestamp: ts });
+    const id = entry.id || `gov-src-${seedHash.slice(0, 12)}`;
+    const sourceId = entry.source_id || `gov-source-${seedHash.slice(0, 12)}`;
     return {
       id,
       source_id: sourceId,

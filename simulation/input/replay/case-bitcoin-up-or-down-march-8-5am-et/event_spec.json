@@ -1,0 +1,22 @@
+{
+  "event_id": "bitcoin-up-or-down-march-8-5am-et",
+  "market_id": "pm-bitcoin-up-or-down-march-8-5am-et",
+  "question": "Bitcoin Up or Down - March 8, 5am ET?",
+  "rule_text": "This market will resolve to \"Up\" if the close price is greater than or equal to the open price for the BTC/USDT 1 hour candle that begins on the time and date specified in the title. Otherwise, this market will resolve to \"Down\". The resolution source for this market is Binance BTC/USDT 1H candle data.",
+  "resolution_source": [
+    "binance-btcusdt-1h"
+  ],
+  "market_end_time": "2025-03-08T10:59:59Z",
+  "evaluation_time": "2025-03-08T11:00:00Z",
+  "numeric_rule": {
+    "operator": ">=",
+    "threshold": 85943.29
+  },
+  "event_type": "binary_numeric",
+  "market_metadata": {
+    "platform": "Polymarket",
+    "url": "https://polymarket.com/event/bitcoin-up-or-down-march-8-5am-et",
+    "primary_resolution_source": "Binance BTC/USDT 1H (open/close)",
+    "expected_outcome": "UP"
+  }
+}

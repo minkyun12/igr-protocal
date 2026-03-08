@@ -28,10 +28,11 @@ This document is submission-oriented. It aligns implementation scope, demo flow,
 - 3-of-N committee expansion beyond two-model baseline
 - Production-grade anti-sybil governance protection
 - Decentralized model hosting
-- Credential-dependent proofs not executable in no-secret mode:
-  - Sepolia deployment + on-chain settlement tx evidence (`SEPOLIA_RPC_URL`, `PRIVATE_KEY`)
-  - CRE org-bound validation/deployment (CRE login/session)
+- Credential-dependent/organization-dependent operations:
+  - CRE deploy/activate on hosted environment (organization deployment access required)
   - External LLM API reproducibility runs (`MODEL_A_API_KEY` / `MODEL_B_API_KEY` or provider keys)
+
+Note: Sepolia deployment and on-chain write evidence are already captured in this repo under `simulation/output/onchain/*`.
 
 ## 2) Judge Criteria Mapping
 
@@ -65,20 +66,30 @@ This document is submission-oriented. It aligns implementation scope, demo flow,
 
 ```bash
 cd /Users/macmini/workspace/igr-protocol
-npm run test:core
-npm run replay -- --case=simulation/input/replay/case-a --policy=configs/policy.json --out=simulation/output/reports
-npm run replay -- --case=simulation/input/replay/case-b --policy=configs/policy.json --out=simulation/output/reports
-npm run replay:package -- --reports=simulation/output/reports --out=simulation/output/replay-package
-npm run artifacts:repro -- simulation/output/cre-sim simulation/input/replay/case-a checkpoint-T+1h.json
+npm run test:all
+
+npm run replay -- --case=simulation/input/replay/case-bitcoin-up-or-down-march-8-5am-et \
+  --policy=simulation/input/replay/case-bitcoin-up-or-down-march-8-5am-et/policy.assumption.json \
+  --out=simulation/output/reports/case-bitcoin-up-or-down-march-8-5am-et \
+  --checkpoint=T0
+
+npm run replay -- --case=simulation/input/replay/case-will-zelenskyy-wear-a-suit-before-july \
+  --policy=simulation/input/replay/case-will-zelenskyy-wear-a-suit-before-july/policy.assumption.json \
+  --out=simulation/output/reports/case-will-zelenskyy-wear-a-suit-before-july \
+  --checkpoint=T0
 ```
 
-For CRE-oriented validation (post-login):
+For CRE-oriented validation:
 
 ```bash
 cd cre
-~/.cre/bin/cre whoami
-~/.cre/bin/cre workflow validate igr-settlement
-~/.cre/bin/cre workflow simulate igr-settlement --config igr-settlement/config.staging.json
+~/.cre/bin/cre version
+
+# simulation-safe
+~/.cre/bin/cre workflow simulate ./igr-settlement -T simulation-settings --non-interactive --trigger-index 0
+
+# staging trigger path
+~/.cre/bin/cre workflow simulate ./igr-settlement -T staging-settings --non-interactive --trigger-index 0 --evm-tx-hash <TX_HASH> --evm-event-index <LOG_INDEX>
 ```
 
 Expected:
@@ -95,8 +106,13 @@ Expected:
 - Hackathon spec (this file): `submission/hackathon-spec.md`
 - One-pager: `submission/one-pager.md`
 - Demo media: `archive/submission-media/demo-video.mp4`
-- Replay outputs: `archive/simulation-output/reports/*` (active local test outputs may also appear under `simulation/output/reports/*`)
-- Repro bundle outputs: `archive/simulation-output/cre-sim/*` (active local test outputs may also appear under `simulation/output/cre-sim/*`)
+- Replay outputs (active):
+  - `simulation/output/reports/case-bitcoin-up-or-down-march-8-5am-et/*`
+  - `simulation/output/reports/case-will-zelenskyy-wear-a-suit-before-july/*`
+- Governance E2E bundles:
+  - `simulation/output/e2e-bundle/governance-e2e-bitcoin.json`
+  - `simulation/output/e2e-bundle/governance-e2e-zelenskyy.json`
+- Repro bundle outputs: `simulation/output/cre-sim/*` (or archived snapshots under `archive/simulation-output/*`)
 - Claim-evidence map: `submission/claim-evidence-map.md`
 - Final review one-pager: `submission/final-review-onepager.md`
 - Evidence snapshot (judge-friendly bundle): `submission/evidence-snapshot/*`

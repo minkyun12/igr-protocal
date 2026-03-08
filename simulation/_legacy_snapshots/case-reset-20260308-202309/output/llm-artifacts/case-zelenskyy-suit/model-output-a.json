@@ -1,0 +1,12 @@
+{
+  "verdict": "YES",
+  "confidence": 0.95,
+  "rule_match": true,
+  "evidence_refs": [
+    "zel-img-ap-nato-2025",
+    "zel-img-getty-2221205316",
+    "zel-img-reuters-nato-2025"
+  ],
+  "rationale_short": "Verified images from AP, Getty, and Reuters show Zelenskyy in a formal suit at the NATO Summit in June 2025, meeting the market's criteria.",
+  "safety_flags": []
+}

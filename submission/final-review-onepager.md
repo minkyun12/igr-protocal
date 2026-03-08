@@ -11,73 +11,67 @@ Token-governed AI input configuration for deterministic automatic resolution of 
 - Deterministic dual-model settlement engine
   - Terminal states: `FINAL_MATCH`, `FINAL_MISMATCH`
   - Final outcomes: `YES | NO | SPLIT_50_50`
-- Strict schema lock + bounded retry (single retry per model)
-- Input governance surfaces wired
+- Strict schema lock + bounded retry
+- Input-governance surfaces wired
   - model pair / optional sources / advisory prompts
 - Hash-addressable audit trail
   - `package_hash`, `policy_hash`, `model_pair_hash`, `model_output_hashes`, `decision_hash`
-- Forwarder-guarded on-chain recorder interface
-  - `IgrRegistry.onReport(bytes,bytes)` + `onlyAuthorized`
-- CRE workflow scaffold path
-  - Trigger -> EVM Read -> HTTP x2 -> EVM Write
-- Replay reproducibility + package export
-
-- Frontend interaction hardening
-  - Trust strip (lock/oracle/rerun/freshness)
-  - Action endpoints wired (propose/dispute/escalate local API)
-  - Accessibility pass (tab ARIA, modal dialog semantics, ESC close, focus trap, aria-live toast)
+- On-chain recorder path (`IgrRegistry.onReport`) with forwarder authorization checks
+- CRE workflow scaffold path validated in simulation and staging-trigger mode
 
 ---
 
 ## 2) Verification status
 
-### Passed locally (no secrets)
-- `npm run test:core` → **19/19 pass**
-- `npm run replay` (case-a, case-b) → reports generated
-- `npm run replay:package` → replay package summary generated
-- `npm run verify:forwarder` → forwarder guard verification OK
-- `npm run metrics` → report aggregation generated
+### Passed locally
+- `npm run test:all` → **40/40 pass**
+- `npm run check:contracts` → pass
 
-### Evidence locations
+### Active replay cases
+- `case-bitcoin-up-or-down-march-8-5am-et` (T0) → `FINAL_MATCH / YES`
+- `case-will-zelenskyy-wear-a-suit-before-july` (T0) → `FINAL_MATCH / YES`
+
+### Governance flow artifacts (mock vote E2E)
+- `simulation/output/e2e-bundle/governance-e2e-bitcoin.json`
+- `simulation/output/e2e-bundle/governance-e2e-zelenskyy.json`
+
+### Sepolia evidence
+- Contracts deployed (IgrRegistry + GovernanceRegistry)
+- Deployment evidence:
+  - `simulation/output/onchain/deploy-output.json`
+  - `simulation/output/onchain/deploy.md`
+- On-chain write tx evidence (`onReport`) captured
+
+### CRE evidence
+- CLI v1.3.0 confirmed
+- `simulation-settings` simulate: success
+- `staging-settings` simulate (with tx/log args): success
+
+---
+
+## 3) Known pending external step
+
+- CRE **deploy/activate** requires organization deployment access approval.
+- This is operational gating, not protocol implementation gap.
+
+---
+
+## 4) Canonical references
+
+- Scope/boundaries: `submission/hackathon-spec.md`
 - Claim-evidence mapping: `submission/claim-evidence-map.md`
-- Replay reports: `simulation/output/reports/*`
-- Replay package: `simulation/output/replay-package/*`
-- CRE sim artifacts: `simulation/output/cre-sim/*`
-- Tracking board: `TRACKING.md`
+- Detailed verification: `submission/verification-log.md`
 
 ---
-
-## 3) Known credential-dependent gaps (explicit)
-
-1. Sepolia deployment proof
-   - Missing: `SEPOLIA_RPC_URL`, `PRIVATE_KEY`
-   - Target evidence: `simulation/output/onchain/deploy.md`, `deploy-output.json`
-
-2. On-chain settlement tx proof (`ResolutionRecorded`)
-   - Requires deployed contracts + authorized writer
-
-3. External LLM reproducibility artifacts
-   - Missing model/provider API credentials
-
-4. CRE org-bound validation/deployment
-   - Requires CRE login-enabled account/session
-
----
-
-## 4) Canonical references (anti-duplication)
-
-- Scope and boundaries (canonical): `submission/hackathon-spec.md`
-- Claim-evidence mapping (canonical): `submission/claim-evidence-map.md`
-- This file is a status snapshot and should be interpreted alongside those two canonical docs.
 
 ## 5) Risk posture statement (for judges)
 
-- This submission demonstrates **protocol mechanics and determinism** with reproducible local artifacts.
-- Credential-dependent proofs are clearly separated and documented as deployment-stage evidence.
-- No hidden assumptions: out-of-scope and blocked items are explicitly listed.
+- Core protocol behavior is reproducible from this repo.
+- Active evidence set is synchronized to the two current market cases.
+- Optional CRE deployment activation is explicitly separated as an org-permission step.
 
 ---
 
 ## 6) Suggested oral close (20 seconds)
 
-“IGR is fully implemented as a deterministic settlement protocol where governance configures inputs, not outcomes. We provide replayable hash-linked evidence and a forwarder-compatible on-chain recording path. Secret-dependent deployment proofs are isolated and documented, while core protocol behavior is fully reproducible from this repo.”
+“IGR deterministically closes binary markets by governing inputs instead of outcomes. We provide replayable hash-linked artifacts, mock governance end-to-end flow, and Sepolia on-chain commitment evidence. CRE simulation is validated in both safe and staging-trigger paths, with only deployment access approval remaining as an external operational step.”

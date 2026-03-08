@@ -1,0 +1,90 @@
+{
+  "label": "T0",
+  "evaluation_time": "2025-07-01T04:00:00Z",
+  "evidence_records": [
+    {
+      "evidence_id": "zel-src-nypost-20250625",
+      "event_id": "will-zelenskyy-wear-a-suit-before-july",
+      "source_id": "nypost",
+      "source_type": "image",
+      "uri": "https://nypost.com/2025/06/25/world-news/volodymyr-zelensky-dons-suit-for-donald-trump-meeting-at-nato-summit/",
+      "mime_type": "text/html",
+      "extracted_text": "NYPost reports Zelensky traded his T-shirt for a suit-style outfit at the NATO summit and includes Reuters/AP image references.",
+      "content_summary": "Claim supports YES: Zelensky pictured in black suit-style jacket/trousers at NATO summit within market window.",
+      "verdict_hint": "YES",
+      "quality_score": 0.78,
+      "timestamp": "2025-06-25T12:00:00Z",
+      "notes": "Third-party reporting; includes photo references."
+    },
+    {
+      "evidence_id": "zel-src-bbc-live-20250625",
+      "event_id": "will-zelenskyy-wear-a-suit-before-july",
+      "source_id": "bbc",
+      "source_type": "image",
+      "uri": "https://www.bbc.com/news/live/cm2ld0e0rzkt?post=asset:7c4d11c1-2825-467d-b967-18f1c41f85b4#post",
+      "mime_type": "text/html",
+      "extracted_text": "BBC live coverage notes Zelensky swapped military fatigues for a black jacket, trousers, and shirt at the NATO summit.",
+      "content_summary": "Supports YES with contextual description of formal outfit change during timeframe.",
+      "verdict_hint": "YES",
+      "quality_score": 0.9,
+      "timestamp": "2025-06-25T13:00:00Z",
+      "notes": "Major outlet live post; wording indicates more formal attire."
+    },
+    {
+      "evidence_id": "zel-src-kyivpost-55194",
+      "event_id": "will-zelenskyy-wear-a-suit-before-july",
+      "source_id": "kyivpost",
+      "source_type": "image",
+      "uri": "https://www.kyivpost.com/post/55194",
+      "mime_type": "text/html",
+      "extracted_text": "Kyiv Post says Zelensky was seen at NATO in a black jacket, black undershirt, black slacks, and boots, describing him as suiting up.",
+      "content_summary": "Supports YES; direct claim that Zelensky wore suit/formal ensemble in-period.",
+      "verdict_hint": "YES",
+      "quality_score": 0.82,
+      "timestamp": "2025-06-25T14:00:00Z",
+      "notes": "Regional outlet; corroborative source."
+    },
+    {
+      "evidence_id": "zel-img-nypost-20250625",
+      "event_id": "will-zelenskyy-wear-a-suit-before-july",
+      "source_id": "nypost-image",
+      "source_type": "image",
+      "uri": "https://nypost.com/wp-content/uploads/sites/2/2025/06/italys-prime-minister-giorgia-meloni-107125108.jpg",
+      "mime_type": "image/jpeg",
+      "extracted_text": "Direct image from NYPost NATO summit coverage showing Zelensky in dark formal outfit.",
+      "content_summary": "Visual evidence supports YES: Zelensky appears in suit-like dark jacket and trousers.",
+      "verdict_hint": "YES",
+      "quality_score": 0.9,
+      "timestamp": "2025-06-25T12:05:00Z",
+      "notes": "User-provided direct image URL."
+    },
+    {
+      "evidence_id": "zel-img-bbc-20250625",
+      "event_id": "will-zelenskyy-wear-a-suit-before-july",
+      "source_id": "bbc-image",
+      "source_type": "image",
+      "uri": "https://ichef.bbci.co.uk/ace/standard/800/cpsprodpb/vivo/live/images/2025/6/25/31a40b5a-a679-4c3d-9b85-7a8ccc015765.jpg.webp",
+      "mime_type": "image/webp",
+      "extracted_text": "Direct BBC image from NATO live page; Zelensky in formal dark outfit.",
+      "content_summary": "Visual evidence supports YES within market timeframe.",
+      "verdict_hint": "YES",
+      "quality_score": 0.92,
+      "timestamp": "2025-06-25T13:05:00Z",
+      "notes": "User-provided direct image URL."
+    },
+    {
+      "evidence_id": "zel-img-kyivpost-20250625",
+      "event_id": "will-zelenskyy-wear-a-suit-before-july",
+      "source_id": "kyivpost-image",
+      "source_type": "image",
+      "uri": "https://static.kyivpost.com/storage/2025/06/25/11143e45cf11fe12d16208c24b797496.jpg?w=2560&f=webp",
+      "mime_type": "image/webp",
+      "extracted_text": "Direct KyivPost image associated with article claiming Zelensky suited up for NATO summit.",
+      "content_summary": "Visual evidence supports YES: formal dark attire observed.",
+      "verdict_hint": "YES",
+      "quality_score": 0.88,
+      "timestamp": "2025-06-25T14:05:00Z",
+      "notes": "User-provided direct image URL."
+    }
+  ]
+}

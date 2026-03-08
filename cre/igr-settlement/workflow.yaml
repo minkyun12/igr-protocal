@@ -15,3 +15,11 @@ production-settings:
     workflow-path: "."
     config-path: "./config.staging.json"
     secrets-path: "../secrets.yaml"
+
+simulation-settings:
+  user-workflow:
+    workflow-name: "igr-settlement-simulation"
+  workflow-artifacts:
+    workflow-path: "."
+    config-path: "./config.simulation.json"
+    secrets-path: "../secrets.yaml"

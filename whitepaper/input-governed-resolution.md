@@ -658,9 +658,13 @@ Independent verification requires a reproducibility artifact bundle from CRE wor
 
 ```bash
 cd cre
-~/.cre/bin/cre whoami
-~/.cre/bin/cre workflow validate igr-settlement
-~/.cre/bin/cre workflow simulate igr-settlement --config igr-settlement/config.staging.json
+~/.cre/bin/cre version
+
+# simulation-safe target
+~/.cre/bin/cre workflow simulate ./igr-settlement -T simulation-settings --non-interactive --trigger-index 0
+
+# staging log-trigger target (requires a real event tx hash/index)
+~/.cre/bin/cre workflow simulate ./igr-settlement -T staging-settings --non-interactive --trigger-index 0 --evm-tx-hash <TX_HASH> --evm-event-index <LOG_INDEX>
 ```
 
 Simulation is considered successful only when all three checks pass:
@@ -765,36 +769,38 @@ type IgrConfig = {
   chainId: number;
 };
 
-const log = new cre.capabilities.LogCapability();
-const evmRead = new cre.capabilities.EvmReadCapability();
-const http = new cre.capabilities.HttpCapability();
-const evmWrite = new cre.capabilities.EvmWriteCapability();
+const sepoliaSelector =
+  cre.capabilities.EVMClient.SUPPORTED_CHAIN_SELECTORS[
+    "ethereum-testnet-sepolia"
+  ];
+const evm = new cre.capabilities.EVMClient(sepoliaSelector);
+const http = new cre.capabilities.HTTPCapability();
 
-const settlementTrigger = log.trigger({
-  contractAddress: "${config.marketContract}",
-  eventSignature:
-    "SettlementRequested(uint256,string)",
+const settlementTrigger = evm.logTrigger({
+  // bytes addresses (base64 in SDK JSON form)
+  addresses: ["<base64-address>"],
+  confidence: "CONFIDENCE_LEVEL_FINALIZED",
 });
 
 const onSettlement = async (runtime: Runtime<IgrConfig>) => {
   const { marketId, question } = runtime.triggerEvent;
 
   // Stage 1: Data Ingestion (EVM Read)
-  const market = await evmRead.call({
-    contract: runtime.config.marketContract,
+  const market = evm.callContract(runtime, {
+    contractAddress: runtime.config.marketContract,
     method: "getMarket(uint256)",
-    args: [marketId],
-  });
-  const govConfig = await evmRead.call({
-    contract: runtime.config.governanceRegistry,
+    params: [marketId],
+  }).result();
+  const govConfig = evm.callContract(runtime, {
+    contractAddress: runtime.config.governanceRegistry,
     method: "getLockedConfig(uint256)",
-    args: [marketId],
-  });
-  const feed = await evmRead.call({
-    contract: runtime.config.priceFeed,
+    params: [marketId],
+  }).result();
+  const feed = evm.callContract(runtime, {
+    contractAddress: runtime.config.priceFeed,
     method: "latestRoundData()",
-    args: [],
-  });
+    params: [],
+  }).result();
 
   // Stage 2: Package Compilation (in-workflow)
   const pkg = compileCanonicalPackage(market, govConfig, feed);
@@ -824,11 +830,13 @@ const onSettlement = async (runtime: Runtime<IgrConfig>) => {
       pkgHash,
     ]
   );
-  await evmWrite.call({
-    contract: runtime.config.igrRegistry,
-    method: "onReport(bytes,bytes)",
-    args: [runtime.metadata, reportPayload],
-  });
+  evm.writeReport(runtime, {
+    receiver: runtime.config.igrRegistry,
+    report: {
+      metadata: runtime.metadata,
+      payload: reportPayload,
+    },
+  }).result();
 };
 
 const initWorkflow = (config: IgrConfig) => {
@@ -841,7 +849,7 @@ export async function main() {
 }
 ```
 
-The workflow uses three CRE capabilities: **EVM Read** (Stage 1), **HTTP** (Stage 3), and **EVM Write** (Stage 6). All other stages execute as pure deterministic logic within the WASM binary.
+The workflow uses three CRE capability families: **EVM Client read/write paths** (Stage 1/6) and **HTTP** (Stage 3). All other stages execute as pure deterministic logic within the WASM binary.
 
 
 ## Appendix D — Formal Termination Argument

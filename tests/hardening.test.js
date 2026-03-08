@@ -76,6 +76,27 @@ test("hardening: governance optional source cannot bypass oracle lock", () => {
   );
 });
 
+test("hardening: governance optional sources are deterministic without runtime timestamps", () => {
+  const eventSpec = makeEventSpec();
+  const policy = makePolicy({
+    optional_sources: [
+      "https://example.com/alpha",
+      { uri: "https://example.com/beta" },
+    ],
+  });
+
+  const first = compileCanonicalPackage({ eventSpec, evidenceRecords: [], policy, chainlinkFeed: null });
+  const second = compileCanonicalPackage({ eventSpec, evidenceRecords: [], policy, chainlinkFeed: null });
+
+  assert.equal(first.packageHash, second.packageHash);
+
+  const optA = first.canonical.voted_sources.find((s) => s.uri === "https://example.com/alpha");
+  const optB = first.canonical.voted_sources.find((s) => s.uri === "https://example.com/beta");
+
+  assert.equal(optA.timestamp, null);
+  assert.equal(optB.timestamp, null);
+});
+
 test("fuzz: settlement always terminates in terminal states", () => {
   const mk = (verdict, fail = false) => ({
     verdict,

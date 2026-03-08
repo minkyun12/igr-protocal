@@ -1,0 +1,18 @@
+{
+  "case_id": "case-a",
+  "policy_path": "/Users/macmini/workspace/igr-protocol/configs/policy.json",
+  "generated_at": "2026-03-06T21:35:30.604Z",
+  "checkpoint_count": 1,
+  "state_counts": {
+    "FINAL_MATCH": 1
+  },
+  "report_bundle_hash": "6ad91cf42fbeef9ce0f24a31ae09250ac01dc5f3bd4abd5bf8a633cc27bff38a",
+  "reports": [
+    {
+      "checkpoint": "T+1h",
+      "final_state": "FINAL_MATCH",
+      "decision_hash": "2e905766523a1d49a4ba48973d30fcf1538da6f7ac7a6220ba792dc0057196b2",
+      "report_path": "/Users/macmini/workspace/igr-protocol/simulation/output/reports/test-a/case-a-T+1h.report.json"
+    }
+  ]
+}

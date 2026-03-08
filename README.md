@@ -52,12 +52,11 @@ npm run verify
 # optional: npm run test:integration
 ```
 
-Replay real-world cases:
+Replay active real-world cases:
 
 ```bash
-npm run replay -- --case=simulation/input/replay/case-ukraine-deal --policy=configs/policy.json --out=simulation/output/reports
-npm run replay -- --case=simulation/input/replay/case-zelenskyy-suit --policy=configs/policy.json --out=simulation/output/reports
-npm run replay:package -- --reports=simulation/output/reports --out=simulation/output/replay-package
+npm run replay -- --case=simulation/input/replay/case-bitcoin-up-or-down-march-8-5am-et --policy=simulation/input/replay/case-bitcoin-up-or-down-march-8-5am-et/policy.assumption.json --out=simulation/output/reports/case-bitcoin-up-or-down-march-8-5am-et --checkpoint=T0
+npm run replay -- --case=simulation/input/replay/case-will-zelenskyy-wear-a-suit-before-july --policy=simulation/input/replay/case-will-zelenskyy-wear-a-suit-before-july/policy.assumption.json --out=simulation/output/reports/case-will-zelenskyy-wear-a-suit-before-july --checkpoint=T0
 ```
 
 Run live evaluation:
@@ -89,7 +88,11 @@ Run after installing CRE CLI:
 
 ```bash
 cd cre
-cre workflow simulate igr-settlement
+# simulation-safe target
+cre workflow simulate ./igr-settlement -T simulation-settings --non-interactive --trigger-index 0
+
+# staging log-trigger target (requires real tx hash + log index)
+cre workflow simulate ./igr-settlement -T staging-settings --non-interactive --trigger-index 0 --evm-tx-hash <TX_HASH> --evm-event-index <LOG_INDEX>
 ```
 
 Note:
@@ -105,9 +108,13 @@ npm run ui
 # open http://localhost:4173
 ```
 
-Included cases:
+Included UI demo cases (frontend fixture):
 - `case-ukraine-deal`
 - `case-zelenskyy-suit`
+
+Active replay cases (simulation input):
+- `case-bitcoin-up-or-down-march-8-5am-et`
+- `case-will-zelenskyy-wear-a-suit-before-july`
 
 Frontend files:
 - `frontend/index.html`

@@ -1,0 +1,12 @@
+{
+  "verdict": "YES",
+  "confidence": 1,
+  "rule_match": true,
+  "evidence_refs": [
+    "a9",
+    "a7",
+    "a8"
+  ],
+  "rationale_short": "All three evidence sources show BTC price above 100000 at resolution time (100245, 100240, 100250). Rule requires >= 100000, condition satisfied.",
+  "safety_flags": []
+}
