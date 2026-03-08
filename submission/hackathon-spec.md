@@ -105,14 +105,14 @@ Expected:
 - Whitepaper v2 PDF: `whitepaper/input-governed-resolution.pdf`
 - Hackathon spec (this file): `submission/hackathon-spec.md`
 - One-pager: `submission/one-pager.md`
-- Demo media: `archive/submission-media/demo-video.mp4`
+- Demo media: public video link submitted on Devpost form
 - Replay outputs (active):
   - `simulation/output/reports/case-bitcoin-up-or-down-march-8-5am-et/*`
   - `simulation/output/reports/case-will-zelenskyy-wear-a-suit-before-july/*`
 - Governance E2E bundles:
   - `simulation/output/e2e-bundle/governance-e2e-bitcoin.json`
   - `simulation/output/e2e-bundle/governance-e2e-zelenskyy.json`
-- Repro bundle outputs: `simulation/output/cre-sim/*` (or archived snapshots under `archive/simulation-output/*`)
+- CRE simulation output directory: `simulation/output/cre-sim/*`
 - Claim-evidence map: `submission/claim-evidence-map.md`
 - Final review one-pager: `submission/final-review-onepager.md`
 - Evidence snapshot (judge-friendly bundle): `submission/evidence-snapshot/*`
