@@ -50,7 +50,4 @@ Current deployment addresses:
 
 ## Important note
 
-Legacy replay snapshots (`case-a/b/c`, old ukraine/zelenskyy fixtures) were moved to:
-- `simulation/_legacy_snapshots/case-reset-20260308-202309/`
-
-Judge-facing active scenario set is now 2-case single-checkpoint (`T0`) only.
+Judge-facing scenario set is 2-case single-checkpoint (`T0`) only.

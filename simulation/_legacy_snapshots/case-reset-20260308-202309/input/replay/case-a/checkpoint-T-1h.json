@@ -1,9 +1,0 @@
-{
-  "label": "T-1h",
-  "evaluation_time": "2026-02-28T23:00:00Z",
-  "evidence_records": [
-    {"evidence_id": "a4", "event_id": "case-a-btc-100k", "source_id": "binance", "source_type": "price", "timestamp": "2026-02-28T23:00:00Z", "normalized_value": 100180},
-    {"evidence_id": "a5", "event_id": "case-a-btc-100k", "source_id": "coinbase", "source_type": "price", "timestamp": "2026-02-28T23:00:00Z", "normalized_value": 100170},
-    {"evidence_id": "a6", "event_id": "case-a-btc-100k", "source_id": "chainlink", "source_type": "price", "timestamp": "2026-02-28T23:00:00Z", "normalized_value": 100190}
-  ]
-}

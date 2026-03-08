@@ -9,9 +9,12 @@ const args = Object.fromEntries(
   })
 );
 
-const caseDir = args.case ? path.resolve(args.case) : path.resolve("simulation/input/replay/case-a");
-const policyPath = args.policy ? path.resolve(args.policy) : path.resolve("configs/policy.json");
-const outputDir = args.out ? path.resolve(args.out) : path.resolve("simulation/output/reports");
+const defaultCase = "simulation/input/replay/case-bitcoin-up-or-down-march-8-5am-et";
+const caseDir = args.case ? path.resolve(args.case) : path.resolve(defaultCase);
+const policyPath = args.policy
+  ? path.resolve(args.policy)
+  : path.resolve(path.join(defaultCase, "policy.assumption.json"));
+const outputDir = args.out ? path.resolve(args.out) : path.resolve("simulation/output/reports/case-bitcoin-up-or-down-march-8-5am-et");
 const checkpoint = typeof args.checkpoint === "string" ? args.checkpoint : undefined;
 
 const results = await replayCase({ caseDir, policyPath, outputDir, checkpoint });

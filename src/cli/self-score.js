@@ -18,8 +18,8 @@ async function score() {
   let reproducibility = 0;// max 10
 
   const testsExist = await exists(path.resolve("tests/igr.test.js"));
-  const artifactsA = await exists(path.resolve("simulation/output/reports/case-a-T+1h.report.json"));
-  const artifactsB = await exists(path.resolve("simulation/output/reports/case-b-T+1h.report.json"));
+  const artifactsA = await exists(path.resolve("simulation/output/reports/case-bitcoin-up-or-down-march-8-5am-et/case-bitcoin-up-or-down-march-8-5am-et-T0.report.json"));
+  const artifactsB = await exists(path.resolve("simulation/output/reports/case-will-zelenskyy-wear-a-suit-before-july/case-will-zelenskyy-wear-a-suit-before-july-T0.report.json"));
   const playbook = await exists(path.resolve("docs/08_IGR_MASTER_PLAYBOOK.md"));
   const submissionGuide = await exists(path.resolve("docs/12_SUBMISSION_PACKAGE_GUIDE.md"));
   const runbook = await exists(path.resolve("docs/10_LLM_HANDOFF_RUNBOOK.md"));

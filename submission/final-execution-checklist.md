@@ -4,7 +4,6 @@ Last updated: 2026-03-08 (KST)
 
 ## A. Already completed
 - [x] Active replay cases reduced to 2-case, single-checkpoint (`T0`) format
-- [x] Legacy cases moved to `simulation/_legacy_snapshots/case-reset-20260308-202309/`
 - [x] Core hardening patches applied:
   - [x] `STRICT_GOVERNANCE_LOCK`
   - [x] deterministic governance optional source normalization
@@ -21,7 +20,6 @@ Last updated: 2026-03-08 (KST)
 
 ### 1) Document consistency pass
 - [ ] Ensure all submission docs reference active 2-case setup
-- [ ] Ensure old `case-a/b/c` references are marked as legacy-only where needed
 - [ ] Ensure CRE command examples include `-T` targets
 
 ### 2) Optional deploy step (only if time permits)

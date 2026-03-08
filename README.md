@@ -108,11 +108,7 @@ npm run ui
 # open http://localhost:4173
 ```
 
-Included UI demo cases (frontend fixture):
-- `case-ukraine-deal`
-- `case-zelenskyy-suit`
-
-Active replay cases (simulation input):
+Active cases (frontend + simulation input):
 - `case-bitcoin-up-or-down-march-8-5am-et`
 - `case-will-zelenskyy-wear-a-suit-before-july`
 
