@@ -9,7 +9,8 @@ TARGET="${CRE_TARGET:-staging-settings}"
 # Provide safe placeholders for local simulation if not set
 export MODEL_A_API_KEY="${MODEL_A_API_KEY:-sim-placeholder-model-a}"
 export MODEL_B_API_KEY="${MODEL_B_API_KEY:-sim-placeholder-model-b}"
-export CRE_ETH_PRIVATE_KEY="${CRE_ETH_PRIVATE_KEY:-0x59c6995e998f97a5a0044976f0f66f1f4e8c6a8b7b0f2f1f1e1e1e1e1e1e1e1e}"
+# Use obvious non-secret placeholder to avoid key-like literals in repo history
+export CRE_ETH_PRIVATE_KEY="${CRE_ETH_PRIVATE_KEY:-DUMMY_CRE_PRIVATE_KEY_PLACEHOLDER}"
 
 # Config placeholder bindings
 export MARKET_CONTRACT_ADDRESS="${MARKET_CONTRACT_ADDRESS:-0x0000000000000000000000000000000000000001}"
